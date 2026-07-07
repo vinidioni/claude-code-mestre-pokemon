@@ -1,0 +1,92 @@
+# Template para criação de novos agentes
+# Copie este arquivo e modifique conforme necessário
+
+name: nome-do-agente
+description: |
+  Descrição clara do que este agente faz.
+  Explique o propósito e quando usar.
+
+parameters:
+  - name: parametro1
+    type: string
+    required: true
+    description: |
+      Descrição detalhada do parâmetro.
+      Explique o formato esperado e exemplos.
+    default: "valor-padrão"
+
+  - name: parametro2
+    type: boolean
+    required: false
+    description: Flag opcional para comportamento alternativo
+    default: false
+
+steps:
+  - name: preparacao
+    prompt: |
+      ## Preparação
+
+      Valide os parâmetros recebidos:
+      - parametro1: {parametro1}
+      - parametro2: {parametro2}
+
+      Se algum parâmetro estiver inválido, retorne erro claro.
+
+  - name: execucao_principal
+    prompt: |
+      ## Execução Principal
+
+      [Instruções detalhadas do que fazer]
+
+      Use {parametro1} no processamento.
+
+      Contexto disponível:
+      {context}
+
+      Retorne resultado estruturado:
+      - status: sucesso | parcial | erro
+      - dados: [resultados]
+      - recomendacoes: [sugestões]
+
+  - name: verificacao
+    prompt: |
+      ## Verificação
+
+      Revise o resultado da etapa anterior.
+
+      Critérios de qualidade:
+      - [ ] Critério 1
+      - [ ] Critério 2
+      - [ ] Critério 3
+
+      Se não atender, retorne para correção.
+
+  - name: consolidacao
+    prompt: |
+      ## Consolidação Final
+
+      Formate a saída final de forma clara e estruturada.
+
+      Estrutura esperada:
+      ```
+      ## Resumo
+      [Breve resumo]
+
+      ## Detalhes
+      [Detalhamento]
+
+      ## Próximos Passos
+      [Recomendações]
+      ```
+
+# Configurações opcionais
+settings:
+  # Modelo preferencial para este agente
+  model: sonnet
+
+  # Timeout em segundos
+  timeout: 300
+
+  # Salvar output automaticamente
+  save_output: true
+  output_path: "reports/{date}/{name}-{timestamp}.md"

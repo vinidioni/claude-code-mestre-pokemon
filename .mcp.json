@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "mcp-server-google-workspace",
+      "args": [],
+      "env": {
+        "GOOGLE_REDIRECT_URI": "http://localhost:3000/oauth2callback",
+        "GOOGLE_CLIENT_SECRETS": "C:\\Users\\viniciuscastanho\\.google\\client_secret.json"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}

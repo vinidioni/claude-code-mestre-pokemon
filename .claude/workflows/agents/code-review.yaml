@@ -1,0 +1,185 @@
+name: code-review
+description: |
+  Executa revisão de código abrangente analisando múltiplas dimensões:
+  bugs potenciais, vulnerabilidades de segurança, performance,
+  legibilidade, manutenibilidade e testabilidade.
+
+  Ideal para: PR reviews, análise pré-commit, auditorias de código.
+
+parameters:
+  - name: target
+    type: string
+    required: false
+    default: "git diff HEAD"
+    description: |
+      Alvo da análise. Pode ser:
+      - "git diff" (padrão): mudanças não staged
+      - "git diff HEAD": mudanças desde último commit
+      - Caminho de arquivo: "src/components/Button.tsx"
+      - Caminho de diretório: "src/api/"
+
+  - name: focus
+    type: string
+    required: false
+    default: "all"
+    description: |
+      Foco específico da análise:
+      - "all": Todas as dimensões (padrão)
+      - "security": Apenas segurança
+      - "performance": Apenas performance
+      - "bugs": Apenas bugs e lógica
+      - "style": Apenas estilo e legibilidade
+
+  - name: severity
+    type: string
+    required: false
+    default: "all"
+    description: |
+      Filtrar por severidade mínima:
+      - "all": Todas as severidades
+      - "warning": Apenas warnings e acima
+      - "error": Apenas erros críticos
+
+steps:
+  - name: coleta_contexto
+    prompt: |
+      ## 1. Coleta de Contexto
+
+      Analise o alvo: {target}
+
+      Tarefas:
+      1. Identifique todos os arquivos a serem analisados
+      2. Determine a linguagem/framework utilizado
+      3. Coleta informações relevantes (package.json, tsconfig, etc.)
+
+      Retorne:
+      - Lista de arquivos
+      - Stack tecnológica detectada
+      - Contexto adicional relevante
+
+  - name: analise_security
+    condition: "{focus} == 'all' or {focus} == 'security'"
+    prompt: |
+      ## 2. Análise de Segurança
+
+      Analise o código focando em vulnerabilidades:
+
+      Checklist de segurança:
+      - [ ] SQL Injection (queries concatenadas)
+      - [ ] XSS (innerHTML, dangerouslySetInnerHTML)
+      - [ ] CSRF (falta de tokens)
+      - [ ] Path Traversal (../ em paths)
+      - [ ] Hardcoded secrets (senhas, tokens, chaves)
+      - [ ] Validação de input insuficiente
+      - [ ] Autenticação/autorização ausente
+      - [ ] Dependências vulneráveis
+      - [ ] CORS muito permissivo
+      - [ ] Exposição de dados sensíveis em logs
+
+      Para cada vulnerabilidade encontrada:
+      - Arquivo e linha
+      - Severidade: 🔴 Crítica | 🟡 Média | 🟢 Baixa
+      - Explicação do risco
+      - Sugestão de correção
+
+  - name: analise_performance
+    condition: "{focus} == 'all' or {focus} == 'performance'"
+    prompt: |
+      ## 3. Análise de Performance
+
+      Identifique gargalos de performance:
+
+      Checklist:
+      - [ ] Loops aninhados (complexidade O(n²) ou pior)
+      - [ ] Re-renderizações desnecessárias (React/Vue/Angular)
+      - [ ] Memória: vazamentos, closures não limpas
+      - [ ] Operações síncronas bloqueantes
+      - [ ] N+1 queries em banco de dados
+      - [ ] Falta de lazy loading/code splitting
+      - [ ] Assets não otimizados (imagens grandes)
+      - [ ] Caching inexistente ou ineficiente
+      - [ ] Requisições redundantes à API
+
+      Para cada problema:
+      - Localização exata
+      - Impacto estimado
+      - Solução proposta
+
+  - name: analise_bugs
+    condition: "{focus} == 'all' or {focus} == 'bugs'"
+    prompt: |
+      ## 4. Análise de Bugs e Lógica
+
+      Encontre bugs potenciais e problemas de lógica:
+
+      Checklist:
+      - [ ] Race conditions
+      - [ ] Null/undefined não tratados
+      - [ ] Off-by-one errors em loops
+      - [ ] Erros de async/await (promises não awaited)
+      - [ ] Comparações incorretas (== vs ===)
+      - [ ] Variáveis não inicializadas
+      - [ ] Recursos não liberados (fechar arquivos, conexões)
+      - [ ] Regex incorretas ou perigosas
+      - [ ] Erros de tipagem (TypeScript)
+      - [ ] Dead code (código inacessível)
+
+      Para cada bug:
+      - Severidade
+      - Explicação do problema
+      - Cenário que causa o bug
+      - Correção sugerida
+
+  - name: analise_qualidade
+    condition: "{focus} == 'all' or {focus} == 'style'"
+    prompt: |
+      ## 5. Análise de Qualidade e Estilo
+
+      Avalie legibilidade e manutenibilidade:
+
+      Checklist:
+      - [ ] Funções muito longas (>30 linhas)
+      - [ ] Parâmetros excessivos (>4)
+      - [ ] Código duplicado (DRY)
+      - [ ] Nomes não descritivos
+      - [ ] Complexidade ciclomática alta
+      - [ ] Falta de comentários/documentação
+      - [ ] Tratamento de erros inadequado
+      - [ ] Testes ausentes ou insuficientes
+      - [ ] Acoplamento alto / coesão baixa
+      - [ ] Magic numbers/strings
+
+      Sugestões de refatoração:
+      - Extração de funções
+      - Simplificação de condicionais
+      - Melhoria de nomes
+
+  - name: consolidacao
+    prompt: |
+      ## 6. Consolidação e Priorização
+
+      Consolide todos os achados e organize por prioridade:
+
+      ### 🔴 CRÍTICO (Corrigir imediatamente)
+      [Bugs que quebram funcionalidade ou segurança grave]
+
+      ### 🟡 IMPORTANTE (Corrigir na sprint atual)
+      [Problemas de performance ou bugs menores]
+
+      ### 🟢 SUGESTÃO (Considerar futuramente)
+      [Melhorias de estilo e legibilidade]
+
+      ### 📊 Resumo
+      - Total de issues: X
+      - Críticas: X
+      - Importantes: X
+      - Sugestões: X
+
+      ### 🎯 Recomendações Prioritárias
+      [Top 3 ações mais importantes]
+
+settings:
+  model: sonnet
+  timeout: 600
+  save_output: true
+  output_path: "reports/{date}/code-review-{timestamp}.md"

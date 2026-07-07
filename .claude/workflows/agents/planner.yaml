@@ -1,0 +1,250 @@
+name: planner
+description: |
+  Agente de planejamento estratégico que gera estrutura de dev docs completa
+  para tarefas complexas. Cria plan.md, context.md e tasks-checklist.md.
+
+  Use quando: tarefas multi-sessão, decisões arquiteturais, trabalho em equipe.
+
+parameters:
+  - name: name
+    type: string
+    required: true
+    description: |
+      Nome da tarefa em kebab-case (ex: "implementar-auth", "refatorar-api")
+      Será usado como nome da pasta em dev/active/
+
+  - name: description
+    type: string
+    required: true
+    description: |
+      Descrição clara do objetivo. Quanto mais detalhes, melhor o plano.
+      Ex: "Implementar autenticação JWT com refresh tokens e 2FA"
+
+  - name: context
+    type: string
+    required: false
+    default: ""
+    description: |
+      Contexto adicional: o que já foi feito, restrições conhecidas,
+      links relevantes, etc.
+
+  - name: success_criteria
+    type: string
+    required: false
+    default: ""
+    description: |
+      Critérios de sucesso específicos (separados por vírgula).
+      Ex: "login funciona, tokens expiram corretamente, 2FA opcional"
+
+  - name: constraints
+    type: string
+    required: false
+    default: ""
+    description: |
+      Restrições ou requisitos não-funcionais.
+      Ex: "manter compatibilidade com API v1, não usar bibliotecas pagas"
+
+settings:
+  model: sonnet
+  timeout: 600
+  save_output: false
+
+steps:
+  - name: validacao_entrada
+    prompt: |
+      ## Validação de Entrada
+
+      Valide os parâmetros recebidos:
+
+      - **name**: {name}
+      - **description**: {description}
+      - **context**: {context}
+      - **success_criteria**: {success_criteria}
+      - **constraints**: {constraints}
+
+      Verificações:
+      1. `name` deve ser kebab-case (minúsculas, hífens, sem espaços)
+      2. `description` deve ter pelo menos 10 caracteres
+      3. Se algum parâmetro estiver inválido, retorne erro claro
+
+      Retorne:
+      ```yaml
+      valido: true/false
+      erros: [lista de erros, se houver]
+      name_sanitizado: [name em kebab-case]
+      ```
+
+  - name: preparacao_diretorio
+    prompt: |
+      ## Preparação de Diretório
+
+      Determine o caminho para os dev docs:
+
+      1. Data atual: use {date} (formato: YYYY-MM-DD)
+      2. Nome sanitizado da etapa anterior
+      3. Caminho: `dev/active/{date}-{name}/`
+
+      Verifique se o diretório já existe:
+      - Se sim: alerte sobre possível sobrescrita
+      - Se não: prosseguir
+
+      Retorne:
+      ```yaml
+      diretorio: dev/active/YYYY-MM-DD-nome/
+      existe: true/false
+      alerta: [mensagem se existir, null se não]
+      ```
+
+  - name: invocacao_agente_planner
+    prompt: |
+      ## Invocação do Agente de Planejamento
+
+      @.claude/agents/planner/agent.md
+
+      Input para o agente:
+      ```yaml
+      nome_da_tarefa: "{name}"
+      descricao: "{description}"
+      contexto_atual: "{context}"
+      restricoes: [{constraints}]
+      criterios_sucesso: [{success_criteria}]
+      diretorio_saida: [diretorio da etapa anterior]
+      ```
+
+      Execute o agente e capture os 3 artefatos gerados:
+      1. plan.md
+      2. context.md
+      3. tasks-checklist.md
+
+      Retorne o conteúdo completo de cada artefato.
+
+  - name: geracao_plan_md
+    prompt: |
+      ## Geração: plan.md
+
+      Baseado na descrição e contexto, gere o arquivo `plan.md` seguindo o template:
+
+      **Dados:**
+      - Nome: {name}
+      - Descrição: {description}
+      - Contexto: {context}
+      - Restrições: {constraints}
+      - Critérios de sucesso: {success_criteria}
+
+      Crie um plano estratégico completo com:
+      1. Objetivo claro
+      2. Escopo (incluído/excluído)
+      3. Estratégia e abordagem
+      4. Alternativas consideradas (pelo menos 2)
+      5. Decisões tomadas com justificativas
+      6. Dependências bloqueantes e não-bloqueantes
+      7. Critérios de sucesso mensuráveis
+      8. Estimativa de complexidade e tempo
+
+      Formato: Markdown seguindo o template do agente planner.
+
+      Retorne o conteúdo completo do plan.md.
+
+  - name: geracao_context_md
+    prompt: |
+      ## Geração: context.md
+
+      Gere o arquivo `context.md` com:
+
+      1. Estado inicial baseado no contexto fornecido
+      2. Estrutura de sessões preparada para preenchimento
+      3. Links e referências extraídos da descrição
+
+      **Dados iniciais:**
+      - Data: {date}
+      - Autor: planner agent
+      - Contexto inicial: {context}
+
+      O arquivo deve ter a seção "Estado Atual" com a sessão inicial,
+      e seções vazias para serem preenchidas nas próximas sessões.
+
+      Retorne o conteúdo completo do context.md.
+
+  - name: geracao_tasks_md
+    prompt: |
+      ## Geração: tasks-checklist.md
+
+      Baseado no plano gerado, decomponha em tarefas executáveis:
+
+      **Fases obrigatórias:**
+      1. Preparação (setup, análise, dependências)
+      2. Implementação (tarefas técnicas)
+      3. Validação (testes, revisão)
+      4. Finalização (deploy, documentação, arquivamento)
+
+      **Critérios para cada tarefa:**
+      - Deve ser acionável (começar com verbo)
+      - Deve ter critério de conclusão claro
+      - Deve caber em uma sessão (1-4 horas)
+      - Deve ter dependências explícitas
+
+      Estime número total de tarefas e preencha métricas.
+
+      Retorne o conteúdo completo do tasks-checklist.md.
+
+  - name: persistencia_arquivos
+    prompt: |
+      ## Persistência dos Arquivos
+
+      Salve os 3 artefatos no diretório determinado:
+
+      1. Crie diretório: `dev/active/{date}-{name}/`
+      2. Escreva plan.md
+      3. Escreva context.md
+      4. Escreva tasks-checklist.md
+
+      Use Write para cada arquivo.
+
+      Retorne:
+      ```yaml
+      arquivos_criados:
+        - caminho: dev/active/.../plan.md
+          tamanho: X bytes
+        - caminho: dev/active/.../context.md
+          tamanho: X bytes
+        - caminho: dev/active/.../tasks-checklist.md
+          tamanho: X bytes
+      ```
+
+  - name: resumo_final
+    prompt: |
+      ## Resumo Final
+
+      Consolide o resultado em formato amigável:
+
+      ```
+      ┌─────────────────────────────────────────┐
+      │  PLANO GERADO COM SUCESSO               │
+      └─────────────────────────────────────────┘
+
+      📁 Local: dev/active/{date}-{name}/
+
+      📄 Arquivos criados:
+         ├── plan.md              (estratégia)
+         ├── context.md           (rastreamento)
+         └── tasks-checklist.md   (execução)
+
+      🎯 Resumo do Plano:
+         [2-3 linhas do objetivo e estratégia]
+
+      📋 Próximos Passos:
+         1. [Primeira tarefa do checklist]
+         2. [Segunda tarefa]
+         3. [Terceira tarefa]
+
+      💡 Como continuar:
+         • Execute tarefas manualmente ou via agentes
+         • Atualize context.md a cada sessão
+         • Marque tarefas como concluídas no checklist
+         • Ao terminar, mova para dev/archive/
+      ```
+
+      Inclua também o comando para invocar novamente:
+      ```
+      claude workflow run planner --name="..." --description="..."
+      ```

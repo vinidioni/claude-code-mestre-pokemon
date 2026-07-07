@@ -1,0 +1,49 @@
+{
+  "name": "@dcc/claude-infrastructure",
+  "version": "1.0.0",
+  "description": "Infraestrutura completa para trabalho com Claude Code - workflows, skills, hooks, dev docs e automações",
+  "main": "index.js",
+  "scripts": {
+    "install-global": "node scripts/install.js",
+    "validate": "node scripts/validate.js",
+    "test": "echo 'Tests not implemented yet'"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "ai",
+    "automation",
+    "workflows",
+    "skills",
+    "dev-docs"
+  ],
+  "author": "DCC Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-org/dcc-claude-infrastructure.git"
+  },
+  "files": [
+    "CLAUDE.md",
+    ".claude/",
+    "dev/",
+    "reports/",
+    "agents/",
+    "docs/",
+    "scripts/",
+    "README.md"
+  ],
+  "claude": {
+    "minVersion": "1.0.0",
+    "components": {
+      "workflows": true,
+      "skills": true,
+      "hooks": true,
+      "agents": true,
+      "commands": true,
+      "devDocs": true
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

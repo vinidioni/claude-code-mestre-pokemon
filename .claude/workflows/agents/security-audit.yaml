@@ -1,0 +1,88 @@
+name: security-audit
+description: |
+  Auditoria focada em vulnerabilidades de segurança.
+  Detecta problemas comuns de segurança em código.
+
+parameters:
+  - name: target
+    type: string
+    required: false
+    default: "."
+    description: Arquivo ou diretório para auditar
+
+  - name: level
+    type: string
+    required: false
+    default: "standard"
+    description: |
+      Nível de auditoria:
+      - "basic": checks essenciais
+      - "standard": checks completos (padrão)
+      - "paranoid": checks avançados + heurísticas
+
+steps:
+  - name: scan_vulnerabilidades
+    prompt: |
+      ## Auditoria de Segurança
+
+      Analise {target} com foco em segurança (nível: {level}).
+
+      ### Vulnerabilidades Web
+      - SQL Injection (queries concatenadas, sem prepared statements)
+      - XSS (innerHTML, dangerouslySetInnerHTML, eval)
+      - CSRF (falta de tokens de proteção)
+      - Path Traversal (../ em paths de arquivo)
+      - Open Redirect (redirecionamentos não validados)
+      - Insecure Deserialization
+
+      ### Dados Sensíveis
+      - Hardcoded secrets (passwords, API keys, tokens)
+      - Logs com dados sensíveis (senhas, tokens, PII)
+      - Exposição de .env ou arquivos de config
+      - Comentários com informações sensíveis
+
+      ### Autenticação/Autorização
+      - JWT sem verificação adequada
+      - Senhas fracas permitidas
+      - Sessions sem expiração
+      - Permissões não verificadas
+      - IDOR (Insecure Direct Object Reference)
+
+      ### Configurações Inseguras
+      - CORS muito permissivo (*)
+      - Headers de segurança ausentes
+      - HTTPS não forçado
+      - Cookies sem secure/httpOnly
+      - Modo debug em produção
+
+      ### Dependências
+      - Pacotes desatualizados
+      - Vulnerabilidades conhecidas (CVEs)
+      - Dependências de desenvolvimento em produção
+
+      Para cada vulnerabilidade:
+      - 🔴 CRÍTICA: Exploração trivial, impacto grave
+      - 🟡 ALTA: Exploração possível, dados em risco
+      - 🟠 MÉDIA: Condições específicas necessárias
+      - 🟢 BAIXA: Impacto limitado
+
+  - name: recomendacoes
+    prompt: |
+      ## Recomendações de Segurança
+
+      Para cada vulnerabilidade crítica/alta:
+      1. Código vulnerável atual
+      2. Código corrigido
+      3. Explicação da correção
+      4. Referências (OWASP, CWE, etc.)
+
+      Recomendações gerais:
+      - Ferramentas de segurança (SAST, DAST)
+      - Processos (code review de segurança)
+      - Treinamento da equipe
+
+settings:
+  model: sonnet
+  timeout: 300
+  save_output: true
+  output_path: "reports/{date}/security-audit-{timestamp}.md"

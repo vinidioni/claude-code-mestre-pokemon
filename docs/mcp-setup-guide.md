@@ -1,0 +1,248 @@
+# Guia de Configuração MCP
+
+Este documento explica como adicionar e configurar servidores MCP (Model Context Protocol) ao projeto.
+
+## O que é MCP?
+
+MCP (Model Context Protocol) é um protocolo que permite ao Claude Code se conectar a serviços externos como GitHub, PostgreSQL, Slack, etc. Cada servidor MCP adiciona novas ferramentas disponíveis para o Claude usar.
+
+## MCPs Configurados
+
+| Servidor | Status | Arquivo de Config |
+|----------|--------|-------------------|
+| Google Workspace | ✅ Ativo | `.mcp.json` |
+| GitHub | ⬜ Não configurado | `.mcp.json` (exemplo abaixo) |
+| PostgreSQL | ⬜ Não configurado | `.mcp.json` (exemplo abaixo) |
+
+## Como Adicionar um Novo MCP
+
+### Passo 1: Editar `.mcp.json`
+
+O arquivo `.mcp.json` na raiz do projeto define quais servidores MCP estão ativos:
+
+```json
+{
+  "mcpServers": {
+    "nome-do-servidor": {
+      "command": "comando-para-iniciar",
+      "args": ["arg1", "arg2"],
+      "env": {
+        "VARIAVEL": "valor"
+      }
+    }
+  }
+}
+```
+
+### Passo 2: Exemplos de Configuração
+
+#### GitHub
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+**Pré-requisitos:**
+1. Gere um token em: https://github.com/settings/tokens
+2. Permissões necessárias: `repo`, `read:org`
+3. Defina a variável de ambiente: `export GITHUB_TOKEN=seu_token`
+
+**Uso:**
+```bash
+claude "liste meus repositórios"
+claude "crie uma issue no repo meu-projeto: Bug no login"
+```
+
+---
+
+#### PostgreSQL
+
+```json
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "POSTGRES_URL": "postgresql://user:pass@localhost:5432/dbname"
+      }
+    }
+  }
+}
+```
+
+**Uso:**
+```bash
+claude "liste as tabelas do banco"
+claude "execute: SELECT * FROM users LIMIT 5"
+```
+
+---
+
+#### Slack
+
+```json
+{
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
+      }
+    }
+  }
+}
+```
+
+**Pré-requisitos:**
+1. Crie um app em: https://api.slack.com/apps
+2. Gere Bot Token com scopes: `chat:write`, `channels:read`
+3. Defina variáveis de ambiente
+
+**Uso:**
+```bash
+claude "envie mensagem no canal #geral: Deploy realizado com sucesso"
+```
+
+---
+
+#### Puppeteer (Automação Web)
+
+```json
+{
+  "mcpServers": {
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    }
+  }
+}
+```
+
+**Uso:**
+```bash
+claude "capture screenshot de https://example.com"
+claude "extraia texto de https://example.com"
+```
+
+---
+
+### Passo 3: Ativar no Settings Local
+
+Para usar o MCP, ative-o em `.claude/settings.local.json`:
+
+```json
+{
+  "enabledMcpjsonServers": [
+    "google-workspace",
+    "github",
+    "postgres"
+  ]
+}
+```
+
+### Passo 4: Testar
+
+```bash
+# Ver status dos MCPs
+claude mcp status
+
+# Ou teste diretamente
+claude "liste as ferramentas MCP disponíveis"
+```
+
+## Servidores MCP Comunidade
+
+| Servidor | Instalação | Descrição |
+|----------|------------|-----------|
+| GitHub | `npx -y @modelcontextprotocol/server-github` | Issues, PRs, repos |
+| PostgreSQL | `npx -y @modelcontextprotocol/server-postgres` | Queries SQL |
+| SQLite | `npx -y @modelcontextprotocol/server-sqlite` | Banco SQLite |
+| Slack | `npx -y @modelcontextprotocol/server-slack` | Mensagens |
+| Puppeteer | `npx -y @modelcontextprotocol/server-puppeteer` | Automação web |
+| Fetch | `npx -y @modelcontextprotocol/server-fetch` | HTTP requests |
+| Filesystem | `npx -y @modelcontextprotocol/server-filesystem` | Acesso a arquivos |
+| Brave Search | `npx -y @modelcontextprotocol/server-brave-search` | Busca web |
+
+Lista completa: https://github.com/modelcontextprotocol/servers
+
+## Troubleshooting
+
+### "MCP server not found"
+```bash
+# Verifique se o pacote está instalado globalmente
+npm list -g @modelcontextprotocol/server-nome
+
+# Ou instale
+npm install -g @modelcontextprotocol/server-nome
+```
+
+### "Permission denied"
+- Verifique permissões do token/API key
+- Confirme que a variável de ambiente está definida
+
+### "Connection refused"
+- Verifique se o serviço está rodando (ex: PostgreSQL)
+- Confirme URL/credentials
+
+## Segurança
+
+⚠️ **Nunca commite:**
+- Tokens de API
+- Senhas de banco de dados
+- Chaves privadas
+
+✅ **Sempre use:**
+- Variáveis de ambiente (`${VAR_NAME}`)
+- `.claude/settings.local.json` (não versionado)
+- `.env` files (com `.env` no `.gitignore`)
+
+## Exemplo Completo: `.mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "mcp-server-google-workspace",
+      "args": [],
+      "env": {
+        "GOOGLE_REDIRECT_URI": "http://localhost:3000/oauth2callback",
+        "GOOGLE_CLIENT_SECRETS": "${GOOGLE_CLIENT_SECRETS}"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "POSTGRES_URL": "${DATABASE_URL}"
+      }
+    }
+  }
+}
+```
+
+Com variáveis de ambiente:
+```bash
+export GOOGLE_CLIENT_SECRETS="/caminho/client_secret.json"
+export GITHUB_TOKEN="ghp_xxxxxxxx"
+export DATABASE_URL="postgresql://..."
+```

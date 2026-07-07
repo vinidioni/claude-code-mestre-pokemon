@@ -1,0 +1,194 @@
+name: report-weekly
+description: |
+  Gera relatório semanal de atividades de desenvolvimento.
+  Analisa commits, PRs, issues e métricas de código.
+
+  Ideal para: standups, retrospectivas, relatórios de gestão.
+
+parameters:
+  - name: week
+    type: string
+    required: false
+    default: "current"
+    description: |
+      Semana a analisar:
+      - "current": semana atual (padrão)
+      - "YYYY-WNN": semana específica (ex: "2024-W27")
+      - "last": semana anterior
+
+  - name: output_format
+    type: string
+    required: false
+    default: "markdown"
+    description: |
+      Formato de saída:
+      - "markdown": .md (padrão)
+      - "json": .json (para integrações)
+
+  - name: include
+    type: string
+    required: false
+    default: "all"
+    description: |
+      Seções a incluir:
+      - "all": todas (padrão)
+      - "commits,prs": apenas especificadas
+
+steps:
+  - name: definir_periodo
+    prompt: |
+      ## 1. Definir Período
+
+      Determine o período da análise:
+      Input: {week}
+
+      Se "current": segunda desta semana até hoje
+      Se "last": segunda da semana passada até domingo
+      Se "YYYY-WNN": parse para datas
+
+      Retorne:
+      - Data início
+      - Data fim
+      - Dias úteis no período
+
+  - name: coletar_commits
+    prompt: |
+      ## 2. Coletar Commits
+
+      Busque commits no período definido.
+
+      Analise:
+      - Total de commits
+      - Autores e contribuições
+      - Arquivos mais modificados
+      - Tipos de mudança (feat, fix, refactor, etc.)
+      - Horários de pico
+
+      Agrupe por:
+      - Feature
+      - Bugfix
+      - Refatoração
+      - Documentação
+      - Outros
+
+  - name: analizar_prs
+    prompt: |
+      ## 3. Analisar Pull Requests
+
+      Se houver integração com GitHub/GitLab:
+      - PRs abertos
+      - PRs mergeados
+      - PRs fechados sem merge
+      - Tempo médio de revisão
+      - Tamanho médio de PR (linhas)
+
+      Ou analise branches mergeados via git.
+
+  - name: metricas_codigo
+    prompt: |
+      ## 4. Métricas de Código
+
+      Calcule métricas atuais:
+      - Linhas de código totais
+      - Linhas adicionadas/removidas no período
+      - Número de arquivos
+      - Complexidade média (se possível)
+      - Débito técnico estimado
+      - Cobertura de testes (se disponível)
+
+      Compare com período anterior se possível.
+
+  - name: identificar_riscos
+    prompt: |
+      ## 5. Identificar Riscos e Blockers
+
+      Analise:
+      - Arquivos com muitas mudanças (alta churn)
+      - Commits grandes (possível acoplamento)
+      - Arquivos sem testes modificados
+      - Dependências novas adicionadas
+      - TODOs ou FIXMEs adicionados
+
+      Liste potenciais problemas para atenção.
+
+  - name: gerar_relatorio
+    prompt: |
+      ## 6. Gerar Relatório
+
+      Crie relatório completo no formato {output_format}:
+
+      ### Estrutura Markdown:
+
+      ```markdown
+      # 📊 Relatório Semanal
+
+      **Período:** DD/MM/YYYY a DD/MM/YYYY
+      **Gerado em:** DD/MM/YYYY HH:MM
+
+      ## 🎯 Resumo Executivo
+
+      - Commits: X (+Y vs semana anterior)
+      - Autores ativos: X
+      - PRs mergeados: X
+      - Linhas alteradas: +X / -Y
+
+      ## 📈 Atividades
+
+      ### Commits por Categoria
+      - ✨ Features: X
+      - 🐛 Bugfixes: X
+      - 🔧 Refatorações: X
+      - 📝 Documentação: X
+      - ⚡ Performance: X
+      - Outros: X
+
+      ### Principais Contribuidores
+      1. @autor (X commits)
+      2. ...
+
+      ### Arquivos Mais Modificados
+      1. `src/...` (X mudanças)
+      2. ...
+
+      ## 🚨 Pontos de Atenção
+
+      ### Riscos Identificados
+      - [Risco 1]
+      - [Risco 2]
+
+      ### Débito Técnico
+      - [Item 1]
+      - [Item 2]
+
+      ## 🎯 Destaques
+
+      ### Conquistas
+      - [Feature importante entregue]
+      - [Milestone alcançado]
+
+      ### Próximos Passos
+      - [Item 1]
+      - [Item 2]
+
+      ---
+      *Relatório gerado automaticamente por Claude Code*
+      ```
+
+      ### Estrutura JSON (se solicitado):
+      ```json
+      {
+        "period": { "start": "...", "end": "..." },
+        "summary": { ... },
+        "commits": { ... },
+        "prs": { ... },
+        "metrics": { ... },
+        "risks": [...],
+        "highlights": [...]
+      }
+      ```
+
+settings:
+  model: sonnet
+  timeout: 300
+  save_output: true
+  output_path: "reports/{date}/weekly-report-{week}.md"

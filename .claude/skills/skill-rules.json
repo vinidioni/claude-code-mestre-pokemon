@@ -1,0 +1,232 @@
+{
+  "$schema": "./skill-rules-schema.json",
+  "version": "1.0.0",
+  "description": "Regras de ativação automática de skills baseadas em triggers e padrões de arquivo",
+  "skills": [
+    {
+      "name": "exemploDoc",
+      "triggers": [
+        "exemplo",
+        "documentação de exemplo",
+        "como documentar",
+        "padrão de doc"
+      ],
+      "filePatterns": [
+        "**/exemplo*/**",
+        "**/example*/**"
+      ],
+      "description": "Skill de exemplo demonstrando o padrão de progressive disclosure",
+      "priority": "low"
+    },
+    {
+      "name": "conventionalCommits",
+      "triggers": [
+        "commit",
+        "conventional commits",
+        "mensagem de commit",
+        "padrão de commit",
+        "commit message"
+      ],
+      "filePatterns": [
+        "**/.git/**",
+        "**/CHANGELOG*",
+        "**/.commitlintrc*"
+      ],
+      "description": "Padrão Conventional Commits para mensagens de commit estruturadas",
+      "priority": "medium"
+    },
+    {
+      "name": "reactPatterns",
+      "triggers": [
+        "react",
+        "componente",
+        "hook",
+        "useState",
+        "useEffect",
+        "jsx",
+        "tsx"
+      ],
+      "filePatterns": [
+        "**/*.tsx",
+        "**/*.jsx",
+        "**/react/**"
+      ],
+      "description": "Padrões e boas práticas para desenvolvimento React",
+      "priority": "medium"
+    },
+    {
+      "name": "apiDesign",
+      "triggers": [
+        "api",
+        "endpoint",
+        "rest",
+        "graphql",
+        "rota",
+        "controller"
+      ],
+      "filePatterns": [
+        "**/api/**",
+        "**/routes/**",
+        "**/controllers/**",
+        "**/openapi*.yaml",
+        "**/swagger*.yaml"
+      ],
+      "description": "Padrões de design de APIs RESTful e GraphQL",
+      "priority": "medium"
+    },
+    {
+      "name": "engineeringSkills",
+      "triggers": [
+        "data engineering",
+        "arquitetura de sistemas",
+        "backend",
+        "frontend",
+        "devops",
+        "segurança",
+        "AI/ML",
+        "machine learning",
+        "cloud",
+        "docker",
+        "kubernetes"
+      ],
+      "filePatterns": [
+        "**/*.py",
+        "**/*.js",
+        "**/*.ts",
+        "**/docker*",
+        "**/k8s/**",
+        "**/infrastructure/**"
+      ],
+      "description": "32 engineering skills incluindo data engineering, arquitetura, backend, frontend, DevOps, segurança, AI/ML",
+      "priority": "high",
+      "source": "alirezarezvani/claude-skills v2.9.0"
+    },
+    {
+      "name": "businessGrowthSkills",
+      "triggers": [
+        "customer success",
+        "sales engineering",
+        "revenue operations",
+        "contrato",
+        "proposta",
+        "RFP",
+        "PoC",
+        "churn",
+        "retenção",
+        "health score"
+      ],
+      "filePatterns": [
+        "**/sales/**",
+        "**/customer-success/**",
+        "**/contracts/**",
+        "**/proposals/**"
+      ],
+      "description": "4 skills de business growth - Customer Success, Sales Engineering, Revenue Operations, Contract Writing",
+      "priority": "medium",
+      "source": "alirezarezvani/claude-skills v2.9.0"
+    },
+    {
+      "name": "financeSkills",
+      "triggers": [
+        "análise financeira",
+        "DCF",
+        "valuation",
+        "SaaS metrics",
+        "ARR",
+        "MRR",
+        "churn",
+        "LTV",
+        "CAC",
+        "NRR",
+        "budget",
+        "forecast"
+      ],
+      "filePatterns": [
+        "**/finance/**",
+        "**/financial/**",
+        "**/budget/**",
+        "**/*metrics*"
+      ],
+      "description": "3 skills financeiras - Financial Analyst, SaaS Metrics Coach, Business Investment Advisor",
+      "priority": "high",
+      "source": "alirezarezvani/claude-skills v2.9.0"
+    },
+    {
+      "name": "dataQualityAuditor",
+      "triggers": [
+        "auditar qualidade de dados",
+        "data quality",
+        "missing values",
+        "completude",
+        "consistência",
+        "DQS",
+        "limpeza de dados",
+        "data cleaning",
+        "MCAR",
+        "MAR",
+        "MNAR"
+      ],
+      "filePatterns": [
+        "**/data/**",
+        "**/*.csv",
+        "**/*.parquet",
+        "**/datasets/**"
+      ],
+      "description": "Auditoria de datasets - completude, consistência, acurácia e validade. DQS scoring e análise de valores ausentes",
+      "priority": "high",
+      "source": "alirezarezvani/claude-skills v2.9.0"
+    },
+    {
+      "name": "statisticalAnalyst",
+      "triggers": [
+        "teste de hipóteses",
+        "A/B test",
+        "A/B testing",
+        "significância estatística",
+        "tamanho da amostra",
+        "p-value",
+        "intervalo de confiança",
+        "chi-square",
+        "z-test",
+        "t-test",
+        "power analysis"
+      ],
+      "filePatterns": [
+        "**/experiments/**",
+        "**/ab-test/**",
+        "**/analytics/**"
+      ],
+      "description": "Análise estatística - teste de hipóteses, A/B testing, cálculo amostral, intervalos de confiança",
+      "priority": "high",
+      "source": "alirezarezvani/claude-skills v2.9.0"
+    },
+    {
+      "name": "businessInvestmentAdvisor",
+      "triggers": [
+        "ROI",
+        "IRR",
+        "NPV",
+        "payback",
+        "investimento",
+        "build vs buy",
+        "lease vs buy",
+        "capex",
+        "análise de investimento",
+        "return on investment"
+      ],
+      "filePatterns": [
+        "**/investment/**",
+        "**/capex/**",
+        "**/business-case/**"
+      ],
+      "description": "Análise de investimentos - ROI, IRR, NPV, payback, build vs buy, lease vs buy",
+      "priority": "medium",
+      "source": "alirezarezvani/claude-skills v2.9.0"
+    }
+  ],
+  "globalRules": {
+    "maxActiveSkills": 3,
+    "loadOnFileOpen": true,
+    "requireExplicitTrigger": false
+  }
+}

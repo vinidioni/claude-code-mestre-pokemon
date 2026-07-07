@@ -1,0 +1,309 @@
+name: doc-generator
+description: |
+  Gera documentação automaticamente a partir do código.
+  Suporta: READMEs, documentação de API, changelogs,
+  guias de contribuição e documentação inline.
+
+  Ideal para: onboarding de novos devs, manter docs atualizadas,
+  gerar referências de API automaticamente.
+
+parameters:
+  - name: type
+    type: string
+    required: true
+    description: |
+      Tipo de documentação a gerar:
+      - "readme": README.md do projeto
+      - "api": Documentação de API (OpenAPI/Swagger)
+      - "changelog": Changelog a partir de commits
+      - "contributing": Guia de contribuição
+      - "architecture": Documentação de arquitetura
+      - "inline": Comentários JSDoc/TSDoc
+    default: "readme"
+
+  - name: target
+    type: string
+    required: false
+    default: "."
+    description: |
+      Alvo da documentação:
+      - "." (padrão): todo o projeto
+      - "src/api": diretório específico
+      - "src/auth.ts": arquivo específico
+
+  - name: output
+    type: string
+    required: false
+    default: ""
+    description: |
+      Caminho de saída. Se omitido, usa padrão:
+      - readme: "README.md"
+      - api: "docs/api.md" ou "openapi.yaml"
+      - changelog: "CHANGELOG.md"
+
+steps:
+  - name: analise_projeto
+    prompt: |
+      ## 1. Análise do Projeto
+
+      Analise o diretório: {target}
+
+      Colete informações:
+      1. Tipo de projeto (web app, API, library, CLI)
+      2. Stack tecnológica (linguagens, frameworks)
+      3. Estrutura de diretórios
+      4. Scripts disponíveis (package.json, Makefile, etc.)
+      5. Dependências principais
+      6. Configurações importantes
+      7. Testes e CI/CD
+
+      Retorne um resumo estruturado do projeto.
+
+  - name: gerar_readme
+    condition: "{type} == 'readme'"
+    prompt: |
+      ## 2. Gerar README.md
+
+      Crie um README.md completo e profissional:
+
+      Estrutura:
+      ```markdown
+      # Nome do Projeto
+
+      ## 🎯 Propósito
+      Descrição clara do que o projeto faz (2-3 frases).
+
+      ## ✨ Features
+      - Feature 1
+      - Feature 2
+      - Feature 3
+
+      ## 🚀 Tecnologias
+      - Linguagem/Framework X
+      - Biblioteca Y
+      - Ferramenta Z
+
+      ## 📦 Instalação
+      ```bash
+      git clone ...
+      cd projeto
+      npm install
+      ```
+
+      ## 🔧 Configuração
+      Variáveis de ambiente necessárias, etc.
+
+      ## 🚦 Uso
+      Exemplos de como usar o projeto.
+
+      ## 🧪 Testes
+      ```bash
+      npm test
+      ```
+
+      ## 📁 Estrutura
+      ```
+      src/
+      ├── ...
+      ```
+
+      ## 🤝 Contribuição
+      Link para CONTRIBUTING.md ou instruções básicas.
+
+      ## 📝 Licença
+      MIT / etc.
+      ```
+
+      Adapte conforme o tipo de projeto detectado.
+
+  - name: gerar_api_docs
+    condition: "{type} == 'api'"
+    prompt: |
+      ## 2. Gerar Documentação de API
+
+      Analise os endpoints de API em {target}.
+
+      Para cada endpoint, documente:
+      - Método HTTP (GET, POST, PUT, DELETE)
+      - URL
+      - Parâmetros (query, body, path)
+      - Headers necessários
+      - Respostas possíveis (200, 400, 401, 404, 500)
+      - Exemplos de request/response
+
+      Formato (escolha um):
+
+      **Opção 1: Markdown simples**
+      ```markdown
+      ### GET /api/users
+      Lista todos os usuários.
+
+      **Query params:**
+      - page (number, optional): Página atual
+      - limit (number, optional): Itens por página
+
+      **Response 200:**
+      ```json
+      { "users": [...], "total": 100 }
+      ```
+
+      **Opção 2: OpenAPI 3.0 (YAML)**
+      Se preferir formato OpenAPI/Swagger.
+
+      Escolha a opção mais apropriada para o projeto.
+
+  - name: gerar_changelog
+    condition: "{type} == 'changelog'"
+    prompt: |
+      ## 2. Gerar CHANGELOG.md
+
+      Analise o histórico de commits.
+
+      Estrutura (Keep a Changelog):
+      ```markdown
+      # Changelog
+
+      ## [Unreleased]
+
+      ## [1.2.0] - 2024-07-07
+      ### Added
+      - Nova feature X
+
+      ### Changed
+      - Melhoria em Y
+
+      ### Fixed
+      - Correção de bug Z
+
+      ## [1.1.0] - 2024-06-15
+      ...
+      ```
+
+      Agrupe commits por categoria:
+      - Added: novas features
+      - Changed: alterações
+      - Deprecated: funcionalidades obsoletas
+      - Removed: remoções
+      - Fixed: correções de bugs
+      - Security: vulnerabilidades corrigidas
+
+  - name: gerar_contributing
+    condition: "{type} == 'contributing'"
+    prompt: |
+      ## 2. Gerar CONTRIBUTING.md
+
+      Crie guia de contribuição:
+
+      Estrutura:
+      ```markdown
+      # Contribuindo
+
+      ## 🚀 Primeiros Passos
+      1. Fork o repositório
+      2. Clone: `git clone ...`
+      3. Instale dependências
+      4. Crie branch: `git checkout -b feature/nome`
+
+      ## 📝 Convenções
+      - Commits: [tipo] descrição
+      - Branches: feature/, fix/, docs/
+      - Código: [padrões do projeto]
+
+      ## 🧪 Testes
+      ```bash
+      npm test
+      ```
+
+      ## 📤 Pull Requests
+      1. Atualize a documentação
+      2. Adicione testes
+      3. Verifique o lint
+      4. Descreva o PR claramente
+
+      ## ❓ Dúvidas
+      Abra uma issue ou entre em contato.
+      ```
+
+  - name: gerar_architecture
+    condition: "{type} == 'architecture'"
+    prompt: |
+      ## 2. Documentação de Arquitetura
+
+      Documente a arquitetura do sistema:
+
+      Estrutura (C4 Model ou similar):
+      ```markdown
+      # Arquitetura
+
+      ## Visão Geral
+      Diagrama de contexto e descrição.
+
+      ## Componentes
+      - Frontend: React/Vue/etc
+      - Backend: Node/Python/etc
+      - Banco: PostgreSQL/Mongo/etc
+      - Cache: Redis/etc
+
+      ## Fluxos Principais
+      1. Autenticação
+      2. [Fluxo principal 2]
+      3. [Fluxo principal 3]
+
+      ## Decisões de Arquitetura
+      - ADR 1: Por que escolhemos X
+      - ADR 2: Por que usamos Y
+
+      ## Diagramas
+      [Descrição textual dos diagramas]
+      ```
+
+  - name: gerar_inline_docs
+    condition: "{type} == 'inline'"
+    prompt: |
+      ## 2. Adicionar Comentários Inline
+
+      Analise funções/classes complexas em {target}.
+
+      Para cada elemento que necessita documentação:
+      - Adicione JSDoc/TSDoc completo
+      - Explique parâmetros e retorno
+      - Documente exceções lançadas
+      - Inclua exemplos de uso
+
+      Formato:
+      ```typescript
+      /**
+       * Descrição clara da função.
+       * @param param1 - Descrição do parâmetro
+       * @param param2 - Descrição do parâmetro
+       * @returns Descrição do retorno
+       * @throws {ErrorType} Quando ocorre X
+       * @example
+       * ```ts
+       * const result = minhaFuncao("valor");
+       * ```
+       */
+      ```
+
+      Liste todos os arquivos que precisam de atenção.
+
+  - name: revisao_final
+    prompt: |
+      ## 3. Revisão Final
+
+      Revise a documentação gerada:
+      - [ ] Está completa e precisa?
+      - [ ] Segue as convenções do projeto?
+      - [ ] Está formatada corretamente?
+      - [ ] Links funcionam (se houver)?
+      - [ ] Exemplos estão corretos?
+
+      Seja crítico: documentação incorreta é pior que nenhuma.
+
+      Sugira melhorias se necessário.
+
+settings:
+  model: sonnet
+  timeout: 300
+  save_output: true
+  output_path: "{output}"

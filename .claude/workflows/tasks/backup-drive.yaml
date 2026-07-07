@@ -1,0 +1,62 @@
+name: backup-drive
+description: |
+  Faz backup de arquivos no Google Drive.
+  Requer: Google Workspace MCP configurado e autenticado.
+
+parameters:
+  - name: files
+    type: string
+    required: true
+    description: Arquivos ou padrão glob a fazer backup
+
+  - name: folder
+    type: string
+    required: false
+    default: "DCC-Backups"
+    description: Nome da pasta no Drive
+
+  - name: date_prefix
+    type: boolean
+    required: false
+    default: true
+    description: Adicionar data no nome da pasta
+
+steps:
+  - name: coletar_arquivos
+    prompt: |
+      Colete todos os arquivos correspondentes a: {files}
+
+      Liste:
+      - Caminho completo
+      - Tamanho
+      - Data de modificação
+
+  - name: verificar_drive
+    prompt: |
+      Use MCP Google Workspace para:
+      1. Verificar se a pasta {folder} existe no Drive
+      2. Se não existir, criar
+      3. Se date_prefix=true, criar subpasta com data atual
+
+      Retorne o ID da pasta de destino.
+
+  - name: fazer_upload
+    prompt: |
+      Faça upload de cada arquivo para o Drive:
+
+      Para cada arquivo:
+      1. Verifique se já existe (mesmo nome)
+      2. Se existir, versione ou sobrescreva
+      3. Faça upload
+      4. Confirme sucesso
+
+      Retorne resumo:
+      - Total de arquivos
+      - Tamanho total
+      - Pasta no Drive
+      - Links de acesso
+
+settings:
+  requires_mcp:
+    - google-workspace
+  output_log: true

@@ -1,0 +1,45 @@
+# Claude Code
+.claude/memory/
+.claude/cache/
+.claude/settings.local.json  # Configurações pessoais (tokens, etc)
+*.log
+
+# Relatórios processados (manter templates)
+reports/*/processed/
+
+# Dados sensíveis
+.env
+.env.local
+.env.*.local
+secrets.json
+secrets.yaml
+secrets.yml
+*.key
+*.pem
+
+# Temporários
+*.tmp
+.temp/
+temp/
+cache/
+*.swp
+*.swo
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Dependências
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+*.pyo

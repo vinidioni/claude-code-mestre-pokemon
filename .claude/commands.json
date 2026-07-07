@@ -1,0 +1,53 @@
+{
+  "$schema": "https://claude.ai/commands/schema.json",
+  "version": "1.0.0",
+  "description": "Comandos customizados para o repositório DCC",
+  "commands": [
+    {
+      "name": "dev-docs",
+      "description": "Gerencia documentação de desenvolvimento (plan.md, context.md, tasks-checklist.md)",
+      "prompt": "Leia o arquivo .claude/commands/dev-docs.md e execute a ação solicitada pelo usuário (init, status, continue, ou archive). Para 'init', colete descrição e contexto do usuário antes de invocar o workflow planner. Para 'status', liste pastas em dev/active/ com métricas. Para 'continue', carregue context.md e tasks-checklist.md. Para 'archive', confirme antes de mover para dev/archive/.",
+      "arguments": [
+        {
+          "name": "action",
+          "description": "Ação: init, status, continue, archive",
+          "required": true
+        },
+        {
+          "name": "taskName",
+          "description": "Nome da tarefa (para init, continue, archive)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "skill",
+      "description": "Gerencia skills modulares do repositório",
+      "prompt": "Gerencia skills modulares. Para 'list', mostre todas skills disponíveis em .claude/skills/. Para 'run <skill-name>', carregue o SKILL.md correspondente e ative a skill. Para 'info <skill-name>', mostre descrição e triggers da skill.",
+      "arguments": [
+        {
+          "name": "subcommand",
+          "description": "Subcomando: list, run, info",
+          "required": true
+        },
+        {
+          "name": "skillName",
+          "description": "Nome da skill (para run, info)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "workflow",
+      "description": "Executa workflows de agentes (atalho para claude workflow run)",
+      "prompt": "Execute o workflow especificado. Se o workflow não for encontrado, sugira workflows similares disponíveis em .claude/workflows/agents/. Mostre a descrição do workflow antes de executar.",
+      "arguments": [
+        {
+          "name": "workflowName",
+          "description": "Nome do workflow (ex: code-review, planner)",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

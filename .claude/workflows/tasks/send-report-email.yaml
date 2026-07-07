@@ -1,0 +1,73 @@
+name: send-report-email
+description: |
+  Envia um relatório por email usando Gmail.
+  Requer: Google Workspace MCP configurado e autenticado.
+
+parameters:
+  - name: to
+    type: string
+    required: true
+    description: Destinatário(s) do email (separados por vírgula)
+
+  - name: report
+    type: string
+    required: true
+    description: Caminho do relatório a enviar
+
+  - name: subject
+    type: string
+    required: false
+    default: ""
+    description: Assunto do email (padrão: nome do relatório)
+
+  - name: message
+    type: string
+    required: false
+    default: ""
+    description: Mensagem adicional no corpo do email
+
+steps:
+  - name: verificar_arquivo
+    prompt: |
+      Verifique se o arquivo existe: {report}
+
+      Se não existir, retorne erro.
+      Se existir, leia o conteúdo e prepare para envio.
+
+  - name: preparar_email
+    prompt: |
+      Prepare o email:
+
+      Para: {to}
+      Assunto: {subject} (ou derive do nome do arquivo)
+      Anexo: {report}
+
+      Corpo do email:
+      ```
+      Olá,
+
+      Segue em anexo o relatório solicitado.
+
+      {message}
+
+      ---
+      Relatório gerado automaticamente por Claude Code
+      Repositório DCC
+      ```
+
+  - name: enviar_email
+    prompt: |
+      Use o MCP Google Workspace para enviar email.
+
+      Se MCP não estiver disponível:
+      - Retorne instruções de como configurar
+      - Sugira método alternativo (SMTP, script Python)
+
+      Se MCP estiver disponível:
+      - Envie o email com o relatório anexado
+      - Confirme envio bem-sucedido
+
+settings:
+  requires_mcp:
+    - google-workspace
+  output_log: true

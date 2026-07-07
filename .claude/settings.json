@@ -1,0 +1,41 @@
+{
+  "statusLine": {
+    "format": "[{cwd}] [{gitBranch}] [{model}]",
+    "elements": {
+      "cwd": {
+        "show": true,
+        "maxLength": 30,
+        "replaceHomeWithTilde": true
+      },
+      "gitBranch": {
+        "show": true,
+        "prefix": "",
+        "suffix": "",
+        "showWhenClean": true,
+        "showWhenDetached": true
+      },
+      "model": {
+        "show": true,
+        "shortNames": {
+          "claude-sonnet-4-6": "sonnet",
+          "claude-opus-4-8": "opus",
+          "claude-haiku-4-5": "haiku",
+          "claude-fable-5": "fable"
+        }
+      }
+    }
+  },
+  "outputStyle": null,
+  "permissions": {
+    "allow": [
+      "Read(${workspaceFolder}/**)",
+      "Read(${workspaceFolder}/.claude/**)",
+      "Write(${workspaceFolder}/**)",
+      "Edit(${workspaceFolder}/**)",
+      "Bash(git *)",
+      "Bash(node *)",
+      "Bash(npm *)",
+      "Bash(npx *)"
+    ]
+  }
+}
