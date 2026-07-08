@@ -1,31 +1,8 @@
 {
   "statusLine": {
-    "format": "[{cwd}] [{gitBranch}] [{model}]",
-    "elements": {
-      "cwd": {
-        "show": true,
-        "maxLength": 30,
-        "replaceHomeWithTilde": true
-      },
-      "gitBranch": {
-        "show": true,
-        "prefix": "",
-        "suffix": "",
-        "showWhenClean": true,
-        "showWhenDetached": true
-      },
-      "model": {
-        "show": true,
-        "shortNames": {
-          "claude-sonnet-4-6": "sonnet",
-          "claude-opus-4-8": "opus",
-          "claude-haiku-4-5": "haiku",
-          "claude-fable-5": "fable"
-        }
-      }
-    }
+    "type": "command",
+    "command": "echo \"[$(pwd | sed \"s|^$HOME|~\" | tail -c 30)] [$(git branch --show-current 2>/dev/null || echo 'none')] [claude]\""
   },
-  "outputStyle": null,
   "permissions": {
     "allow": [
       "Read(${workspaceFolder}/**)",

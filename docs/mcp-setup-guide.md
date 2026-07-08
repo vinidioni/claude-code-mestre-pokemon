@@ -13,6 +13,7 @@ MCP (Model Context Protocol) é um protocolo que permite ao Claude Code se conec
 | Google Workspace | ✅ Ativo | `.mcp.json` |
 | GitHub | ⬜ Não configurado | `.mcp.json` (exemplo abaixo) |
 | PostgreSQL | ⬜ Não configurado | `.mcp.json` (exemplo abaixo) |
+| DChat (DiDi) | ✅ Ativo | `mcp-dchat-server/` (custom via dws CLI) |
 
 ## Como Adicionar um Novo MCP
 
@@ -136,6 +137,64 @@ claude "envie mensagem no canal #geral: Deploy realizado com sucesso"
 claude "capture screenshot de https://example.com"
 claude "extraia texto de https://example.com"
 ```
+
+---
+
+#### DChat (Custom - DiDi Internal via dws CLI)
+
+O DChat é o chat interno da DiDi. Usamos o CLI `dws` (D-Chat Workspace CLI) que vem com o SmartWork para integração.
+
+```json
+{
+  "mcpServers": {
+    "dchat": {
+      "command": "node",
+      "args": ["C:\\Users\\viniciuscastanho\\Desktop\\dcc\\mcp-dchat-server\\index.js"],
+      "env": {
+        "DWS_SCRIPT_PATH": "C:\\Users\\viniciuscastanho\\.SmartWork\\skills\\smartwork-cli\\smartwork-shared\\assets\\dws-windows.ps1"
+      }
+    }
+  }
+}
+```
+
+**Pré-requisitos:**
+1. D-Chat desktop app instalado e autenticado
+2. Node.js 18+ instalado
+3. SmartWork CLI disponível em `~/.SmartWork/skills/smartwork-cli/`
+
+**Ferramentas disponíveis:**
+- `send_message` - Enviar mensagens para usuários ou grupos
+- `list_chats` - Listar conversas disponíveis
+- `get_messages` - Ler mensagens de uma conversa
+
+**Parâmetros do `send_message`:**
+- `target_type`: `user`, `chat_id`, `chat_name`, ou `current`
+- `target`: Identificador (username, chat ID, nome do grupo)
+- `message`: Texto da mensagem (suporta @mentions como `@username`)
+- `dry_run`: Preview sem enviar
+
+**Uso:**
+```bash
+# Enviar mensagem para um usuário
+claude "envie mensagem no dchat para maurojunior: Olá, tudo bem?"
+
+# Enviar mensagem para um grupo
+claude "envie mensagem no grupo 'Nome do Grupo': Reunião às 15h"
+
+# Listar chats
+claude "liste meus chats no dchat"
+
+# Ler mensagens
+claude "leia as mensagens de hoje no grupo 'Projeto X'"
+```
+
+**Limitações:**
+- Rate limit: 10 mensagens/minuto ao enviar
+- Workspace server requer D-Chat desktop rodando
+- Conta precisa de permissão para consultar histórico
+
+**Documentação completa:** [`mcp-dchat-server/README.md`](../mcp-dchat-server/README.md)
 
 ---
 
