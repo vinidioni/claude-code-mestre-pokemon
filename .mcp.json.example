@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "dchat": {
+      "command": "node",
+      "args": ["${DCC_ROOT}/mcp-servers/dchat/index.js"],
+      "env": {
+        "DWS_SCRIPT_PATH": "${DWS_SCRIPT_PATH}"
+      }
+    },
+    "google-workspace": {
+      "command": "mcp-server-google-workspace",
+      "args": [],
+      "env": {
+        "GOOGLE_REDIRECT_URI": "${GOOGLE_REDIRECT_URI}",
+        "GOOGLE_CLIENT_SECRETS": "${GOOGLE_CLIENT_SECRETS_PATH}"
+      }
+    }
+  }
+}

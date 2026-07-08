@@ -1,35 +1,64 @@
 # DCC - Claude Code Infrastructure
 
-> Infraestrutura completa e genérica para trabalho com Claude Code em equipe.
+> Infraestrutura completa para trabalho com Claude Code em equipe. Workflows, Skills, MCPs e automações.
 
-## 🚀 Começando
+## 🚀 Começando (Setup do Zero)
 
-### Instalação Rápida
-
-```bash
-# Clone este repositório
-git clone https://github.com/seu-org/dcc-claude-infrastructure.git
-
-# Instale em seu projeto
-node dcc-claude-infrastructure/scripts/install.js /caminho/do/seu/projeto
-
-# Valide a instalação
-cd /caminho/do/seu/projeto
-node .claude/scripts/validate.js
-```
-
-### Ou Use como Template
+### 1. Clone e Entre no Diretório
 
 ```bash
-# Copie este repositório como base
-cp -r dcc-claude-infrastructure meu-projeto-ai
-cd meu-projeto-ai
-
-# Personalize
-# - Edite CLAUDE.md com propósito do seu projeto
-# - Adicione skills específicas do seu domínio
-# - Crie workflows customizados
+git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git dcc
+cd dcc
 ```
+
+### 2. Execute o Setup Automático
+
+**Windows (PowerShell como Admin):**
+```powershell
+.\scripts\setup.ps1
+```
+
+**macOS/Linux:**
+```bash
+bash scripts/setup.sh
+```
+
+### 3. Configure suas Credenciais
+
+```bash
+# Copie o arquivo de exemplo
+cp .env.example .env
+
+# Edite com suas credenciais
+# - GitHub Token: https://github.com/settings/tokens
+# - Google Workspace: opcional (veja docs/)
+# - D-Chat: opcional (apenas funcionários DiDi/99)
+```
+
+### 4. Verifique a Instalação
+
+```bash
+node scripts/verify-setup.js
+```
+
+### 5. Comece a Usar
+
+```bash
+claude
+```
+
+---
+
+## 📋 Requisitos
+
+| Ferramenta | Versão | Obrigatório |
+|------------|--------|-------------|
+| [Node.js](https://nodejs.org) | 18+ | ✅ |
+| [Python](https://python.org) | 3.10+ | ✅ |
+| [Git](https://git-scm.com) | 2.40+ | ✅ |
+| [Claude Code](https://claude.ai/code) | latest | ✅ |
+
+Veja [SETUP.md](SETUP.md) para instruções detalhadas.
 
 ## 📦 O que está incluído
 
