@@ -60,6 +60,8 @@ claude
 
 Veja [SETUP.md](SETUP.md) para instruções detalhadas.
 
+> **🔒 Segurança:** Arquivos de configuração pessoal (`.env`, `.mcp.json`) não são commitados. Cada usuário cria os seus a partir dos templates `.env.example` e `.mcp.json.example`.
+
 ## 📦 O que está incluído
 
 | Componente | Descrição | Local |
