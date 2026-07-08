@@ -11,6 +11,7 @@ reports/*/processed/
 .env
 .env.local
 .env.*.local
+.mcp.json
 secrets.json
 secrets.yaml
 secrets.yml
