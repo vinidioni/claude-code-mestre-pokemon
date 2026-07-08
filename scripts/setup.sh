@@ -129,8 +129,23 @@ if [[ "$1" != "--skip-dependencies" ]]; then
     if command_exists mcp-server-google-workspace; then
         log_success "  ✅ MCP Google Workspace já instalado"
     else
-        log_warning "  ⚠️  MCP Google Workspace não encontrado"
-        log_info "     Para instalar: npm install -g @kazuph/mcp-server-google-workspace"
+        log_warning ""
+        log_warning "  ⚠️  IMPORTANTE: MCP Google Workspace NÃO INSTALADO"
+        log_warning ""
+        log_warning "  ╔══════════════════════════════════════════════════════════╗"
+        log_warning "  ║  ⚠️  IMPORTANTE: Google Workspace é altamente recomendado ║"
+        log_warning "  ║                                                          ║"
+        log_warning "  ║  Com este MCP você poderá:                               ║"
+        log_warning "  ║  • Ler e enviar emails pelo Gmail                        ║"
+        log_warning "  ║  • Criar e consultar eventos no Calendar                 ║"
+        log_warning "  ║  • Acessar e criar documentos no Drive                   ║"
+        log_warning "  ║                                                          ║"
+        log_warning "  ║  Para instalar:                                          ║"
+        log_warning "  ║  npm install -g @kazuph/mcp-server-google-workspace      ║"
+        log_warning "  ║                                                          ║"
+        log_warning "  ║  Veja docs/google-workspace-setup.md para configuração   ║"
+        log_warning "  ╚══════════════════════════════════════════════════════════╝"
+        log_warning ""
     fi
 fi
 

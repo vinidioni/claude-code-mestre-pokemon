@@ -119,8 +119,22 @@ if (-not $SkipDependencies) {
         $null = Get-Command "mcp-server-google-workspace" -ErrorAction Stop
         Write-Status "  ✅ MCP Google Workspace já instalado" "Success"
     } catch {
-        Write-Status "  ⚠️  MCP Google Workspace não encontrado" "Warning"
-        Write-Status "     Para instalar: npm install -g @kazuph/mcp-server-google-workspace" "Info"
+        Write-Status "  ⚠️  MCP Google Workspace NÃO INSTALADO" "Warning"
+        Write-Status "" "Warning"
+        Write-Status "  ╔══════════════════════════════════════════════════════════╗" "Warning"
+        Write-Status "  ║  ⚠️  IMPORTANTE: Google Workspace é altamente recomendado ║" "Warning"
+        Write-Status "  ║                                                          ║" "Warning"
+        Write-Status "  ║  Com este MCP você poderá:                               ║" "Warning"
+        Write-Status "  ║  • Ler e enviar emails pelo Gmail                        ║" "Warning"
+        Write-Status "  ║  • Criar e consultar eventos no Calendar                 ║" "Warning"
+        Write-Status "  ║  • Acessar e criar documentos no Drive                   ║" "Warning"
+        Write-Status "  ║                                                          ║" "Warning"
+        Write-Status "  ║  Para instalar:                                          ║" "Warning"
+        Write-Status "  ║  npm install -g @kazuph/mcp-server-google-workspace      ║" "Warning"
+        Write-Status "  ║                                                          ║" "Warning"
+        Write-Status "  ║  Veja docs/google-workspace-setup.md para configuração   ║" "Warning"
+        Write-Status "  ╚══════════════════════════════════════════════════════════╝" "Warning"
+        Write-Status "" "Warning"
     }
 }
 
