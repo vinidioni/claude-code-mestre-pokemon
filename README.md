@@ -10,22 +10,34 @@
 
 ---
 
-## 🔗 Primeira Vez Aqui? (Recebeu o Link)
+## 🚀 Quero Usar o DCCrazy (3 Passos Simples)
 
-Se alguém te enviou o link deste repositório, [clique aqui](#-recebeu-o-link-do-repositório-1) para ver como usar o DCCrazy.
+### Passo 1: Baixar
+1. Clique no botão verde **"<> Code"** no GitHub
+2. Selecione **"Download ZIP"**
+3. Salve o arquivo no seu computador
 
-Ou continue lendo para entender tudo sobre o projeto.
+### Passo 2: Preparar
+1. **Descompacte** o arquivo ZIP
+2. **Renomeie** a pasta para `dcc`
+3. **Mova** a pasta `dcc` para sua **Área de Trabalho**
+
+### Passo 3: Instalar
+1. Abra o **Claude Code** na pasta `dcc` (Área de Trabalho)
+2. Execute: `python scripts/dccrazy-install.py`
+3. Siga as instruções interativas
+
+✅ **Pronto!** O DCCrazy será instalado automaticamente.
 
 ---
 
 ## 🎯 Índice
 
-1. [O que é o DCCrazy](#o-que-é-o-dccrazy)
-2. [Recebeu o link do repositório?](#-recebeu-o-link-do-repositório-1)
-3. [Começando (Setup do Zero)](#-começando-setup-do-zero)
-4. [O que você pode fazer](#-o-que-você-pode-fazer-com-o-dccrazy)
-5. [Comandos e Convenções](#-comandos-essenciais)
-6. [Documentação](#-documentação)
+1. [O que é o DCCrazy](#-o-que-é-o-dccrazy)
+2. [Começando (Setup Detalhado)](#-começando-setup-do-zero)
+3. [O que você pode fazer](#-o-que-você-pode-fazer-com-o-dccrazy)
+4. [Comandos e Convenções](#-comandos-essenciais)
+5. [Documentação](#-documentação)
 
 ---
 
@@ -584,6 +596,16 @@ O script irá:
 Criado por **Vinicius Castanho** (viniciuscastanho@didiglobal.com) com assistência de Claude Code.
 
 Em caso de dúvidas ou sugestões, entre em contato.
+
+---
+
+## 💬 Feedback
+
+Teve algum problema ou tem sugestões para melhorar o DCCrazy?
+
+**Preencha nosso formulário:** https://forms.gle/vSPXWawXUr4a1zE78
+
+Ou entre em contato diretamente: **viniciuscastanho@didiglobal.com**
 
 ---
 
