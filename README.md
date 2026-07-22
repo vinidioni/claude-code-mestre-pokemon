@@ -12,6 +12,8 @@
 
 ## 🚀 Quero Usar o DCCrazy (3 Passos Simples)
 
+> **⚠️ Recomendação Importante:** O DCCrazy foi projetado e testado no **VS Code**. Para a melhor experiência, instale a extensão do Claude Code no VS Code e use por lá.
+
 ### Passo 1: Baixar
 1. Clique no botão verde **"<> Code"** no GitHub
 2. Selecione **"Download ZIP"**
@@ -22,10 +24,15 @@
 2. **Renomeie** a pasta para `dcc`
 3. **Mova** a pasta `dcc` para sua **Área de Trabalho**
 
-### Passo 3: Instalar
-1. Abra o **Claude Code** na pasta `dcc` (Área de Trabalho)
-2. Execute: `python scripts/dccrazy-install.py`
-3. Siga as instruções interativas
+### Passo 3: Instalar (Via VS Code - Recomendado)
+1. Abra o **VS Code**
+2. Instale a extensão **Claude Code** (se ainda não tiver)
+3. Abra a pasta `dcc` da Área de Trabalho no VS Code
+4. Abra o Claude Code (Ctrl+Shift+P → "Claude Code: Open")
+5. Execute: `python scripts/dccrazy-install.py`
+6. Siga as instruções interativas
+
+**Alternativa:** Também funciona via terminal com `claude` diretamente, mas o VS Code oferece integração completa.
 
 ✅ **Pronto!** O DCCrazy será instalado automaticamente.
 
