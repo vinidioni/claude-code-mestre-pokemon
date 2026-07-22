@@ -612,8 +612,6 @@ Teve algum problema ou tem sugestões para melhorar o DCCrazy?
 
 **Preencha nosso formulário:** https://forms.gle/vSPXWawXUr4a1zE78
 
-Ou entre em contato diretamente: **viniciuscastanho@didiglobal.com**
-
 ---
 
 ## 📄 Licença
