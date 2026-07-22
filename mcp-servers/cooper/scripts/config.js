@@ -1,29 +1,34 @@
 /**
- * Configuração do MCP Cooper
+ * Configuração do MCP Cooper - LEGADO (não use mais)
  *
- * Como obter o token:
- * 1. Acesse: https://mcphub.intra.xiaojukeji.com/square
- * 2. Solicite um token da versão ANTIGA (Legacy)
- * 3. Cole abaixo substituindo o valor
+ * ⚠️ ATENÇÃO: Este arquivo está DEPRECIADO!
+ *
+ * A configuração agora é feita via arquivo .env na raiz do mcp-server.
+ * Use o novo config.js na raiz do projeto.
+ *
+ * Novo fluxo:
+ *   1. cp .env.example .env
+ *   2. Edite .env com seu COOPER_TOKEN
+ *   3. Importe de '../config.js' em vez deste arquivo
+ *
+ * Este arquivo será removido em versões futuras.
  */
 
+console.warn('⚠️  DEPRECATED: Use ../config.js com variáveis de ambiente em vez deste arquivo!');
+console.warn('   Veja: npm run setup');
+
+// Exporta um placeholder - vai falhar intencionalmente
 export const CONFIG = {
-  // Token de autenticação (obter no MCPHub)
-  TOKEN: 'fcfc9605-1d50-486f-aa72-80fca2315984',
-
-  // URL da API (versão antiga - não requer LCA)
-  API_URL: 'http://10.88.128.45/cooper_mcp/mcp',
-
-  // Versão da API
+  TOKEN: process.env.COOPER_TOKEN || null,
+  API_URL: process.env.COOPER_API_URL || 'http://10.88.128.45/cooper_mcp/mcp',
   API_VERSION: 'legacy',
-
-  // Timeout padrão (ms)
   TIMEOUT: 30000
 };
 
-// Validação
-if (!CONFIG.TOKEN || CONFIG.TOKEN === 'SEU_TOKEN_AQUI') {
-  console.error('❌ ERRO: Configure seu token em scripts/config.js');
-  console.error('   Obtenha em: https://mcphub.intra.xiaojukeji.com/square');
-  process.exit(1);
+export function validateConfig() {
+  if (!CONFIG.TOKEN) {
+    console.error('❌ ERRO: COOPER_TOKEN não configurado no .env');
+    return false;
+  }
+  return true;
 }

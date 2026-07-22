@@ -3,11 +3,11 @@
  * Busca documentos sobre groceries em SP no Cooper
  *
  * Uso:
- *   node scripts/archive/search-groceries.js
+ *   node scripts/search-groceries.js
  *
  * Configuração:
- *   1. Crie o arquivo .env a partir de .env.example na raiz do mcp-server
- *   2. Adicione seu COOPER_TOKEN no .env
+ *   1. Crie o arquivo .env a partir de .env.example
+ *   2. Adicione seu COOPER_TOKEN
  */
 
 import { CONFIG, validateConfig } from '../config.js';
@@ -19,9 +19,7 @@ const searchTerms = [
   'supermercado',
   'SP',
   'Sao Paulo',
-  '55000199',
-  'food',
-  'lançamento'
+  'food'
 ];
 
 async function searchAll() {
@@ -30,7 +28,7 @@ async function searchAll() {
     process.exit(1);
   }
 
-  console.log('🔍 Buscando documentos sobre groceries em SP...\n');
+  console.log('🔍 Buscando documentos sobre groceries...\n');
 
   for (const term of searchTerms) {
     console.log(`\n📄 Buscando: "${term}"`);
@@ -89,20 +87,6 @@ async function searchAll() {
                     result.document.items.forEach(doc => {
                       console.log(`    - ${doc.name} (ID: ${doc.resourceId})`);
                       if (doc.url) console.log(`      ${doc.url}`);
-                    });
-                  }
-
-                  if (result.allPages?.items?.length > 0) {
-                    console.log('\n  📑 Páginas:');
-                    result.allPages.items.slice(0, 5).forEach(page => {
-                      console.log(`    - ${page.name} (ID: ${page.resourceId})`);
-                    });
-                  }
-
-                  if (result.wiki?.items?.length > 0) {
-                    console.log('\n  📚 Wiki:');
-                    result.wiki.items.forEach(wiki => {
-                      console.log(`    - ${wiki.name}`);
                     });
                   }
                 } else {

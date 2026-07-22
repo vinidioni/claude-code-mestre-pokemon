@@ -18,6 +18,12 @@ secrets.yml
 *.key
 *.pem
 
+# Debug/arquivos com dados sensíveis temporários
+mcp-servers/cooper/debug-analysis.json
+mcp-servers/cooper/debug-*.json
+mcp-servers/cooper/scripts/archive/debug-*.html
+mcp-servers/cooper/scripts/archive/debug-*.png
+
 # Temporários
 *.tmp
 .temp/

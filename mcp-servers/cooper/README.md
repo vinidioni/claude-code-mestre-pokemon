@@ -17,19 +17,35 @@ npm install
 2. Clique em **"申请令牌"** (Solicitar Token)
 3. Selecione a versão **ANTIGA (Legacy)**
 4. Copie o token no formato: `fcfc9605-1d50-486f-aa72-80fca2315984`
-5. Cole no arquivo `scripts/config.js`:
+5. Configure o arquivo `.env`:
 
-```javascript
-// scripts/config.js
-module.exports = {
-  token: 'SEU_TOKEN_AQUI',  // Substitua pelo seu token
-  baseUrl: 'http://10.88.128.45/cooper_mcp'
-};
+```bash
+# Copie o arquivo de exemplo
+cp .env.example .env
+
+# Edite o arquivo .env e adicione seu token
+COOPER_TOKEN=seu-token-aqui
+```
+
+Ou edite diretamente o arquivo `.env`:
+```bash
+# mcp-servers/cooper/.env
+COOPER_TOKEN=seu-token-aqui
+COOPER_API_URL=http://10.88.128.45/cooper_mcp/mcp
 ```
 
 > ⚠️ **Importante:** Use a versão **LEGACY** da API. A versão nova requer LCA (滴滴安全助手) instalado.
+> 🔒 **Segurança:** O arquivo `.env` está no `.gitignore` e nunca será commitado!
 
-### 3. Verifique a configuração no `.mcp.json`
+### 3. Valide a configuração
+
+```bash
+npm run setup
+```
+
+Este comando verifica se todas as configurações estão corretas.
+
+### 4. Verifique a configuração no `.mcp.json`
 
 O servidor já deve estar configurado no `.mcp.json` da raiz:
 
@@ -68,17 +84,54 @@ mcp-servers/cooper/
 │       └── cooper-client.js      # Cliente API Cooper
 │
 ├── scripts/                       # Scripts utilitários (standalone)
-│   ├── config.js                 # Configuração de token
-│   ├── search.js                 # Buscar documentos
-│   ├── read.js                   # Ler documento específico
-│   └── create.js                 # Criar novo documento
+│   ├── config.js                 # 🏭 Configuração central (carrega .env)
+│   ├── setup.js                  # ✅ Valida setup
+│   ├── create-doc-api.js         # 📝 Criar documento
+│   └── search-groceries.js       # 🔍 Buscar documentos
 │
+├── .env.example                   # 📝 Template de configuração (vai pro Git)
+├── .env                           # 🔐 SUAS CREDENCIAIS (nunca commit!)
+├── config.js                      # 🏭 Loader de configuração
 ├── examples/
 │   └── usage-examples.md         # Exemplos de uso da API
 │
 ├── package.json
 └── README.md                      # Este arquivo
 ```
+
+### 🔒 Segurança - Arquivos Sensíveis
+
+| Arquivo | Propósito | No Git? |
+|---------|-----------|---------|
+| `.env` | SUAS credenciais | ❌ NUNCA |
+| `.env.example` | Template sem valores | ✅ Sim |
+| `config.js` | Carrega configurações | ✅ Sim |
+| `scripts/*.js` | Scripts parametrizados | ✅ Sim |
+
+---
+
+## ⚙️ Configuração Centralizada
+
+Todos os scripts usam o **config.js** central que carrega variáveis do `.env`:
+
+```javascript
+// scripts/qualquer-script.js
+import { CONFIG, validateConfig } from '../config.js';
+
+// CONFIG.TOKEN vem do .env automaticamente!
+const response = await fetch(CONFIG.API_URL, {
+  headers: { 'Authorization': `Bearer ${CONFIG.TOKEN}` }
+});
+```
+
+### Variáveis de Ambiente Suportadas
+
+| Variável | Descrição | Padrão |
+|----------|-----------|--------|
+| `COOPER_TOKEN` | Token de autenticação (obrigatório) | - |
+| `COOPER_API_URL` | URL da API | `http://10.88.128.45/cooper_mcp/mcp` |
+| `COOPER_API_VERSION` | Versão da API | `legacy` |
+| `COOPER_TIMEOUT` | Timeout em ms | `30000` |
 
 ---
 

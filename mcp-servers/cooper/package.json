@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --inspect src/index.js"
+    "dev": "node --inspect src/index.js",
+    "setup": "node scripts/setup.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.3.1",
     "playwright": "^1.40.0"
   },
   "keywords": ["mcp", "cooper", "didi", "documentation"],

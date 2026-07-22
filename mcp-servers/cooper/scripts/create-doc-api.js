@@ -3,17 +3,18 @@
  * Cria documento no Cooper via API oficial
  *
  * Uso:
- *   node scripts/archive/create-doc-api.js
+ *   node scripts/create-doc-api.js
  *
  * Configuração:
- *   1. Crie o arquivo .env a partir de .env.example na raiz do mcp-server
- *   2. Adicione seu COOPER_TOKEN no .env
+ *   1. Crie o arquivo .env a partir de .env.example
+ *   2. Adicione seu COOPER_TOKEN
  */
 
 import { CONFIG, validateConfig } from '../config.js';
 
+// Configurações do documento (edite aqui)
 const docTitle = 'Documento do DCC';
-const docContent = 'Oi pessoal, esse arquivo foi criado exclusivamente dentro do dcc. So quem se arrisca merece viver o extraordinario.';
+const docContent = 'Conteúdo do documento criado via API.';
 
 async function createDocument() {
   // Valida configuração
@@ -65,9 +66,6 @@ async function createDocument() {
             console.log('\n✅ Documento criado com sucesso!');
             if (data.result.docId) {
               console.log(`🔗 https://cooper.didichuxing.com/docs2/document/${data.result.docId}`);
-            }
-            if (data.result.resourceId) {
-              console.log(`📄 Resource ID: ${data.result.resourceId}`);
             }
           } else if (data.error) {
             console.log('\n❌ Erro:', data.error.message || data.error);
