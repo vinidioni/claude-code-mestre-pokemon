@@ -1,0 +1,232 @@
+{
+  "analysis_date": "2026-07-20",
+  "status": "inferred_from_names",
+  "note": "Esta analise foi compilada com base nos nomes das skills. Para informacoes completas, acesse as URLs diretamente com autenticacao DiDi.",
+  "skills": [
+    {
+      "id": "gattaran-coupon-batch-auto",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-batch-auto",
+      "name": "Gattaran Coupon Batch Auto",
+      "category": "gattaran-automation",
+      "description": "Automacao de criacao de cupons em lote no sistema Gattaran",
+      "main_functionality": [
+        "Processamento automatizado de batches de cupons",
+        "Integracao com workflows de marketing/promocoes",
+        "Automacao de campanhas promocionais"
+      ],
+      "possible_apis": [
+        "POST /api/coupons/batch",
+        "GET /api/coupons/batch/{id}/status",
+        "POST /api/coupons/batch/{id}/execute"
+      ],
+      "insights": [
+        "Util para equipes de marketing que precisam criar multiplos cupons",
+        "Possivel integracao com relatorios de performance",
+        "Automacao de campanhas promocionais sazonais"
+      ]
+    },
+    {
+      "id": "gattaran-coupon-creator",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-creator",
+      "name": "Gattaran Coupon Creator",
+      "category": "gattaran-automation",
+      "description": "Criacao individual ou em massa de cupons de desconto no Gattaran",
+      "main_functionality": [
+        "Criacao de cupons individuais ou em massa",
+        "Configuracao de regras de cupom (valor minimo, validade, etc.)",
+        "Validacao e teste de cupons"
+      ],
+      "possible_apis": [
+        "POST /api/coupons",
+        "PUT /api/coupons/{id}",
+        "GET /api/coupons/{id}",
+        "POST /api/coupons/validate"
+      ],
+      "insights": [
+        "Referenciada no memory gattaran-context.md como solucao oficial",
+        "Pode substituir automacoes manuais complexas",
+        "Integracao possivel com sistemas de relatorio"
+      ]
+    },
+    {
+      "id": "gattaran-coupon-activity-batch",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-activity-batch",
+      "name": "Gattaran Coupon Activity Batch",
+      "category": "gattaran-automation",
+      "description": "Gerenciamento de atividades de cupons em lote",
+      "main_functionality": [
+        "Associacao de cupons a campanhas especificas",
+        "Tracking de performance de atividades",
+        "Gerenciamento de campanhas em lote"
+      ],
+      "possible_apis": [
+        "POST /api/activities/batch",
+        "GET /api/activities/{id}/coupons",
+        "POST /api/activities/{id}/activate"
+      ],
+      "insights": [
+        "Util para campanhas sazonais (Black Friday, etc.)",
+        "Possivel integracao com dashboards de analytics",
+        "Automacao de campanhas recorrentes"
+      ]
+    },
+    {
+      "id": "city-budget-rpo",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/city-budget-rpo",
+      "name": "City Budget RPO",
+      "category": "budget-analytics",
+      "description": "Gestao de orcamento por cidade com RPO (Recovery Point Objective)",
+      "main_functionality": [
+        "Gestao de orcamento por cidade",
+        "RPO de dados orcamentarios",
+        "Analise e previsao de gastos por regiao"
+      ],
+      "possible_apis": [
+        "GET /api/budget/cities",
+        "POST /api/budget/cities/{cityId}/allocate",
+        "GET /api/budget/cities/{cityId}/report"
+      ],
+      "insights": [
+        "Util para gestao financeira regional",
+        "Possivel integracao com ferramentas de BI",
+        "Automacao de alertas de estouro de orcamento"
+      ]
+    },
+    {
+      "id": "gattaran-exp-diff",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/gattaran-exp-diff",
+      "name": "Gattaran Experiment Diff",
+      "category": "gattaran-analytics",
+      "description": "Comparacao de experimentos A/B e analise estatistica",
+      "main_functionality": [
+        "Comparacao de experimentos A/B no Gattaran",
+        "Analise de diferencas entre variantes de teste",
+        "Geracao de relatorios estatisticos"
+      ],
+      "possible_apis": [
+        "GET /api/experiments/{id}/diff",
+        "POST /api/experiments/analyze",
+        "GET /api/experiments/{id}/metrics"
+      ],
+      "insights": [
+        "Integracao com praticas de data-driven decisions",
+        "Util para equipes de product/growth",
+        "Automacao de relatorios de experimentos"
+      ]
+    },
+    {
+      "id": "gtr-frontend-page-generator",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/gtr-frontend-page-generator",
+      "name": "GTR Frontend Page Generator",
+      "category": "development",
+      "description": "Geracao automatica de paginas frontend e componentes UI",
+      "main_functionality": [
+        "Geracao automatica de paginas frontend",
+        "Criacao de componentes UI baseados em templates",
+        "Integracao com design systems internos"
+      ],
+      "possible_apis": [
+        "POST /api/generate/page",
+        "GET /api/templates",
+        "POST /api/components/generate"
+      ],
+      "insights": [
+        "Aceleracao de desenvolvimento frontend",
+        "Padronizacao de interfaces",
+        "Util para prototipos rapidos e MVPs"
+      ]
+    },
+    {
+      "id": "lowcode-material-creator",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/lowcode-material-creator",
+      "name": "Lowcode Material Creator",
+      "category": "lowcode",
+      "description": "Criacao de materiais e componentes para plataformas low-code",
+      "main_functionality": [
+        "Criacao de materiais para plataformas low-code",
+        "Geracao de componentes reutilizaveis",
+        "Configuracao de blocos visuais"
+      ],
+      "possible_apis": [
+        "POST /api/materials",
+        "GET /api/materials/library",
+        "PUT /api/materials/{id}/publish"
+      ],
+      "insights": [
+        "Democratizacao de criacao de ferramentas internas",
+        "Reducao de dependencia de desenvolvedores para tarefas simples",
+        "Integracao com plataformas de automacao"
+      ]
+    },
+    {
+      "id": "soda-ai-gattaran-workflow",
+      "url": "https://skillshub.intra.xiaojukeji.com/skill/soda-ai-gattaran-workflow",
+      "name": "SODA AI Gattaran Workflow",
+      "category": "ai-automation",
+      "description": "Workflow de IA (SODA AI) integrado ao Gattaran para automacao inteligente",
+      "main_functionality": [
+        "Workflow de IA integrado ao Gattaran",
+        "Automacao inteligente de processos",
+        "Analise preditiva e recomendacoes"
+      ],
+      "possible_apis": [
+        "POST /api/soda/workflows",
+        "POST /api/soda/analyze",
+        "GET /api/soda/models"
+      ],
+      "insights": [
+        "Combinacao de IA com automacao de negocios",
+        "Possivel uso para otimizacao de cupons/promocoes",
+        "Integracao com analise de dados do Gattaran"
+      ]
+    }
+  ],
+  "categories": {
+    "gattaran-automation": {
+      "description": "Automacao de processos no sistema Gattaran (Order/Coupon Management)",
+      "skills": ["gattaran-coupon-batch-auto", "gattaran-coupon-creator", "gattaran-coupon-activity-batch"]
+    },
+    "gattaran-analytics": {
+      "description": "Analise de dados e experimentos no Gattaran",
+      "skills": ["gattaran-exp-diff"]
+    },
+    "budget-analytics": {
+      "description": "Gestao e analise de orcamento",
+      "skills": ["city-budget-rpo"]
+    },
+    "development": {
+      "description": "Ferramentas de desenvolvimento e geracao de codigo",
+      "skills": ["gtr-frontend-page-generator"]
+    },
+    "lowcode": {
+      "description": "Plataformas low-code e criacao de materiais",
+      "skills": ["lowcode-material-creator"]
+    },
+    "ai-automation": {
+      "description": "Automacao baseada em Inteligencia Artificial",
+      "skills": ["soda-ai-gattaran-workflow"]
+    }
+  },
+  "integration_opportunities": [
+    {
+      "type": "mcp-server",
+      "description": "Criar MCP server para integrar skills Gattaran ao Claude Code",
+      "tools": ["create_coupon", "batch_coupons", "analyze_experiments"]
+    },
+    {
+      "type": "local-skill",
+      "description": "Criar skill gattaran-automation que use essas ferramentas",
+      "reference": "memory/gattaran-context.md"
+    },
+    {
+      "type": "automated-reports",
+      "description": "Usar gattaran-exp-diff para gerar relatorios automaticos de experimentos",
+      "integration_with": ["city-budget-rpo"]
+    },
+    {
+      "type": "workflow-automation",
+      "description": "Criar workflow que combine multiplas skills",
+      "example": "criar cupom + ativar campanha + analisar resultados"
+    }
+  ]
+}

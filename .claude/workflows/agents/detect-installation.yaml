@@ -1,0 +1,47 @@
+name: detect-first-installation
+description: |
+  Detecta se o DCCrazy acabou de ser clonado e oferece instalação guiada.
+  Executa automaticamente na primeira interação ou quando detecta configuração incompleta.
+
+triggers:
+  - type: file-missing
+    files: [".dcc-installed", ".env", ".mcp.json"]
+  - type: first-interaction
+    in-directory: "."
+
+steps:
+  - name: detect
+    prompt: |
+      Verifique se este é um DCCrazy recém-clonado:
+
+      1. Existe arquivo .dcc-installed? Se não → É instalação nova
+      2. Existe .env? Se não → Configuração incompleta
+      3. Existe .mcp.json? Se não → Integrações não configuradas
+
+      Se qualquer um estiver faltando, execute o instalador interativo:
+
+      ```bash
+      python scripts/dccrazy-install.py
+      ```
+
+      Se todos existirem, ignore silenciosamente (já está instalado).
+
+  - name: offer-help
+    prompt: |
+      Se detectou instalação incompleta, diga ao usuário:
+
+      ```
+      👋 Olá! Detectei que você acabou de clonar o DCCrazy.
+
+      Posso fazer a instalação completa para você? Vou:
+      ✅ Verificar pré-requisitos (Node.js, Python, Git)
+      ✅ Instalar dependências automaticamente
+      ✅ Configurar credenciais (com sua ajuda)
+      ✅ Testar tudo
+      ✅ Personalizar para você
+
+      Basta responder "sim" ou execute:
+      python scripts/dccrazy-install.py
+      ```
+
+      Aguarde a resposta do usuário antes de prosseguir.

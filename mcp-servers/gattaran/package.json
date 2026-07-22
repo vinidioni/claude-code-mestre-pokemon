@@ -1,0 +1,25 @@
+{
+  "name": "gattaran-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for Gattaran Order Management automation",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --inspect src/index.js",
+    "test": "node tests/test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "playwright": "^1.40.0"
+  },
+  "keywords": [
+    "mcp",
+    "gattaran",
+    "didi",
+    "order-management",
+    "automation"
+  ],
+  "author": "DCC",
+  "license": "MIT"
+}

@@ -238,12 +238,51 @@ No `.mcp.json`, use sempre `/` em vez de `\\`:
 
 ## 📝 Próximos Passos
 
-Após o setup completo:
+Após o setup técnico completo, siga a **ordem de leitura recomendada**:
 
-1. **Leia o CLAUDE.md** - Documentação principal do projeto
-2. **Explore as Skills** - Comece com `/skill list`
-3. **Teste Workflows** - Execute `/workflow exemplo`
-4. **Leia o Guia** - Veja `docs/guia-claude-code.md`
+1. **[README.md](README.md)** - Visão geral, arquitetura e como usar cada componente
+2. **[CLAUDE.md](CLAUDE.md)** - Documentação completa de referência
+
+**Testes práticos iniciais:**
+```bash
+# Explore as Skills
+/skill list
+
+# Teste um workflow
+/workflow
+
+# Crie seu primeiro Dev Doc
+/dev-docs init minha-tarefa
+
+# Verifique MCPs
+claude mcp status
+
+# Verifique atualizações
+python scripts/check-updates.py
+```
+
+---
+
+## 🔄 Atualizando o DCC
+
+Ao longo do tempo, o DCC recebe atualizações no GitHub (novos workflows, skills, correções). Para atualizar sua instalação local **sem perder suas configurações**:
+
+```bash
+python scripts/check-updates.py
+```
+
+O que o script faz:
+1. Verifica se há commits novos no GitHub
+2. Mostra o que mudou (changelog)
+3. Faz backup automático de:
+   - `.env` (suas credenciais)
+   - `.mcp.json` (suas configurações MCP)
+   - `.claude/settings.local.json` (suas preferências)
+4. Atualiza o repositório (se você aprovar)
+5. Restaura suas configurações locais
+6. Instala novas dependências (se houver)
+
+**Backups são mantidos** em `.backup/update_YYYYMMDD_HHMMSS/` (últimos 5).
 
 ---
 

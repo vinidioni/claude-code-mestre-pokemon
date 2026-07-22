@@ -28,6 +28,11 @@ dcc/
 ├── agents/                     # Documentação de agentes
 │   ├── README.md               # Catálogo de agentes
 │   └── [nome-do-agente]/       # Docs específicas por agente
+├── analytics/                  # Assets analíticos
+│   ├── queries/                # Queries SQL reutilizáveis
+│   │   ├── data-e/             # Queries específicas Data-E
+│   │   └── README.md           # Catálogo de queries
+│   └── templates/              # Templates de queries
 ├── reports/                    # Relatórios gerados (ver CLAUDE.md local)
 │   ├── YYYY-MM/                # Organizados por mês
 │   └── templates/              # Templates de relatórios
@@ -112,6 +117,10 @@ Documentação em [`.claude/skills/CLAUDE.md`](./.claude/skills/CLAUDE.md) | Reg
 | `conventional-commits` | Padrão de commits estruturados | "commit", "conventional commits" |
 | `react-patterns` | Padrões React | "react", "componente", "tsx" |
 | `api-design` | Design de APIs | "api", "endpoint", "rest" |
+| **`cooper`** | **Integração Cooper (DiDi Docs)** | "cooper", "documento didi", "docs2" |
+| `cooper-search` | Busca especializada no Cooper | "buscar no cooper", "procurar documento" |
+| `cooper-read` | Leitura de documentos Cooper | "ler documento cooper", "conteúdo cooper" |
+| `cooper-write` | Criação de documentos Cooper | "criar documento cooper", "salvar no cooper" |
 
 #### Skills do Marketplace (alirezarezvani/claude-skills v2.9.0)
 Instaladas em 2026-07-07:
@@ -213,10 +222,13 @@ Veja [`dev/CLAUDE.md`](./dev/CLAUDE.md) para o fluxo completo.
 ## Integrações Configuradas (MCP)
 
 ### Servidores Ativos
-- **Google Workspace** - Gmail, Calendar, Drive
-  - Status: ✅ Configurado e autenticado
-  - Token: `~/.config/google/mcp-token.json`
-  - Documentação: [docs/google-workspace-setup.md](./docs/google-workspace-setup.md)
+| Servidor | Descrição | Status | Documentação |
+|----------|-----------|--------|--------------|
+| **Google Workspace** | Gmail, Calendar, Drive | ✅ Configurado | [docs/google-workspace-setup.md](./docs/google-workspace-setup.md) |
+| **Cooper** | Documentação DiDi (DiDi Docs) | ✅ Configurado | [mcp-servers/cooper/README.md](./mcp-servers/cooper/README.md) |
+| **D-Chat** | Mensagens via CLI `dws` | ✅ Configurado | [mcp-servers/dchat/v2/README.md](./mcp-servers/dchat/v2/README.md) |
+| **Gattaran** | Order Management Viewer | 🟡 MVP implementado | [mcp-servers/gattaran/README.md](./mcp-servers/gattaran/README.md) |
+| **GitHub** | Issues, PRs, repositórios | ⚙️ Via npx | [docs/mcp-setup-guide.md](./docs/mcp-setup-guide.md) |
 
 ### Adicionar Novas Integrações
 Edite `.mcp.json` seguindo o padrão documentado na seção [MCP / Integrações](#mcp--integrações) abaixo.

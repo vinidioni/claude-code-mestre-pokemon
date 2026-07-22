@@ -1,0 +1,32 @@
+# Sessions (contém dados de autenticação)
+sessions/
+*.session.json
+
+# Output de execuções
+output/
+results-*.json
+order-*.json
+courier-*.json
+control-*.json
+*.har
+
+# Screenshots geradas automaticamente
+archive/screenshots/
+*.png
+*.jpg
+
+# Logs
+*.log
+*.log.json
+
+# Node
+node_modules/
+
+# Arquivos temporários
+*.tmp
+*.temp
+.DS_Store
+
+# Arquivos de teste locais
+test-*.js
+test-*.json

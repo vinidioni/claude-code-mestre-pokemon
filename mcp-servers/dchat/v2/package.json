@@ -1,0 +1,25 @@
+{
+  "name": "mcp-dchat-server-v2",
+  "version": "2.0.0",
+  "description": "MCP Server for D-Chat Integration - Version 2.0 with caching, rate limiting, and new features",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --inspect index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "dchat",
+    "smartwork",
+    "claude",
+    "todo",
+    "messaging"
+  ],
+  "author": "DCC Team",
+  "license": "MIT"
+}

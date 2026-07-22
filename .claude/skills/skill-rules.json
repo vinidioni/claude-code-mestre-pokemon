@@ -4,21 +4,6 @@
   "description": "Regras de ativação automática de skills baseadas em triggers e padrões de arquivo",
   "skills": [
     {
-      "name": "exemploDoc",
-      "triggers": [
-        "exemplo",
-        "documentação de exemplo",
-        "como documentar",
-        "padrão de doc"
-      ],
-      "filePatterns": [
-        "**/exemplo*/**",
-        "**/example*/**"
-      ],
-      "description": "Skill de exemplo demonstrando o padrão de progressive disclosure",
-      "priority": "low"
-    },
-    {
       "name": "conventionalCommits",
       "triggers": [
         "commit",
@@ -201,6 +186,22 @@
       "source": "alirezarezvani/claude-skills v2.9.0"
     },
     {
+      "name": "cooper",
+      "triggers": [
+        "cooper",
+        "documento didi",
+        "docs da didi",
+        "docs2",
+        "didichuxing.com/docs",
+        "documentação interna"
+      ],
+      "filePatterns": [
+        "**/cooper/**"
+      ],
+      "description": "Integração com Cooper - plataforma de documentação DiDi. Buscar, ler e navegar documentos.",
+      "priority": "high"
+    },
+    {
       "name": "businessInvestmentAdvisor",
       "triggers": [
         "ROI",
@@ -222,6 +223,69 @@
       "description": "Análise de investimentos - ROI, IRR, NPV, payback, build vs buy, lease vs buy",
       "priority": "medium",
       "source": "alirezarezvani/claude-skills v2.9.0"
+    },
+    {
+      "name": "cooper-search",
+      "triggers": [
+        "buscar no cooper",
+        "procurar documento cooper",
+        "search cooper",
+        "cooper search",
+        "encontrar documento cooper",
+        "listar documentos cooper"
+      ],
+      "filePatterns": [],
+      "description": "Busca documentos na plataforma Cooper (DiDi Documentation). Ferramentas: cooper_search, cooper_list_spaces",
+      "priority": "high"
+    },
+    {
+      "name": "cooper-read",
+      "triggers": [
+        "ler documento cooper",
+        "conteúdo cooper",
+        "abrir doc cooper",
+        "ler cooper",
+        "extrair texto cooper",
+        "get document cooper"
+      ],
+      "filePatterns": [],
+      "description": "Lê e extrai conteúdo de documentos do Cooper. Ferramenta: cooper_get_document",
+      "priority": "high"
+    },
+    {
+      "name": "cooper-write",
+      "triggers": [
+        "criar documento cooper",
+        "novo doc cooper",
+        "salvar no cooper",
+        "documentar no cooper",
+        "criar doc cooper",
+        "write cooper"
+      ],
+      "filePatterns": [],
+      "description": "Cria novos documentos na plataforma Cooper. Ferramenta: cooper_create_document",
+      "priority": "high"
+    },
+    {
+      "name": "gattaranViewer",
+      "triggers": [
+        "gattaran",
+        "order",
+        "buscar order",
+        "cancelamento",
+        "entregador",
+        "control information",
+        "rider",
+        "courier",
+        "didi food",
+        "order management"
+      ],
+      "filePatterns": [
+        "**/gattaran/**",
+        "**/mcp-servers/gattaran/**"
+      ],
+      "description": "Visualiza e analisa orders do Gattaran (Order Management System da DiDi) com sessão persistente",
+      "priority": "high"
     }
   ],
   "globalRules": {

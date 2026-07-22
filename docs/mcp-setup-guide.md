@@ -6,6 +6,15 @@ Este documento explica como adicionar e configurar servidores MCP (Model Context
 
 MCP (Model Context Protocol) é um protocolo que permite ao Claude Code se conectar a serviços externos como GitHub, PostgreSQL, Slack, etc. Cada servidor MCP adiciona novas ferramentas disponíveis para o Claude usar.
 
+## 📁 Onde Fica Cada Tipo de MCP
+
+| Tipo | Local | Exemplo |
+|------|-------|---------|
+| **Customizado** | `mcp-servers/[nome]/` | D-Chat (integração interna) |
+| **Oficial/Community** | Instalado via `npx` | Puppeteer, GitHub, PostgreSQL |
+
+> Veja [`mcp-servers/README.md`](../mcp-servers/README.md) para governança completa.
+
 ## MCPs Configurados
 
 | Servidor | Status | Arquivo de Config |
@@ -13,7 +22,8 @@ MCP (Model Context Protocol) é um protocolo que permite ao Claude Code se conec
 | Google Workspace | ✅ Ativo | `.mcp.json` |
 | GitHub | ⬜ Não configurado | `.mcp.json` (exemplo abaixo) |
 | PostgreSQL | ⬜ Não configurado | `.mcp.json` (exemplo abaixo) |
-| DChat (DiDi) | ✅ Ativo | `mcp-dchat-server/` (custom via dws CLI) |
+| DChat (DiDi) | ✅ Ativo | `mcp-servers/dchat/` (custom via dws CLI) |
+| Puppeteer | ⚠️ Deprecated | Removido - usar Playwright (veja abaixo) |
 
 ## Como Adicionar um Novo MCP
 
@@ -119,7 +129,47 @@ claude "envie mensagem no canal #geral: Deploy realizado com sucesso"
 
 ---
 
-#### Puppeteer (Automação Web)
+#### Automação Web (Puppeteer vs Playwright)
+
+> ⚠️ **IMPORTANTE**: O MCP oficial `@modelcontextprotocol/server-puppeteer` está **deprecated** desde 2025.5.12. Recomendamos usar **Playwright** diretamente.
+
+##### Alternativa Recomendada: Playwright
+
+**Instalação:**
+```bash
+pip install playwright
+python -m playwright install chromium
+```
+
+**Script de exemplo** (`scripts/skillshub_fetch.py`):
+```python
+from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
+    page.goto('https://skillshub.intra.xiaojukeji.com/skill/dchat-message')
+    content = page.evaluate('() => document.body.innerText')
+    page.screenshot(path='screenshot.png')
+    browser.close()
+```
+
+**Uso:**
+```bash
+python scripts/skillshub_fetch.py
+```
+
+**Vantagens do Playwright:**
+- ✅ Ativamente mantido pela Microsoft
+- ✅ Suporte melhor para sites modernos (React/Vue/Angular)
+- ✅ Lida bem com autenticação SSO corporativa
+- ✅ API mais simples e estável
+
+**Ideal para:** Sites internos com autenticação SSO, aplicações React/SPA, scraping de conteúdo dinâmico.
+
+---
+
+##### ❌ Puppeteer (Deprecated - Não usar)
 
 ```json
 {
@@ -132,11 +182,7 @@ claude "envie mensagem no canal #geral: Deploy realizado com sucesso"
 }
 ```
 
-**Uso:**
-```bash
-claude "capture screenshot de https://example.com"
-claude "extraia texto de https://example.com"
-```
+⚠️ **Status**: Deprecated. O servidor fecha conexões inesperadamente e não é mais mantido.
 
 ---
 
@@ -144,12 +190,14 @@ claude "extraia texto de https://example.com"
 
 O DChat é o chat interno da DiDi. Usamos o CLI `dws` (D-Chat Workspace CLI) que vem com o SmartWork para integração.
 
+> ⚠️ **Servidor Customizado**: Este é um MCP interno desenvolvido no projeto. Código fonte em [`mcp-servers/dchat/`](../mcp-servers/dchat/).
+
 ```json
 {
   "mcpServers": {
     "dchat": {
       "command": "node",
-      "args": ["C:\\Users\\viniciuscastanho\\Desktop\\dcc\\mcp-dchat-server\\index.js"],
+      "args": ["C:\\Users\\viniciuscastanho\\Desktop\\dcc\\mcp-servers\\dchat\\index.js"],
       "env": {
         "DWS_SCRIPT_PATH": "C:\\Users\\viniciuscastanho\\.SmartWork\\skills\\smartwork-cli\\smartwork-shared\\assets\\dws-windows.ps1"
       }

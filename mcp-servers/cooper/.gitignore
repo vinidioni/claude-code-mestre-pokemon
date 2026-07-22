@@ -1,0 +1,12 @@
+# Session files (contain authentication)
+.cookies.json
+.storage-state.json
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Test outputs
+test-output/

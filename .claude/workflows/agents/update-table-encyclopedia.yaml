@@ -1,0 +1,59 @@
+name: update-table-encyclopedia
+description: |
+  Detecta tabelas em queries SQL e atualiza a enciclopédia do DCCrazy.
+  Quando o usuário consulta uma tabela nova, o workflow verifica se já está
+  documentada e adiciona se necessário.
+
+parameters:
+  - name: query
+    type: string
+    required: true
+    description: Query SQL para analisar (ou 'scan-all' para escanear todas)
+
+  - name: auto_describe
+    type: boolean
+    required: false
+    default: false
+    description: Tentar obter descrição automática da tabela (se possível)
+
+steps:
+  - name: analyze
+    prompt: |
+      Analise a query SQL fornecida:
+      ```sql
+      {query}
+      ```
+
+      Execute o script update-encyclopedia.py para detectar tabelas:
+      ```bash
+      python scripts/update-encyclopedia.py --query "{query}"
+      ```
+
+      Se a query for "scan-all", execute:
+      ```bash
+      python scripts/update-encyclopedia.py --scan-all
+      ```
+
+      Reporte:
+      1. Quais tabelas foram detectadas
+      2. Quais são novas (adicionadas à enciclopédia)
+      3. Quais já existiam (atualizadas)
+
+  - name: feedback
+    prompt: |
+      Se houver tabelas novas, sugira ao usuário:
+
+      ```
+      🆕 Detectei novas tabelas na sua query!
+
+      Para manter a enciclopédia útil, você pode adicionar descrições:
+
+      python scripts/update-encyclopedia.py --table nome_da_tabela --describe "Descrição da tabela"
+
+      Ou edite diretamente: analytics/encyclopedia/tables.json
+      ```
+
+      Mostre também como visualizar todas as tabelas:
+      ```
+      python scripts/update-encyclopedia.py --list
+      ```
