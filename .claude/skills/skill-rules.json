@@ -286,6 +286,25 @@
       ],
       "description": "Visualiza e analisa orders do Gattaran (Order Management System da DiDi) com sessão persistente",
       "priority": "high"
+    },
+    {
+      "name": "intranetFetcher",
+      "triggers": [
+        "skillshub",
+        "analisar url",
+        "analisar skill",
+        "xiaojukeji.com",
+        "didichuxing.com",
+        "intranet didi",
+        "extrair conteúdo",
+        "fetch url",
+        "abrir link da didi"
+      ],
+      "filePatterns": [
+        "**/scripts/fetch-intranet.py"
+      ],
+      "description": "Analisa e extrai conteúdo de URLs da intranet DiDi (skillshub, cooper) usando Playwright com login manual",
+      "priority": "high"
     }
   ],
   "globalRules": {
