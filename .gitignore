@@ -33,6 +33,9 @@ cache/
 *.swo
 *~
 
+# Personal/temporary storage (not for GitHub)
+temp-storage/
+
 # Sistema operacional
 .DS_Store
 Thumbs.db
