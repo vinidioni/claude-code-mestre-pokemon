@@ -1,0 +1,31 @@
+# Data Analysis Configuration
+
+project:
+  name: "{{PROJECT_NAME}}"
+  description: "{{DESCRIPTION}}"
+  version: "1.0.0"
+  author: "{{AUTHOR}}"
+
+# Data paths
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  output_dir: "data/output"
+
+# Analysis settings
+analysis:
+  target_column: "target"
+  test_size: 0.2
+  random_state: 42
+
+# Visualization settings
+visualization:
+  style: "seaborn"
+  figure_size: [12, 8]
+  dpi: 150
+
+# Output settings
+output:
+  report_dir: "reports"
+  figures_dir: "reports/figures"
+  format: "pdf"

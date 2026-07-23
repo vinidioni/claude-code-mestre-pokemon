@@ -1,72 +1,72 @@
 # Gattaran MCP Server
 
-MCP Server para automação de navegação e extração de dados do Gattaran (Order Management System da DiDi).
+MCP Server for automation of navigation and data extraction from Gattaran (DiDi's Order Management System).
 
-## 📁 Estrutura Organizada
+## 📁 Organized Structure
 
 ```
 gattaran/
-├── src/                       # Código fonte principal
-│   ├── index.js              # MCP Server principal
-│   ├── api-client-v4.js      # Cliente API atual (usar este)
-│   ├── cli.js                # Interface de linha de comando
-│   └── browser/              # Automação de browser (legado)
-├── scripts/                   # Scripts utilitários
-│   ├── courier-control.js    # Extrair Control Information do entregador
-│   ├── buscar-order-manual.js # Busca manual de order
-│   └── run-search.js         # Busca rápida
-├── docs/                      # Documentação
-│   ├── API.md                # Referência da API
-│   ├── CAPTURA_API.md        # Guia de captura de API
-│   ├── DEVTOOLS.md           # Guia de DevTools
-│   └── PLANO_AUTOMACAO.md    # Plano de automação
-├── output/                    # Resultados de execução (gitignore)
-├── sessions/                  # Sessões salvas (gitignore)
-├── archive/                   # Arquivos históricos
-│   ├── versions/             # Versões antigas do código
-│   ├── screenshots/          # Screenshots de debug (gitignore)
-│   └── scripts/              # Scripts de teste antigos
+├── src/                       # Main source code
+│   ├── index.js              # Main MCP Server
+│   ├── api-client-v4.js      # Current API client (use this)
+│   ├── cli.js                # Command line interface
+│   └── browser/              # Browser automation (legacy)
+├── scripts/                   # Utility scripts
+│   ├── courier-control.js    # Extract courier Control Information
+│   ├── buscar-order-manual.js # Manual order search
+│   └── run-search.js         # Quick search
+├── docs/                      # Documentation
+│   ├── API.md                # Complete API reference
+│   ├── CAPTURA_API.md        # How to capture API calls
+│   ├── DEVTOOLS.md           # DevTools usage guide
+│   └── PLANO_AUTOMACAO.md    # Complete automation plan
+├── output/                    # Execution results (gitignore)
+├── sessions/                  # Saved sessions (gitignore)
+├── archive/                   # Historical files
+│   ├── versions/             # Old code versions
+│   ├── screenshots/          # Debug screenshots (gitignore)
+│   └── scripts/              # Old test scripts
 ├── package.json
 ├── .gitignore
-└── README.md                  # Este arquivo
+└── README.md                  # This file
 ```
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-- ✅ **Busca de orders** por ID e cidade
-- ✅ **Extração de detalhes** completos da order
-- ✅ **Informações do entregador** (Control Information)
-- ✅ **Sessão persistente** (login uma vez, reutiliza)
-- ✅ **Batch processing** - Múltiplas orders com UMA autenticação
-- ✅ **Skill** integrada ao Claude Code
-- ✅ **MCP Server** para automação
+- ✅ **Order search** by ID and city
+- ✅ **Complete details extraction** from order
+- ✅ **Courier information** (Control Information)
+- ✅ **Persistent session** (login once, reuse)
+- ✅ **Batch processing** - Multiple orders with ONE authentication
+- ✅ **Skill** integrated with Claude Code
+- ✅ **MCP Server** for automation
 
-## 🎯 Sessão Única para Múltiplas Orders
+## 🎯 Single Session for Multiple Orders
 
 ```bash
-# 5 orders com APENAS 1 autenticação
+# 5 orders with ONLY 1 authentication
 node scripts/batch-orders.js order1,order2,order3,order4,order5
 
-# Ou via arquivo
+# Or via file
 node scripts/batch-orders.js --file=orders.json
 ```
 
-A sessão é salva automaticamente em `sessions/` e reutilizada nas próximas execuções.
+Session is automatically saved in `sessions/` and reused in future executions.
 
-## 📖 Documentação
+## 📖 Documentation
 
-| Documento | Descrição |
+| Document | Description |
 |-----------|-----------|
-| [docs/API.md](docs/API.md) | Referência completa da API |
-| [docs/CAPTURA_API.md](docs/CAPTURA_API.md) | Como capturar chamadas de API |
-| [docs/DEVTOOLS.md](docs/DEVTOOLS.md) | Guia de uso do DevTools |
-| [docs/PLANO_AUTOMACAO.md](docs/PLANO_AUTOMACAO.md) | Plano de automação completo |
+| [docs/API.md](docs/API.md) | Complete API reference |
+| [docs/CAPTURA_API.md](docs/CAPTURA_API.md) | How to capture API calls |
+| [docs/DEVTOOLS.md](docs/DEVTOOLS.md) | DevTools usage guide |
+| [docs/PLANO_AUTOMACAO.md](docs/PLANO_AUTOMACAO.md) | Complete automation plan |
 
-## 🛠️ Uso
+## 🛠️ Usage
 
-### Como MCP Server
+### As MCP Server
 
-O servidor MCP está configurado em `.mcp.json`:
+The MCP server is configured in `.mcp.json`:
 
 ```json
 {
@@ -79,131 +79,131 @@ O servidor MCP está configurado em `.mcp.json`:
 }
 ```
 
-### Scripts Utilitários
+### Utility Scripts
 
 ```bash
-# Buscar UMA order
+# Search ONE order
 node scripts/run-search.js
 
-# Buscar MÚLTIPLAS orders (sessão única!)
+# Search MULTIPLE orders (single session!)
 node scripts/batch-orders.js order1,order2,order3
 
-# Extrair Control Information do entregador
+# Extract courier Control Information
 node scripts/courier-control.js
 
-# Busca manual interativa
+# Interactive manual search
 node scripts/buscar-order-manual.js
 ```
 
-### Como Skill do Claude
+### As Claude Skill
 
-Ative automaticamente com:
-- "buscar order no gattaran"
-- "analisar cancelamento"
-- "ver control information do entregador"
+Automatically activated with:
+- "search order in gattaran"
+- "analyze cancellation"
+- "view courier control information"
 
-Ou execute:
+Or execute:
 ```bash
 /skill run gattaran-viewer
 ```
 
-### Como Biblioteca
+### As Library
 
 ```javascript
 import { createClient } from './src/api-client-v4.js';
 
 const client = await createClient({ headless: true });
 
-// Buscar order
+// Search order
 const order = await client.searchOrder('5764678698494132425', 'São Paulo', true);
 
-// Extrair dados do entregador
+// Extract courier data
 const courierInfo = await extractControlInfo(client.page);
 
 await client.close();
 ```
 
-## 🔧 Desenvolvimento
+## 🔧 Development
 
-### Estrutura de Código
+### Code Structure
 
-- **`src/api-client-v4.js`**: Cliente principal atual - use este arquivo
-- **`src/index.js`**: MCP Server para integração com Claude Code
-- **`src/cli.js`**: Interface de linha de comando
+- **`src/api-client-v4.js`**: Main current client - use this file
+- **`src/index.js`**: MCP Server for Claude Code integration
+- **`src/cli.js`**: Command line interface
 
-### Versionamento
+### Versioning
 
-Versões anteriores do api-client estão em `archive/versions/`:
-- `api-client-v1.js` - Versão inicial
-- `api-client-v2.js` - Adicionado suporte a detalhes
-- `api-client-v3.js` - Melhorias na extração
-- `api-client-v4.js` - **Versão atual** (consolidada)
+Previous api-client versions are in `archive/versions/`:
+- `api-client-v1.js` - Initial version
+- `api-client-v2.js` - Added details support
+- `api-client-v3.js` - Extraction improvements
+- `api-client-v4.js` - **Current version** (consolidated)
 
-## 🔒 Segurança
+## 🔒 Security
 
-- Sessões salvas em `sessions/` (não commitar)
-- Arquivos de saída em `output/` (não commitar)
-- Screenshots em `archive/screenshots/` (não commitar)
+- Sessions saved in `sessions/` (do not commit)
+- Output files in `output/` (do not commit)
+- Screenshots in `archive/screenshots/` (do not commit)
 
-## 📝 Convenções
+## 📝 Conventions
 
 ### Commits
 ```
-[gattaran] Descrição breve
+[gattaran] Short description
 
-Detalhes se necessário
+Details if necessary
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-### Nomenclatura de Arquivos
+### File Naming
 - Scripts: `kebab-case.js`
-- Resultados: `tipo-descricao-timestamp.json`
-- Screenshots: `contexto-timestamp.png`
+- Results: `type-description-timestamp.json`
+- Screenshots: `context-timestamp.png`
 
 ## 🐛 Troubleshooting
 
-### Erro de timeout
-Aumente o tempo de espera em `api-client-v4.js`:
+### Timeout error
+Increase wait time in `api-client-v4.js`:
 ```javascript
-await page.waitForTimeout(10000); // Aumentar para 10s ou mais
+await page.waitForTimeout(10000); // Increase to 10s or more
 ```
 
-### Sessão expirada
-Delete `sessions/.gattaran-session.json` e faça login novamente.
+### Session expired
+Delete `sessions/.gattaran-session.json` and login again.
 
-### Elemento não encontrado
-Verifique se o seletor está atualizado. Use os recordings em `~/Documents/` como referência.
+### Element not found
+Check if selector is updated. Use recordings in `~/Documents/` as reference.
 
-## 📊 Exemplos de Uso
+## 📊 Usage Examples
 
-### Caso 1: Buscar order cancelada
+### Case 1: Search canceled order
 ```bash
 node scripts/run-search.js
-# Preenche: ORDER_ID=5764678698494132425, CITY=São Paulo
+# Fill: ORDER_ID=5764678698494132425, CITY=São Paulo
 ```
 
-### Caso 2: Investigar entregador
+### Case 2: Investigate courier
 ```bash
 node scripts/courier-control.js
-# Extrai Control Information do entregador
+# Extracts courier Control Information
 ```
 
 ## 🗺️ Roadmap
 
-- [ ] Modo API direta (sem browser)
-- [ ] Cache de sessões com refresh automático
-- [ ] Suporte a múltiplas cidades
-- [ ] Exportação CSV/Excel
-- [ ] Batch processing paralelo
+- [ ] Direct API mode (no browser)
+- [ ] Session cache with automatic refresh
+- [ ] Support for multiple cities
+- [ ] CSV/Excel export
+- [ ] Parallel batch processing
 
-## 📞 Suporte
+## 📞 Support
 
-Para dúvidas ou problemas:
-1. Verifique a documentação em `docs/`
-2. Consulte os exemplos em `scripts/`
-3. Veja os recordings em `~/Documents/recording*`
+For questions or issues:
+1. Check documentation in `docs/`
+2. Consult examples in `scripts/`
+3. See recordings in `~/Documents/recording*`
 
 ---
 
-**Status**: ✅ Em produção | **Última atualização**: 2026-07-21
+**Status**: ✅ In production | **Last updated**: 2026-07-21

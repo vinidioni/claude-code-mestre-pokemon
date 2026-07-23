@@ -1,0 +1,131 @@
+# Workflow para limpeza de arquivos temporários
+# Remove arquivos vencidos da pasta temp-storage/
+
+name: cleanup-temp
+description: |
+  Limpa arquivos vencidos da pasta temp-storage/.
+  Lista arquivos antes da exclusão e solicita confirmação para backups.
+
+parameters:
+  - name: action
+    type: string
+    required: false
+    description: |
+      Ação a executar:
+      - 'list': Apenas lista arquivos vencidos (padrão)
+      - 'execute': Executa a limpeza (backups requerem confirmação)
+    default: "list"
+
+steps:
+  - name: verificar_estrutura
+    prompt: |
+      ## Verificação de Estrutura
+
+      Verifique se a pasta temp-storage/ existe e está organizada corretamente.
+
+      Estrutura esperada:
+      ```
+      temp-storage/
+      ├── backup/
+      ├── screenshots/
+      ├── txt/
+      └── README.md
+      ```
+
+      Se a estrutura estiver incorreta, avise o usuário.
+
+  - name: listar_arquivos_vencidos
+    prompt: |
+      ## Listagem de Arquivos Vencidos
+
+      Analise cada pasta em temp-storage/ e identifique arquivos vencidos:
+
+      ### Regras de Retenção:
+      | Pasta | Prazo | Exclusão |
+      |-------|-------|----------|
+      | backup/ | 90 dias | Com aprovação |
+      | screenshots/ | 30 dias | Automática |
+      | txt/ | 30 dias | Automática |
+
+      ### Ação: {action}
+
+      Para cada pasta, liste:
+      1. Nome do arquivo
+      2. Data de criação/modificação
+      3. Dias desde a criação
+      4. Se está vencido
+      5. Ação recomendada
+
+      Calcule:
+      - Total de arquivos por pasta
+      - Total de arquivos vencidos
+      - Espaço total que será liberado
+
+  - name: executar_limpeza
+    prompt: |
+      ## Execução da Limpeza
+
+      Ação solicitada: {action}
+
+      ### Se action == 'list':
+      Apresente o relatório de arquivos vencidos sem excluir nada.
+      Sugira executar com --action=execute para prosseguir.
+
+      ### Se action == 'execute':
+
+      **Ordem de exclusão:**
+      1. Arquivos em txt/ (30 dias) - automático
+      2. Arquivos em screenshots/ (30 dias) - automático
+      3. Arquivos em backup/ (90 dias) - **REQUER CONFIRMAÇÃO**
+
+      Para backups vencidos:
+      - Liste cada arquivo
+      - Pergunte explicitamente: "Excluir backups listados? (sim/não)"
+      - Só exclua se o usuário confirmar
+
+      **Registre tudo:**
+      - Quais arquivos foram excluídos
+      - Quais foram mantidos
+      - Motivo da manutenção (se aplicável)
+
+  - name: relatorio_final
+    prompt: |
+      ## Relatório Final
+
+      Formate um resumo claro da operação:
+
+      ```
+      🗄️ LIMPEZA TEMP STORAGE - RELATÓRIO
+
+      📊 Resumo:
+      - Pasta analisada: temp-storage/
+      - Modo: {list | execute}
+      - Data: {data_atual}
+
+      📁 Resultados por Pasta:
+
+      [screenshots/]
+      - Arquivos analisados: X
+      - Vencidos (>30d): Y
+      - Ação: [listados | excluídos]
+
+      [txt/]
+      - Arquivos analisados: X
+      - Vencidos (>30d): Y
+      - Ação: [listados | excluídos]
+
+      [backup/]
+      - Arquivos analisados: X
+      - Vencidos (>90d): Y
+      - Ação: [listados | excluídos | mantidos (aguardando aprovação)]
+
+      💾 Espaço liberado: X MB
+      ✅ Status: [concluído | parcial | listagem apenas]
+
+      📋 Próximos Passos:
+      [Recomendações se houver]
+      ```
+
+settings:
+  model: sonnet
+  timeout: 180

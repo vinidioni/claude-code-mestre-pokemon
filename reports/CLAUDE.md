@@ -1,79 +1,112 @@
-# Reports - Documentação de Contexto
+# Reports - Context Documentation
 
-> Este CLAUDE.md carrega automaticamente quando você trabalha em `reports/`. Ele estende o CLAUDE.md raiz com detalhes específicos para geração e organização de relatórios.
+> This CLAUDE.md loads automatically when you work in `reports/`. It extends the root CLAUDE.md with specific details for report generation and organization.
 
-## Propósito
+---
 
-A pasta `reports/` armazena relatórios gerados automaticamente por agentes, organizados por mês para fácil consulta histórica.
+## Purpose
 
-## Estrutura de Pastas
+The `reports/` folder stores automatically generated reports by agents, organized by type (weekly/monthly) for easy historical reference.
+
+---
+
+## Folder Structure
 
 ```
 reports/
-├── CLAUDE.md              # Este arquivo
-├── YYYY-MM/               # Relatórios do mês
-│   ├── code-review-2024-01-15-143022.md
-│   ├── security-audit-2024-01-20-091530.md
+├── CLAUDE.md              # This file
+├── weekly/                # Weekly reports
+│   ├── 2024-W27-code-review.md
+│   ├── 2024-W28-security-audit.md
 │   └── ...
-└── templates/             # Templates de relatórios
-    ├── code-review.md
-    ├── security-audit.md
-    └── weekly-summary.md
+└── monthly/               # Monthly reports
+    ├── 2024-07-weekly-summary.md
+    ├── 2024-07-security-audit.md
+    └── ...
 ```
 
-## Convenções
+---
 
-### Nomenclatura de Arquivos
-`{tipo}-{timestamp}.md`
+## Naming Conventions
 
-- **tipo**: kebab-case (ex: code-review, security-audit)
-- **timestamp**: YYYY-MM-DD-HHMMSS
+### Files
+`{type}-{timestamp}.md`
 
-### Estrutura de Relatório
+- **type**: kebab-case (ex: code-review, security-audit, weekly-summary)
+- **timestamp**: YYYY-MM-DD or YYYY-W## for weekly
+
+### Examples
+- `weekly-2024-W27.md`
+- `code-review-2024-07-15.md`
+- `monthly-summary-2024-07.md`
+
+---
+
+## Report Structure
 
 ```markdown
-# Título do Relatório
+# Report Title
 
-**Gerado em:** YYYY-MM-DD HH:MM  
-**Por:** {nome-do-agente}  
-**Alvo:** {caminho/arquivo analisado}
+**Generated:** YYYY-MM-DD HH:MM  
+**By:** {agent-name}  
+**Target:** {path/file analyzed}
 
-## Resumo Executivo
+---
 
-2-3 linhas com os achados mais importantes.
+## Executive Summary
 
-## Detalhes
+2-3 lines with the most important findings.
 
-### Seção 1
+## Details
+
+### Section 1
 ...
 
-### Seção 2
+### Section 2
 ...
 
-## Recomendações
+## Recommendations
 
 1. ...
 2. ...
 
-## Próximos Passos
+## Next Steps
 
-- [ ] Ação recomendada
+- [ ] Recommended action
 ```
 
-## Como Gerar um Relatório
+---
+
+## How to Generate a Report
 
 ### Via Workflow
 ```bash
 claude workflow run code-review --target="src/"
 ```
 
-### Via Agente
+### Via Agent
 ```bash
-claude "execute o agente de security-audit no diretório src/api/"
+claude "execute security-audit agent on directory src/api/"
 ```
 
-## Boas Práticas
+---
 
-1. **Não edite relatórios gerados** - Eles são artefatos de auditoria
-2. **Consulte histórico** - Compare relatórios mensais para identificar tendências
-3. **Arquive relatórios antigos** - Após 12 meses, mova para `archive/`
+## Best Practices
+
+1. **Don't edit generated reports** - They are audit artifacts
+2. **Check history** - Compare monthly reports to identify trends
+3. **Archive old reports** - After 12 months, move to `temp-storage/backup/`
+4. **Organize by type** - Place in correct folder (weekly/ vs monthly/)
+
+---
+
+## Folder Usage
+
+| Folder | Content | Retention |
+|--------|---------|-----------|
+| `weekly/` | Week-based reports (W27, W28, etc.) | 6 months |
+| `monthly/` | Month-based reports (2024-07, etc.) | 12 months |
+
+---
+
+Last updated: 2026-07-23

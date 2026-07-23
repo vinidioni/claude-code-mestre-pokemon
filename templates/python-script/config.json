@@ -1,0 +1,13 @@
+{
+  "project_name": "{{PROJECT_NAME}}",
+  "version": "1.0.0",
+  "description": "{{DESCRIPTION}}",
+  "output_dir": "output",
+  "log_level": "INFO",
+  "max_retries": 3,
+  "timeout": 30,
+  "settings": {
+    "param1": "value1",
+    "param2": "value2"
+  }
+}
