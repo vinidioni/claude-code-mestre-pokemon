@@ -1,0 +1,25 @@
+URL: https://skillshub.intra.xiaojukeji.com/skill/cooper-mcp-helper
+URL Final: https://me.xiaojukeji.com/project/stargate-auth/html/login.html?redirect_uri=http%3A%2F%2Fmis.diditaxi.com.cn%2Fauth%2F%3Fjumpto%3Dhttps%253A%252F%252Fskillshub.intra.xiaojukeji.com_KYLIN_BRIGE_https%253A%252F%252Fskillshub.intra.xiaojukeji.com%252Fskill%252Fcooper-mcp-helper%26app_id%3D1268%26callback_index%3D0
+Título: 滴滴统一登录
+H1: 
+
+Descrição:
+
+
+Headings:
+
+Conteúdo:
+中文
+English
+Español
+日本語
+  帮助  联系我们
+
+滴滴中国工作中心
+
+ 
+ 
+遇到问题？
+重置密码
+你登录的系统在后台有日志记录，若违反公司信息安全规定，违规获取敏感数据将会受到法律的制裁
+登录

@@ -1,150 +1,196 @@
-# MCP Servers - Governança
+# MCP Servers - Governance
 
-Este diretório contém **servidores MCP customizados** desenvolvidos internamente para o projeto DCC.
+This directory contains **custom MCP servers** developed internally for the DCC project.
 
-## 📁 Estrutura
+---
+
+## 📊 MCP Inventory
+
+### 🏢 Custom (code in `mcp-servers/`)
+
+Customized servers with specific business logic for internal integrations.
+
+| Server | Description | Tools | Status |
+|--------|-------------|-------|--------|
+| **cooper** | DiDi Documentation (Cooper) | `cooper_get_document`, `cooper_search`, `cooper_list_spaces`, `cooper_create_document` | ✅ Active |
+| **dchat** | DiDi Messaging via `dws` CLI | `send_message`, `search_messages`, `create_todo`, `manage_todo`, `generate_report` | ✅ Active |
+| **gattaran** | Order Management Viewer | `gattaran_navigate_to_order`, `gattaran_extract_order_details`, `gattaran_search_order` | ✅ Active |
+
+### 🌐 Official (via npx, configured in `.mcp.json` only)
+
+Official/community MCP servers installed via package manager.
+
+| Server | Description | Source | Status |
+|--------|-------------|--------|--------|
+| **google-workspace** | Gmail, Calendar, Drive | `@modelcontextprotocol/server-google-workspace` | ✅ Active |
+| **github** | Issues, PRs, repositories | `@modelcontextprotocol/server-github` | ⚙️ Configurable |
+| **postgres** | PostgreSQL queries | `@modelcontextprotocol/server-postgres` | ⚙️ Configurable |
+| **slack** | Slack messages, channels | `@modelcontextprotocol/server-slack` | ⚙️ Configurable |
+
+⚠️ **Note:** Always verify if an official MCP is actively maintained before adding to the project.
+
+---
+
+## 📁 Structure
 
 ```
 mcp-servers/
-├── README.md              # Este arquivo - governança e padrões
-├── cooper/                # MCP para plataforma Cooper (DiDi Documentation)
-│   ├── README.md          # Documentação do servidor
-│   ├── src/               # Código fonte
-│   ├── scripts/           # Scripts utilitários
-│   ├── examples/          # Exemplos de uso
+├── README.md              # This file - governance and patterns
+├── cooper/                # MCP for Cooper (DiDi Documentation)
+│   ├── README.md
+│   ├── src/
 │   └── package.json
-│
-└── dchat/                 # MCP para D-Chat (DiDi messaging)
-    ├── v1/                # Versão 1 (legada)
-    └── v2/                # Versão 2 (atual)
-        ├── README.md
-        └── index.js
+├── dchat/                 # MCP for D-Chat (DiDi messaging)
+│   ├── README.md
+│   ├── index.js
+│   └── package.json
+└── gattaran/              # MCP for Order Management
+    ├── README.md
+    ├── src/
+    └── package.json
 ```
 
-## 🏛️ Governança
+---
 
-### O que vai aqui
+## 🏛️ Governance Rules
 
-✅ **Servidores MCP customizados** (código próprio):
-- Integrações internas (ex: D-Chat via `dws` CLI)
-- Integrações com plataformas corporativas (ex: Cooper)
-- Servidores com lógica específica do negócio
-- Wrappers para APIs internas não padronizadas
+### What goes here ✅
 
-### O que NÃO vai aqui
+- **Custom MCP servers** (own code):
+  - Internal integrations (e.g., D-Chat via `dws` CLI)
+  - Corporate platform integrations (e.g., Cooper)
+  - Business-specific logic servers
+  - Wrappers for non-standard internal APIs
 
-❌ **MCPs oficiais/community** (instalados via `npx`):
-- Apenas referenciados no `.mcp.json` da raiz
-- ⚠️ **Verificar status antes de usar** - alguns MCPs oficiais estão deprecated
+### What does NOT go here ❌
 
-⚠️ **MCPs Deprecados Encontrados:**
-| MCP | Status | Alternativa Recomendada |
+- **Official/community MCPs** (installed via `npx`):
+  - Only referenced in root `.mcp.json`
+  - ⚠️ **Check status before using** - some official MCPs are deprecated
+
+⚠️ **Deprecated MCPs Found:**
+| MCP | Status | Recommended Alternative |
 |-----|--------|------------------------|
-| `@modelcontextprotocol/server-puppeteer` | ❌ Deprecated (2025.5.12) | Usar Playwright diretamente ou criar MCP customizado |
+| `@modelcontextprotocol/server-puppeteer` | ❌ Deprecated (2025.5.12) | Use Playwright directly or create custom MCP |
 
-> **Aprendizado:** Sempre verifique se o MCP está ativamente mantido antes de adicionar ao projeto.
+> **Lesson learned:** Always verify if the MCP is actively maintained before adding to the project.
 
-## 📋 Servidores Customizados
+---
 
-| Servidor | Descrição | Ferramentas | Status |
-|----------|-----------|-------------|--------|
-| **cooper** | Integração com Cooper (DiDi Documentation) | `cooper_get_document`, `cooper_search`, `cooper_list_spaces`, `cooper_create_document` | ✅ Ativo |
-| **dchat** | Integração com D-Chat via CLI `dws` | `send_message`, `search_messages` | ✅ Ativo (v2) |
+## 🚀 How to Use
 
-## 🚀 Como Usar
+### 1. Configuration in `.mcp.json`
 
-### 1. Configuração no `.mcp.json`
-
-Os servidores já estão configurados no arquivo `.mcp.json` da raiz:
+Servers are already configured in the root `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "cooper": {
       "command": "node",
-      "args": ["C:\\\\Users\\\\...\\\\mcp-servers\\\\cooper\\\\src\\\\index.js"]
+      "args": ["C:\\Users\\...\\mcp-servers\\cooper\\src\\index.js"]
     },
     "dchat": {
       "command": "node",
-      "args": ["C:\\\\Users\\\\...\\\\mcp-servers\\\\dchat\\\\v2\\\\index.js"],
+      "args": ["C:\\Users\\...\\mcp-servers\\dchat\\index.js"],
       "env": {
         "DWS_SCRIPT_PATH": "..."
       }
+    },
+    "gattaran": {
+      "command": "node",
+      "args": ["C:\\Users\\...\\mcp-servers\\gattaran\\src\\index.js"]
     }
   }
 }
 ```
 
-### 2. Ativação em `.claude/settings.local.json`
+### 2. Activation in `.claude/settings.local.json`
 
 ```json
 {
-  "enabledMcpjsonServers": ["cooper", "dchat", "google-workspace"]
+  "enabledMcpjsonServers": ["cooper", "dchat", "gattaran", "google-workspace"]
 }
 ```
 
-### 3. Instalação de Dependências
+### 3. Install Dependencies
 
 ```bash
 # Cooper
 cd mcp-servers/cooper
 npm install
 
-# D-Chat (v2 - standalone)
-cd mcp-servers/dchat/v2
-# Não requer npm install (usa CLI externa)
+# D-Chat
+cd mcp-servers/dchat
+npm install
+
+# Gattaran
+cd mcp-servers/gattaran
+npm install
 ```
 
-## 🛠️ Criando um Novo Servidor Customizado
+---
 
-1. **Crie o diretório**:
+## 🛠️ Creating a New Custom Server
+
+1. **Create the directory**:
    ```bash
-   mkdir mcp-servers/meu-servidor
-   cd mcp-servers/meu-servidor
+   mkdir mcp-servers/my-server
+   cd mcp-servers/my-server
    npm init -y
    ```
 
-2. **Estrutura mínima**:
+2. **Minimum structure**:
    ```
-   meu-servidor/
-   ├── README.md       # Documentação obrigatória
+   my-server/
+   ├── README.md       # Required documentation
    ├── src/
    │   └── index.js    # Entry point
    ├── package.json
-   └── examples/       # Exemplos de uso
+   └── examples/       # Usage examples
    ```
 
-3. **Documente no README.md**:
-   - Propósito do servidor
-   - Pré-requisitos
-   - Ferramentas disponíveis
-   - Exemplos de uso
+3. **Document in README.md**:
+   - Server purpose
+   - Prerequisites
+   - Available tools
+   - Usage examples
 
-4. **Adicione ao `.mcp.json`**:
+4. **Add to `.mcp.json`**:
    ```json
    {
      "mcpServers": {
-       "meu-servidor": {
+       "my-server": {
          "command": "node",
-         "args": ["C:\\\\Users\\\\...\\\\mcp-servers\\\\meu-servidor\\\\src\\\\index.js"]
+         "args": ["C:\\Users\\...\\mcp-servers\\my-server\\src\\index.js"]
        }
      }
    }
    ```
 
-5. **Skills associadas** (opcional):
-   - Se o MCP precisar de skills Claude, crie em `.claude/skills/[nome]/`
-   - Documente a relação no README do MCP
+5. **Associated skills** (optional):
+   - If the MCP needs Claude skills, create in `.claude/skills/[name]/`
+   - Document the relationship in the MCP's README
 
-## 🔒 Segurança
+---
 
-- **Nunca commite** credenciais ou tokens
-- Use variáveis de ambiente em `.claude/settings.local.json`
-- Documente permissões necessárias no README do servidor
+## 🔒 Security
 
-## 📚 Referências
+- **Never commit** credentials or tokens
+- Use environment variables in `.claude/settings.local.json`
+- Document required permissions in the server's README
 
-- [MCP Servers Oficiais](https://github.com/modelcontextprotocol/servers)
+---
+
+## 📚 References
+
+- [MCP Official Servers](https://github.com/modelcontextprotocol/servers)
 - [MCP SDK Documentation](https://github.com/modelcontextprotocol/sdk)
-- [Guia de Setup MCP](../docs/mcp-setup-guide.md)
-- [Documentação Cooper](./cooper/README.md)
+- [MCP Setup Guide](../docs/guides/mcp-setup.md)
+- [Cooper Documentation](./cooper/README.md)
+- [DChat Documentation](./dchat/README.md)
+- [Gattaran Documentation](./gattaran/README.md)
+
+---
+
+**Last updated:** 2026-07-23

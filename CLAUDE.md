@@ -1,331 +1,351 @@
-# 🎯 Repositório DCC - Central de Desenvolvimento
+# 🎯 DCC - Development Center Repository
 
-> **Arquitetura de Documentação em Camadas**: Este CLAUDE.md é o ponto de entrada. Para contextos específicos, consulte os CLAUDE.md em subpastas (ex: `.claude/workflows/CLAUDE.md` para criar workflows). Eles carregam automaticamente quando você navega para essas pastas.
+> **Layered Documentation Architecture**: This CLAUDE.md is the entry point. For specific contexts, consult CLAUDE.md files in subfolders (e.g., `.claude/workflows/CLAUDE.md` for creating workflows). They load automatically when you navigate to those folders.
 
-## Propósito
+## Purpose
 
-Este é o repositório central para desenvolvimento, automação e geração de relatórios usando Claude Code. Aqui armazenamos:
+This is the central repository for development, automation, and report generation using Claude Code. Here we store:
 
-- **Agentes reutilizáveis** - Workflows para tarefas automatizadas
-- **Skills modulares** - Capacidades especializadas carregadas sob demanda
-- **Relatórios** - Documentação e análises geradas
-- **Templates** - Projetos e configurações base
-- **Conhecimento** - Guias e boas práticas
+- **Reusable Agents** - Workflows for automated tasks
+- **Modular Skills** - Specialized capabilities loaded on demand
+- **Reports** - Generated documentation and analyses
+- **Templates** - Base projects and configurations
+- **Knowledge** - Guides and best practices
 
-## Estrutura do Repositório
+## Repository Structure
 
 ```
 dcc/
-├── .claude/                    # Configurações do Claude Code
-│   ├── workflows/              # Workflows reutilizáveis (ver CLAUDE.md local)
-│   │   ├── agents/             # Agentes especializados
-│   │   ├── reports/            # Geradores de relatórios
-│   │   └── tasks/              # Tarefas automatizadas
-│   ├── skills/                 # Skills modulares (ver CLAUDE.md local)
-│   ├── agents/                 # Agentes especializados (subagentes)
-│   ├── output-styles/          # Estilos de output customizados
-│   └── memory/                 # Memória persistente (auto)
-├── agents/                     # Documentação de agentes
-│   ├── README.md               # Catálogo de agentes
-│   └── [nome-do-agente]/       # Docs específicas por agente
-├── analytics/                  # Assets analíticos
-│   ├── queries/                # Queries SQL reutilizáveis
-│   │   ├── data-e/             # Queries específicas Data-E
-│   │   └── README.md           # Catálogo de queries
-│   └── templates/              # Templates de queries
-├── reports/                    # Relatórios gerados (ver CLAUDE.md local)
-│   ├── YYYY-MM/                # Organizados por mês
-│   └── templates/              # Templates de relatórios
-├── dev/                        # Dev docs ativos (ver CLAUDE.md local)
-│   ├── active/                 # Tarefas em andamento
-│   └── archive/                # Tarefas concluídas
-├── templates/                  # Projetos/templates base
-│   ├── web-app/                # Template de web app
-│   ├── api-service/            # Template de API
-│   └── python-script/          # Template de script Python
-├── docs/                       # Documentação geral
-│   ├── guia-claude-code.md     # Guia completo
-│   └── convenções.md           # Convenções do projeto
-├── archive/                    # Arquivos antigos/deprecated
-├── CLAUDE.md                   # Este arquivo (ponto de entrada)
-└── README.md                   # Visão geral para visitantes
+├── .claude/                    # Claude Code configurations
+│   ├── workflows/              # Reusable workflows (see local CLAUDE.md)
+│   │   ├── agents/             # Specialized agents
+│   │   ├── reports/            # Report generators
+│   │   └── tasks/              # Automated tasks
+│   ├── skills/                 # Modular skills (see local CLAUDE.md)
+│   ├── agents/                 # Specialized agents (subagents)
+│   ├── output-styles/          # Custom output styles
+│   └── memory/                 # Persistent memory (auto)
+├── agents/                     # Agent documentation
+│   ├── README.md               # Agent catalog
+│   └── [agent-name]/           # Specific agent docs
+├── sql-library/                # SQL library (queries and assets)
+│   ├── encyclopedia/           # Data dictionary
+│   ├── queries/                # Reusable SQL queries
+│   │   ├── data-e/             # Productive Data-E queries
+│   │   ├── data-e-test/        # Test queries
+│   │   ├── presto/             # Scheduled queries
+│   │   ├── draft/              # Draft/temporary queries
+│   │   └── README.md           # Query catalog
+│   └── repository/             # Cataloged reference queries
+├── reports/                    # Generated reports (see local CLAUDE.md)
+│   ├── weekly/                 # Weekly reports
+│   └── monthly/                # Monthly reports
+├── incubator/                  # Projects and ideas in development (see local CLAUDE.md)
+│   ├── in-progress/            # Active projects
+│   └── backlog/                # Draft ideas
+├── templates/                  # Base project templates
+│   ├── web-app/                # Web app template
+│   ├── api-service/            # API template
+│   └── python-script/          # Python script template
+├── docs/                       # General documentation (see docs/README.md)
+│   ├── guides/                 # Guides and tutorials
+│   ├── conventions/            # Conventions and standards
+│   ├── skills/                 # Skills documentation
+│   ├── operations/             # Operational documentation
+│   └── sql/                    # SQL documentation
+├── mcp-servers/                # Custom MCP servers (see local README)
+│   ├── cooper/                 # DiDi Documentation
+│   ├── dchat/                  # DiDi Messaging
+│   └── gattaran/               # Order Management
+├── scripts/                    # Utility scripts (see local README)
+│   ├── setup/                  # Installation and setup
+│   ├── auth/                   # Authentication
+│   ├── analysis/               # Data analysis
+│   ├── dchat/                  # DChat
+│   ├── google/                 # Google Workspace
+│   ├── maintenance/            # Maintenance
+│   ├── install/                # Installer
+│   └── utils/                  # Utilities
+├── temp-storage/               # Temporary files and backups
+├── CLAUDE.md                   # This file (entry point)
+└── README.md                   # Overview for visitors
 ```
 
-## Navegação por Contexto (Documentação em Camadas)
+## Context Navigation (Layered Documentation)
 
-Esta estrutura usa **progressive disclosure**: o CLAUDE.md raiz carrega sempre, mas CLAUDE.md em subpastas carregam automaticamente quando você entra nesses contextos.
+This structure uses **progressive disclosure**: the root CLAUDE.md always loads, but CLAUDE.md files in subfolders load automatically when you enter those contexts.
 
-| Contexto | Arquivo | Quando Carrega |
-|----------|---------|----------------|
-| **Raiz** (este arquivo) | `CLAUDE.md` | Sempre - visão geral e índice |
-| **Workflows** | `.claude/workflows/CLAUDE.md` | Ao criar/modificar workflows |
-| **Skills** | `.claude/skills/CLAUDE.md` | Ao desenvolver skills modulares |
-| **Dev Docs** | `dev/CLAUDE.md` | Ao trabalhar em tarefas multi-sessão |
-| **Relatórios** | `reports/CLAUDE.md` | Ao gerar/consultar relatórios |
+| Context | File | When It Loads |
+|---------|------|---------------|
+| **Root** (this file) | `CLAUDE.md` | Always - overview and index |
+| **Workflows** | `.claude/workflows/CLAUDE.md` | When creating/modifying workflows |
+| **Skills** | `.claude/skills/CLAUDE.md` | When developing modular skills |
+| **Dev Docs** | `dev/CLAUDE.md` | When working on multi-session tasks |
+| **Reports** | `reports/CLAUDE.md` | When generating/consulting reports |
 
-**Como funciona:**
-1. O CLAUDE.md raiz define a arquitetura global e convenções universais
-2. CLAUDE.md em subpastas herdam do raiz e adicionam detalhes específicos
-3. Quando você navega para uma subpasta, o Claude combina ambos os contextos
-4. Use `@file` para referenciar CLAUDE.md de outros contextos quando necessário
+**How it works:**
+1. The root CLAUDE.md defines global architecture and universal conventions
+2. CLAUDE.md files in subfolders inherit from root and add specific details
+3. When you navigate to a subfolder, Claude combines both contexts
+4. Use `@file` to reference CLAUDE.md from other contexts when needed
 
-## Convenções
+## Conventions
 
-### Nomenclatura
+### Naming
 - **Branches**: `feature/`, `fix/`, `report/`, `agent/`
-- **Arquivos**: `kebab-case.ext`
-- **Pastas**: `kebab-case`
-- **Agentes**: Nome descritivo em camelCase
-- **Skills**: Nome descritivo em camelCase
+- **Files**: `kebab-case.ext`
+- **Folders**: `kebab-case`
+- **Agents**: Descriptive name in camelCase
+- **Skills**: Descriptive name in camelCase
 
 ### Commits
 ```
-[tipo] Descrição curta
+[type] Short description
 
-Corpo detalhado se necessário
+Detailed body if necessary
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-Tipos:
-- `[agent]` - Novo ou atualização de agente
-- `[skill]` - Nova skill modular
-- `[report]` - Relatório gerado
-- `[template]` - Template adicionado/atualizado
-- `[doc]` - Documentação
-- `[chore]` - Manutenção
+Types:
+- `[agent]` - New or updated agent
+- `[skill]` - New modular skill
+- `[report]` - Generated report
+- `[template]` - Added/updated template
+- `[doc]` - Documentation
+- `[chore]` - Maintenance
 
-## Componentes Disponíveis
+## Available Components
 
-### 🎭 Agentes (Workflows)
-Catálogo completo em [`agents/README.md`](./agents/README.md) | Detalhes em [`.claude/workflows/CLAUDE.md`](./.claude/workflows/CLAUDE.md)
+### 🎭 Agents (Workflows)
+Full catalog at [`agents/README.md`](./agents/README.md) | Details at [`.claude/workflows/CLAUDE.md`](./.claude/workflows/CLAUDE.md)
 
-Categorias:
-- 🕵️ **Análise** - Code review, auditoria de segurança, performance
-- 📝 **Documentação** - Geradores de docs, README, changelogs
-- 🔧 **Refatoração** - Migrações, modernização de código
-- 📊 **Relatórios** - Métricas, análises, dashboards
-- 🧪 **Testes** - Geração de testes, cobertura, QA
+Categories:
+- 🕵️ **Analysis** - Code review, security audit, performance
+- 📝 **Documentation** - Doc generators, README, changelogs
+- 🔧 **Refactoring** - Migrations, code modernization
+- 📊 **Reports** - Metrics, analyses, dashboards
+- 🧪 **Tests** - Test generation, coverage, QA
 
-### 🛠️ Skills Modulares
-Documentação em [`.claude/skills/CLAUDE.md`](./.claude/skills/CLAUDE.md) | Regras em [`skill-rules.json`](./.claude/skills/skill-rules.json)
+### 🛠️ Modular Skills
+Documentation at [`.claude/skills/CLAUDE.md`](./.claude/skills/CLAUDE.md) | Rules at [`skill-rules.json`](./.claude/skills/skill-rules.json)
 
-#### Skills Locais (Originais)
-| Skill | Descrição | Triggers |
-|-------|-----------|----------|
-| `exemplo-doc` | Template de skill de exemplo | "exemplo", "template", "skill" |
-| `conventional-commits` | Padrão de commits estruturados | "commit", "conventional commits" |
-| `react-patterns` | Padrões React | "react", "componente", "tsx" |
-| `api-design` | Design de APIs | "api", "endpoint", "rest" |
-| **`cooper`** | **Integração Cooper (DiDi Docs)** | "cooper", "documento didi", "docs2" |
-| `cooper-search` | Busca especializada no Cooper | "buscar no cooper", "procurar documento" |
-| `cooper-read` | Leitura de documentos Cooper | "ler documento cooper", "conteúdo cooper" |
-| `cooper-write` | Criação de documentos Cooper | "criar documento cooper", "salvar no cooper" |
+#### Local Skills (Originals)
+| Skill | Description | Triggers |
+|-------|-------------|----------|
+| `example-doc` | Example skill template | "example", "template", "skill" |
+| `conventional-commits` | Structured commit patterns | "commit", "conventional commits" |
+| `react-patterns` | React patterns | "react", "component", "tsx" |
+| `api-design` | API design | "api", "endpoint", "rest" |
+| **`cooper`** | **Cooper Integration (DiDi Docs)** | "cooper", "didi document", "docs2" |
+| `cooper-search` | Specialized Cooper search | "search cooper", "find document" |
+| `cooper-read` | Read Cooper documents | "read cooper document", "cooper content" |
+| `cooper-write` | Create Cooper documents | "create cooper document", "save to cooper" |
 
-#### Skills do Marketplace (alirezarezvani/claude-skills v2.9.0)
-Instaladas em 2026-07-07:
+#### Marketplace Skills (alirezarezvani/claude-skills v2.9.0)
+Installed on 2026-07-07:
 
-| Skill | Categoria | Descrição | Triggers |
-|-------|-----------|-----------|----------|
-| `engineering-skills` | Data Eng | 32 skills: data engineering, arquitetura, backend, frontend, DevOps, segurança, AI/ML | "data engineering", "arquitetura", "backend", "devops", "AI/ML" |
-| `data-quality-auditor` | Data Analytics | Auditoria de datasets: DQS scoring, análise de valores ausentes (MCAR/MAR/MNAR) | "data quality", "missing values", "DQS" |
-| `statistical-analyst` | Data Analytics | Testes de hipóteses, A/B testing, cálculo amostral, intervalos de confiança | "A/B test", "significância estatística", "p-value" |
-| `finance-skills` | Business Analytics | Financial analyst (DCF, valuation), SaaS metrics (ARR, MRR, LTV, CAC), forecasting | "análise financeira", "SaaS metrics", "ARR", "LTV" |
-| `business-growth-skills` | Business Analytics | Customer success, sales engineering, revenue operations, contracts | "customer success", "churn", "retenção", "RFP" |
-| `business-investment-advisor` | Business Analytics | ROI, IRR, NPV, payback, build vs buy, lease vs buy | "ROI", "NPV", "investimento", "capex" |
+| Skill | Category | Description | Triggers |
+|-------|----------|-------------|----------|
+| `engineering-skills` | Data Eng | 32 skills: data engineering, architecture, backend, frontend, DevOps, security, AI/ML | "data engineering", "architecture", "backend", "devops", "AI/ML" |
+| `data-quality-auditor` | Data Analytics | Dataset audit: DQS scoring, missing values analysis (MCAR/MAR/MNAR) | "data quality", "missing values", "DQS" |
+| `statistical-analyst` | Data Analytics | Hypothesis tests, A/B testing, sample size calculation, confidence intervals | "A/B test", "statistical significance", "p-value" |
+| `finance-skills` | Business Analytics | Financial analyst (DCF, valuation), SaaS metrics (ARR, MRR, LTV, CAC), forecasting | "financial analysis", "SaaS metrics", "ARR", "LTV" |
+| `business-growth-skills` | Business Analytics | Customer success, sales engineering, revenue operations, contracts | "customer success", "churn", "retention", "RFP" |
+| `business-investment-advisor` | Business Analytics | ROI, IRR, NPV, payback, build vs buy, lease vs buy | "ROI", "NPV", "investment", "capex" |
 
-**Progressive Disclosure:** Cada skill tem SKILL.md (essencial), examples.md e advanced.md (carregados sob demanda via `@file`).
+**Progressive Disclosure:** Each skill has SKILL.md (essential), examples.md and advanced.md (loaded on demand via `@file`).
 
-### 🤖 Subagentes Especializados
-Documentação em [`.claude/agents/README.md`](./.claude/agents/README.md)
+### 🤖 Specialized Subagents
+Documentation at [`.claude/agents/README.md`](./.claude/agents/README.md)
 
-| Subagente | Propósito | Como Invocar |
-|-----------|-----------|--------------|
-| `planner` | Gera estrutura Dev Docs (plan.md, context.md, tasks-checklist.md) | `claude workflow run planner --name="x" --description="..."` |
+| Subagent | Purpose | How to Invoke |
+|----------|---------|---------------|
+| `planner` | Generates Dev Docs structure (plan.md, context.md, tasks-checklist.md) | `claude workflow run planner --name="x" --description="..."` |
 
-Subagentes diferem de workflows: são prompts estruturados (não YAML) chamados por outros agentes para decomposição de tarefas complexas.
+Subagents differ from workflows: they are structured prompts (not YAML) called by other agents for decomposing complex tasks.
 
-## Como Usar
+## How to Use
 
-### Executar um Workflow
+### Run a Workflow
 ```bash
-# Via Claude Code direto
-claude "execute o agente de code-review"
+# Direct via Claude Code
+claude "execute code-review agent"
 
-# Via comando workflow
+# Via workflow command
 claude workflow run code-review
 ```
 
-### Usar uma Skill
+### Use a Skill
 ```bash
-# Skills ativam automaticamente com base em skill-rules.json
-# Ou invoque diretamente:
-claude skill run exemplo-doc
+# Skills activate automatically based on skill-rules.json
+# Or invoke directly:
+claude skill run example-doc
 ```
 
 ### Slash Commands
 
-Comandos customizados registrados em `.claude/commands.json`:
+Custom commands registered in `.claude/commands.json`:
 
-| Comando | Descrição | Uso |
-|---------|-----------|-----|
-| `/dev-docs` | Gerencia documentação de desenvolvimento | `/dev-docs init <nome>` |
-| `/skill` | Gerencia skills modulares | `/skill list` ou `/skill run <nome>` |
-| `/workflow` | Executa workflows de agentes | `/workflow <nome-do-workflow>` |
+| Command | Description | Usage |
+|---------|-------------|-------|
+| `/dev-docs` | Manage development documentation | `/dev-docs init <name>` |
+| `/skill` | Manage modular skills | `/skill list` or `/skill run <name>` |
+| `/workflow` | Execute agent workflows | `/workflow <workflow-name>` |
 
-**Exemplos:**
+**Examples:**
 ```bash
-/dev-docs init implementar-auth    # Cria estrutura de dev docs
-/dev-docs status                   # Lista tarefas ativas
-/dev-docs continue implementar-auth # Carrega contexto
+/dev-docs init implement-auth    # Creates dev docs structure
+/dev-docs status                   # Lists active tasks
+/dev-docs continue implement-auth # Loads context
 
-/skill list                        # Lista skills disponíveis
-/skill run conventional-commits    # Ativa skill específica
+/skill list                        # Lists available skills
+/skill run conventional-commits    # Activates specific skill
 
-/workflow code-review              # Executa workflow
+/workflow code-review              # Executes workflow
 ```
 
-Para criar novos comandos, veja `.claude/commands/_template.md`.
+To create new commands, see `.claude/commands/_template.md`.
 
-### Criar um Novo Workflow
-1. Consulte [`.claude/workflows/CLAUDE.md`](./.claude/workflows/CLAUDE.md) para o padrão
-2. Use o template `_template.yaml`
-3. Documente em `agents/[nome]/README.md`
-4. Adicione ao catálogo em `agents/README.md`
-5. Commit com tag `[agent]`
+### Create a New Workflow
+1. Consult [`.claude/workflows/CLAUDE.md`](./.claude/workflows/CLAUDE.md) for the pattern
+2. Use the `_template.yaml` template
+3. Document in `agents/[name]/README.md`
+4. Add to catalog in `agents/README.md`
+5. Commit with tag `[agent]`
 
-### Criar uma Nova Skill
-1. Consulte [`.claude/skills/CLAUDE.md`](./.claude/skills/CLAUDE.md)
-2. Crie a pasta em `.claude/skills/[nome-da-skill]/`
-3. Adicione regra em `skill-rules.json`
-4. Commit com tag `[skill]`
+### Create a New Skill
+1. Consult [`.claude/skills/CLAUDE.md`](./.claude/skills/CLAUDE.md)
+2. Create folder in `.claude/skills/[skill-name]/`
+3. Add rule in `skill-rules.json`
+4. Commit with tag `[skill]`
 
-### Iniciar Tarefa com Dev Docs
+### Start Task with Dev Docs
 
-Para tarefas complexas (multi-sessão, multi-pessoa):
+For complex tasks (multi-session, multi-person):
 
 ```bash
-# Cria estrutura completa em dev/active/
-/dev-docs init nome-da-tarefa
+# Creates complete structure in incubator/in-progress/
+/dev-docs init task-name
 
-# Ou via workflow:
-claude workflow run planner --name="nome" --description="..."
+# Or via workflow:
+claude workflow run planner --name="name" --description="..."
 ```
 
-Isso cria:
-- `plan.md` - Estratégia e decisões
-- `context.md` - Rastreamento de sessões
-- `tasks-checklist.md` - Tarefas executáveis
+This creates:
+- `plan.md` - Strategy and decisions
+- `context.md` - Session tracking
+- `tasks-checklist.md` - Executable tasks
 
-Veja [`dev/CLAUDE.md`](./dev/CLAUDE.md) para o fluxo completo.
+See [`incubator/README.md`](./incubator/CLAUDE.md) for full workflow.
 
-## Integrações Configuradas (MCP)
+## Configured Integrations (MCP)
 
-### Servidores Ativos
-| Servidor | Descrição | Status | Documentação |
+### Active Servers
+| Server | Description | Status | Documentation |
 |----------|-----------|--------|--------------|
-| **Google Workspace** | Gmail, Calendar, Drive | ✅ Configurado | [docs/google-workspace-setup.md](./docs/google-workspace-setup.md) |
-| **Cooper** | Documentação DiDi (DiDi Docs) | ✅ Configurado | [mcp-servers/cooper/README.md](./mcp-servers/cooper/README.md) |
-| **D-Chat** | Mensagens via CLI `dws` | ✅ Configurado | [mcp-servers/dchat/v2/README.md](./mcp-servers/dchat/v2/README.md) |
-| **Gattaran** | Order Management Viewer | 🟡 MVP implementado | [mcp-servers/gattaran/README.md](./mcp-servers/gattaran/README.md) |
-| **GitHub** | Issues, PRs, repositórios | ⚙️ Via npx | [docs/mcp-setup-guide.md](./docs/mcp-setup-guide.md) |
+| **Google Workspace** | Gmail, Calendar, Drive | ✅ Configured | [docs/google-workspace.md](./docs/guides/google-workspace.md) |
+| **Cooper** | DiDi Documentation (DiDi Docs) | ✅ Configured | [mcp-servers/cooper/README.md](./mcp-servers/cooper/README.md) |
+| **D-Chat** | Messages via CLI `dws` | ✅ Configured | [mcp-servers/dchat/README.md](./mcp-servers/dchat/README.md) |
+| **Gattaran** | Order Management Viewer | 🟡 MVP implemented | [mcp-servers/gattaran/README.md](./mcp-servers/gattaran/README.md) |
+| **GitHub** | Issues, PRs, repositories | ⚙️ Via npx | [docs/mcp-setup.md](./docs/guides/mcp-setup.md) |
 
-### Adicionar Novas Integrações
-Edite `.mcp.json` seguindo o padrão documentado na seção [MCP / Integrações](#mcp--integrações) abaixo.
+### Add New Integrations
+Edit `.mcp.json` following the pattern documented in the [MCP / Integrations](#mcp--integrations) section below.
 
-Exemplo comum: GitHub, PostgreSQL, Slack, Discord.
+Common examples: GitHub, PostgreSQL, Slack, Discord.
 
-## Comandos Úteis
+## Useful Commands
 
 ```bash
-# Listar todos os agentes disponíveis
+# List all available agents
 ls .claude/workflows/agents/
 
-# Executar workflow específico
+# Execute specific workflow
 claude workflow run .claude/workflows/agents/code-review.yaml
 
-# Ver status dos MCP servers
+# Check MCP servers status
 claude mcp status
 ```
 
-## Roadmap de Infraestrutura
+## Infrastructure Roadmap
 
-### Fase 1: Fundação ✅
-- [x] Estrutura de pastas
-- [x] CLAUDE.md central com documentação em camadas
-- [x] Documentação base
+### Phase 1: Foundation ✅
+- [x] Folder structure
+- [x] Central CLAUDE.md with layered documentation
+- [x] Base documentation
 
-### Fase 2: Infraestrutura Avançada ✅
-- [x] **CLAUDE.md em camadas** - Contexto hierárquico por subpasta
-- [x] **Skills modulares** - `.claude/skills/` com progressive disclosure
-- [x] **Hooks de automação** - PreToolUse e segurança
-- [x] **Agentes/Subagentes** - Especializados em `.claude/agents/`
-- [x] **Slash Commands** - Comandos customizados
-- [x] **Dev Docs System** - Continuidade entre sessões
+### Phase 2: Advanced Infrastructure ✅
+- [x] **Layered CLAUDE.md** - Hierarchical context by subfolder
+- [x] **Modular Skills** - `.claude/skills/` with progressive disclosure
+- [x] **Automation Hooks** - PreToolUse and security
+- [x] **Agents/Subagents** - Specialized in `.claude/agents/`
+- [x] **Slash Commands** - Custom commands
+- [x] **Dev Docs System** - Continuity between sessions
 
-### Fase 3: Agentes Core
-- [x] Agente de Code Review
-- [x] Agente de Documentação
-- [x] Agente de Segurança
-- [ ] Agente de Relatórios (avançado)
+### Phase 3: Core Agents
+- [x] Code Review Agent
+- [x] Documentation Agent
+- [x] Security Agent
+- [ ] Reports Agent (advanced)
 
-### Fase 4: Integrações
+### Phase 4: Integrations
 - [x] Google Workspace
 - [ ] GitHub MCP
 - [ ] Jira/Linear
-- [ ] Notificações automáticas
+- [ ] Automatic notifications
 
-### Fase 5: Automação Total
-- [ ] CI/CD com agentes
-- [ ] Relatórios automáticos
-- [ ] Análise preditiva
+### Phase 5: Full Automation
+- [ ] CI/CD with agents
+- [ ] Automatic reports
+- [ ] Predictive analysis
 
 ---
 
-## Status da Infraestrutura
+## Infrastructure Status
 
 ```
 ┌────────────────────────────────────────────────────────┐
 │  DCC Claude Infrastructure v1.0.0                      │
 ├────────────────────────────────────────────────────────┤
-│  Bloco 1: CLAUDE.md em camadas              ✅        │
-│  Bloco 2: Skills modulares                    ✅        │
-│  Bloco 3: Hooks de automação             ✅        │
-│  Bloco 4: Agentes/Subagentes              ✅        │
-│  Bloco 5: Slash Commands                     ✅        │
-│  Bloco 6: Sistema de Dev Docs             ✅        │
-│  Bloco 7: Plugin/distribuição               ✅        │
-│  Bloco 8: MCP / integrações                 ✅        │
-│  Bloco 9: Log de sessão                    ✅        │
-│  Bloco 10: Output Style e Status Line   ✅        │
+│  Block 1: Layered CLAUDE.md              ✅           │
+│  Block 2: Modular skills                    ✅           │
+│  Block 3: Automation hooks             ✅           │
+│  Block 4: Agents/Subagents              ✅           │
+│  Block 5: Slash Commands                     ✅           │
+│  Block 6: Dev Docs system             ✅           │
+│  Block 7: Plugin/distribution               ✅           │
+│  Block 8: MCP / integrations                 ✅           │
+│  Block 9: Session logging                    ✅           │
+│  Block 10: Output Style and Status Line   ✅           │
 ├────────────────────────────────────────────────────────┤
-│  Infraestrutura completa e pronta para uso!           │
+│  Complete infrastructure ready to use!               │
 └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## MCP / Integrações
+## MCP / Integrations
 
-O arquivo `.mcp.json` configura servidores MCP (Model Context Protocol) que estendem as capacidades do Claude Code.
+The `.mcp.json` file configures MCP (Model Context Protocol) servers that extend Claude Code capabilities.
 
-### Estrutura do `.mcp.json`
+### `.mcp.json` Structure
 
 ```json
 {
   "mcpServers": {
-    "nome-do-servidor": {
-      "command": "comando-do-servidor",
-      "args": ["--flag", "valor"],
+    "server-name": {
+      "command": "server-command",
+      "args": ["--flag", "value"],
       "env": {
-        "VARIAVEL": "valor"
+        "VARIABLE": "value"
       }
     }
   }
 }
 ```
 
-### Exemplo: Adicionar GitHub MCP
+### Example: Add GitHub MCP
 
 ```json
 {
@@ -341,24 +361,24 @@ O arquivo `.mcp.json` configura servidores MCP (Model Context Protocol) que este
 }
 ```
 
-**Nota:** Use variáveis de ambiente para tokens - nunca commite credenciais.
+**Note:** Use environment variables for tokens - never commit credentials.
 
-### Servidores MCP Comuns
+### Common MCP Servers
 
-| Servidor | Instalação | Uso |
+| Server | Installation | Usage |
 |----------|------------|-----|
-| GitHub | `npx -y @modelcontextprotocol/server-github` | Issues, PRs, repositórios |
-| PostgreSQL | `npx -y @modelcontextprotocol/server-postgres` | Consultas ao banco |
-| Slack | `npx -y @modelcontextprotocol/server-slack` | Mensagens, canais |
-| Puppeteer | `npx -y @modelcontextprotocol/server-puppeteer` | Automação web |
+| GitHub | `npx -y @modelcontextprotocol/server-github` | Issues, PRs, repositories |
+| PostgreSQL | `npx -y @modelcontextprotocol/server-postgres` | Database queries |
+| Slack | `npx -y @modelcontextprotocol/server-slack` | Messages, channels |
+| Puppeteer | `npx -y @modelcontextprotocol/server-puppeteer` | Web automation |
 
-**Lista completa:** [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+**Full list:** [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
 
-**Guia detalhado:** Veja [`docs/mcp-setup-guide.md`](./docs/mcp-setup-guide.md) para instruções passo-a-passo de como adicionar GitHub, PostgreSQL, Slack e outros MCPs.
+**Detailed guide:** See [`docs/mcp-setup.md`](./docs/guides/mcp-setup.md) for step-by-step instructions on adding GitHub, PostgreSQL, Slack and other MCPs.
 
-### Configuração Local
+### Local Configuration
 
-Para configurações pessoais (não compartilháveis), use `.claude/settings.local.json`:
+For personal configurations (not shareable), use `.claude/settings.local.json`:
 
 ```json
 {
@@ -369,164 +389,164 @@ Para configurações pessoais (não compartilháveis), use `.claude/settings.loc
 }
 ```
 
-## Contribuição
+## Contribution
 
-1. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
-2. Faça suas alterações
-3. Teste o agente/workflow
-4. Commit com mensagem clara
-5. Abra PR (se houver remote configurado)
+1. Create a branch: `git checkout -b feature/new-feature`
+2. Make your changes
+3. Test the agent/workflow
+4. Commit with clear message
+5. Open PR (if remote is configured)
 
 ## Output Styles
 
-Estilos de output personalizados em `.claude/output-styles/`:
+Custom output styles in `.claude/output-styles/`:
 
-| Estilo | Arquivo | Uso |
-|--------|---------|-----|
-| **Direto e Organizado** | `direto-e-organizado.md` | Respostas enxutas, foco no resultado |
+| Style | File | Usage |
+|-------|------|-------|
+| **Direct and Organized** | `direct-and-organized.md` | Concise responses, focus on results |
 
-### Como Usar
+### How to Use
 
-**Mencionar no início da sessão:**
+**Mention at the beginning of the session:**
 ```
-Use o estilo "Direto e Organizado" para esta sessão.
+Use the "Direct and Organized" style for this session.
 ```
 
-**Ou configurar em `.claude/settings.json`:**
+**Or configure in `.claude/settings.json`:**
 ```json
 {
-  "outputStyle": "direto-e-organizado"
+  "outputStyle": "direct-and-organized"
 }
 ```
 
-### Criar Novo Estilo
+### Create New Style
 
-1. Crie arquivo em `.claude/output-styles/nome-do-estilo.md`
-2. Use frontmatter com `name` e `description`
-3. Defina regras claras de comunicação
-4. Teste com o Claude
+1. Create file in `.claude/output-styles/style-name.md`
+2. Use frontmatter with `name` and `description`
+3. Define clear communication rules
+4. Test with Claude
 
-Veja `.claude/output-styles/direto-e-organizado.md` como template.
+See `.claude/output-styles/direct-and-organized.md` as template.
 
-## Memórias
+## Memories
 
-O Claude mantém memórias em `.claude/memory/` sobre:
-- Preferências de estilo de código
-- Decisões arquiteturais
-- Feedbacks passados
+Claude maintains memories in `.claude/memory/` about:
+- Code style preferences
+- Architectural decisions
+- Past feedback
 
-Consulte `MEMORY.md` para o índice de memórias.
+Consult `MEMORY.md` for the memory index.
 
 ---
 
-## Distribuição e Instalação
+## Distribution and Installation
 
-### Instalar em Novo Repositório
+### Install in New Repository
 
-Para usar esta infraestrutura em outro projeto:
+To use this infrastructure in another project:
 
 ```bash
-# Clone o repositório
-git clone https://github.com/seu-org/dcc-claude-infrastructure.git
+# Clone the repository
+git clone https://github.com/your-org/dcc-claude-infrastructure.git
 cd dcc-claude-infrastructure
 
-# Execute o instalador
-node scripts/install.js /caminho/do/seu/projeto
+# Run the installer
+node scripts/install.js /path/to/your/project
 
-# Ou instale no diretório atual
+# Or install in current directory
 node scripts/install.js
 ```
 
-O instalador irá:
-1. Copiar estrutura `.claude/` completa
-2. Criar diretórios `dev/` e `reports/`
-3. Mergear ou criar `CLAUDE.md` raiz
-4. Criar `.gitignore` adequado
+The installer will:
+1. Copy complete `.claude/` structure
+2. Create `incubator/` and `reports/` directories
+3. Merge or create root `CLAUDE.md`
+4. Create appropriate `.gitignore`
 
-### Validar Instalação
+### Validate Installation
 
 ```bash
-node scripts/validate.js
+node scripts/setup/validate.js
 ```
 
-Verifica se todos os componentes estão presentes e configurados corretamente.
+Checks if all components are present and correctly configured.
 
-### Estrutura do Pacote
+### Package Structure
 
-| Componente | Destino | Descrição |
-|------------|---------|-----------|
-| Workflows | `.claude/workflows/` | Agentes YAML |
-| Skills | `.claude/skills/` | Conhecimento modular |
-| Hooks | `.claude/hooks/` | Automação e segurança |
-| Agents | `.claude/agents/` | Subagentes especializados |
+| Component | Destination | Description |
+|-----------|-------------|-------------|
+| Workflows | `.claude/workflows/` | YAML Agents |
+| Skills | `.claude/skills/` | Modular knowledge |
+| Hooks | `.claude/hooks/` | Automation and security |
+| Agents | `.claude/agents/` | Specialized subagents |
 | Commands | `.claude/commands/` | Slash commands |
-| Dev Docs | `dev/` | Sistema de continuidade |
-| Reports | `reports/` | Relatórios gerados |
+| Dev Docs | `incubator/` | Continuity system |
+| Reports | `reports/` | Generated reports |
 
-### Atualização
+### Update
 
-Para atualizar a infraestrutura em um projeto existente:
+To update infrastructure in an existing project:
 
 ```bash
-# Re-execute o instalador (faz backup automático)
-node scripts/install.js /caminho/do/projeto --update
+# Re-run installer (automatic backup)
+node scripts/install.js /path/to/project --update
 ```
 
 ---
 
-## Hooks e Automação
+## Hooks and Automation
 
-Hooks são scripts que interceptam eventos do Claude Code para automação e segurança.
+Hooks are scripts that intercept Claude Code events for automation and security.
 
-### Hooks Configurados
+### Configured Hooks
 
-| Hook | Arquivo | Função |
-|------|---------|--------|
-| **PreToolUse** | `.claude/hooks/pre-tool-use.js` | Verifica skills relevantes antes de ações, sugere contexto adicional, valida parâmetros críticos |
-| **Security** | `.claude/hooks/security-check.js` | Detecta instruções maliciosas injetadas em CLAUDE.md/skills/prompts |
+| Hook | File | Function |
+|------|------|----------|
+| **PreToolUse** | `.claude/hooks/pre-tool-use.js` | Check relevant skills before actions, suggest additional context, validate critical parameters |
+| **Security** | `.claude/hooks/security-check.js` | Detect malicious instructions injected in CLAUDE.md/skills/prompts |
 
 ### PreToolUse Hook
 
-Este hook resolve o problema de skills não ativarem automaticamente ao analisar o contexto da ferramenta e sugerir skills relevantes baseadas em `skill-rules.json`.
+This hook solves the problem of skills not activating automatically by analyzing tool context and suggesting relevant skills based on `skill-rules.json`.
 
-**Funcionalidades:**
-- Detecta triggers de skills no contexto da ação
-- Sugere até 3 skills mais relevantes
-- Valida comandos Bash potencialmente perigosos
-- Alerta sobre modificação de arquivos sensíveis
+**Features:**
+- Detects skill triggers in action context
+- Suggests up to 3 most relevant skills
+- Validates potentially dangerous Bash commands
+- Alerts about sensitive file modifications
 
 ### Security Check Hook
 
-Detecta padrões de injeção maliciosa em arquivos e prompts.
+Detects malicious injection patterns in files and prompts.
 
-**Padrões detectados:**
-- Instruções para ignorar diretrizes (`ignore all previous instructions`)
-- Tentativas de jailbreak (`DAN mode`, modo desenvolvedor)
-- Instruções ocultas em comentários
-- Comandos ofuscados (`eval`, `base64 decode`)
-- Tentativas de exfiltração de dados
+**Detected patterns:**
+- Instructions to ignore guidelines (`ignore all previous instructions`)
+- Jailbreak attempts (`DAN mode`, developer mode)
+- Hidden instructions in comments
+- Obfuscated commands (`eval`, `base64 decode`)
+- Data exfiltration attempts
 
-**Níveis de severidade:**
-- 🔴 **Critical**: Bloqueia a ação
-- 🟠 **High**: Alerta forte
-- 🟡 **Medium**: Alerta moderado
-- ⚪ **Low**: Observação
+**Severity levels:**
+- 🔴 **Critical**: Blocks the action
+- 🟠 **High**: Strong alert
+- 🟡 **Medium**: Moderate alert
+- ⚪ **Low**: Observation
 
-### Como Funcionam
+### How They Work
 
-Os hooks são carregados automaticamente pelo Claude Code quando presentes em `.claude/hooks/`. Eles interceptam eventos antes da execução e podem:
-- Emitir avisos
-- Sugerir contexto adicional
-- Bloquear ações suspeitas (critical)
-- Registrar logs para auditoria
+Hooks are automatically loaded by Claude Code when present in `.claude/hooks/`. They intercept events before execution and can:
+- Issue warnings
+- Suggest additional context
+- Block suspicious actions (critical)
+- Log for audit
 
 ---
 
-## Configurações do Ambiente
+## Environment Configuration
 
 ### Status Line
 
-Configurado em `.claude/settings.json`:
+Configured in `.claude/settings.json`:
 ```json
 {
   "statusLine": {
@@ -535,44 +555,44 @@ Configurado em `.claude/settings.json`:
 }
 ```
 
-Mostra:
-- `[~/.claude/dcc]` - Diretório atual (home como ~)
-- `[main]` - Branch git atual
-- `[sonnet]` - Modelo em uso
+Shows:
+- `[~/.claude/dcc]` - Current directory (home as ~)
+- `[main]` - Current git branch
+- `[sonnet]` - Model in use
 
-### Observabilidade / Logs de Sessão
+### Observability / Session Logs
 
-O Claude Code fornece informações de uso ao final de cada sessão interativa:
+Claude Code provides usage information at the end of each interactive session:
 
 ```
-Sessão concluída.
+Session completed.
 Tokens: 15,234 input | 8,901 output
-Custo estimado: $0.23
+Estimated cost: $0.23
 Cache hit rate: 45%
 ```
 
-**Para logs detalhados:**
+**For detailed logs:**
 ```bash
-# Logs do Claude Code
+# Claude Code logs
 ls ~/.claude/logs/
 
-# Estatísticas de uso
+# Usage statistics
 claude stats
 
-# Histórico de sessões
+# Session history
 claude history
 ```
 
-**Métricas disponíveis:**
-| Métrica | Descrição |
-|---------|-----------|
-| Input tokens | Tokens enviados para a API |
-| Output tokens | Tokens gerados pelo modelo |
-| Cache hit rate | % de tokens lidos do cache |
-| Custo estimado | Valor aproximado em USD |
-| Tempo de resposta | Latência média por requisição |
+**Available metrics:**
+| Metric | Description |
+|--------|-------------|
+| Input tokens | Tokens sent to API |
+| Output tokens | Tokens generated by model |
+| Cache hit rate | % of tokens read from cache |
+| Estimated cost | Approximate value in USD |
+| Response time | Average latency per request |
 
-**Otimizando custos:**
-- Use `cache` quando disponível (mesmo contexto entre chamadas)
-- Quebre tarefas grandes em sessões menores
-- Use modelos menores para tarefas simples (haiku vs sonnet)
+**Cost optimization:**
+- Use `cache` when available (same context between calls)
+- Break large tasks into smaller sessions
+- Use smaller models for simple tasks (haiku vs sonnet)

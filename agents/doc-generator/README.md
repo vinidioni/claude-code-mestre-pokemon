@@ -1,110 +1,110 @@
 # doc-generator
 
-Gera documentação automaticamente a partir do código.
+Automatically generates documentation from code.
 
-## Propósito
+## Purpose
 
-Automatiza a criação e manutenção de documentação:
-- README.md profissionais
-- Documentação de API (OpenAPI/Swagger)
-- Changelogs a partir de commits
-- Guias de contribuição
-- Documentação de arquitetura
-- Comentários inline (JSDoc/TSDoc)
+Automates creation and maintenance of documentation:
+- Professional README.md files
+- API documentation (OpenAPI/Swagger)
+- Changelogs from commits
+- Contribution guides
+- Architecture documentation
+- Inline comments (JSDoc/TSDoc)
 
-## Uso
+## Usage
 
 ### README
 ```bash
-# Gerar README do projeto
+# Generate project README
 claude "execute doc-generator --type=readme"
 
-# Gerar README para submódulo
+# Generate README for submodule
 claude "execute doc-generator --type=readme --target=src/auth/"
 ```
 
-### Documentação de API
+### API Documentation
 ```bash
-# Gerar docs da API
+# Generate API docs
 claude "execute doc-generator --type=api"
 
-# Formato específico
+# Specific format
 claude "execute doc-generator --type=api --output=docs/openapi.yaml"
 ```
 
 ### Changelog
 ```bash
-# Desde última tag
+# Since last tag
 claude "execute doc-generator --type=changelog"
 
-# Período específico
+# Specific period
 claude "execute doc-generator --type=changelog --since=v1.0.0"
 ```
 
-### Contribuição
+### Contributing
 ```bash
 claude "execute doc-generator --type=contributing"
 ```
 
-### Arquitetura
+### Architecture
 ```bash
 claude "execute doc-generator --type=architecture"
 ```
 
-### Comentários Inline
+### Inline Comments
 ```bash
-# Todo projeto
+# Entire project
 claude "execute doc-generator --type=inline"
 
-# Arquivo específico
+# Specific file
 claude "execute doc-generator --type=inline --target=src/utils.ts"
 ```
 
-## Parâmetros
+## Parameters
 
-| Parâmetro | Tipo | Obrigatório | Padrão | Descrição |
-|-----------|------|-------------|--------|-----------|
-| type | string | Sim | `readme` | Tipo de documentação |
-| target | string | Não | `.` | Alvo da geração |
-| output | string | Não | (auto) | Caminho de saída |
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| type | string | Yes | `readme` | Documentation type |
+| target | string | No | `.` | Generation target |
+| output | string | No | (auto) | Output path |
 
-### Tipos de Documentação
+### Documentation Types
 
-| Tipo | Descrição | Output Padrão |
+| Type | Description | Default Output |
 |------|-----------|---------------|
-| readme | README.md do projeto | `README.md` |
-| api | Documentação de API | `docs/api.md` |
+| readme | Project README.md | `README.md` |
+| api | API documentation | `docs/api.md` |
 | changelog | Changelog | `CHANGELOG.md` |
-| contributing | Guia de contribuição | `CONTRIBUTING.md` |
-| architecture | Doc de arquitetura | `docs/architecture.md` |
-| inline | Comentários JSDoc/TSDoc | (inline) |
+| contributing | Contribution guide | `CONTRIBUTING.md` |
+| architecture | Architecture doc | `docs/architecture.md` |
+| inline | JSDoc/TSDoc comments | (inline) |
 
 ## Templates
 
-### README Gerado
+### Generated README
 
-Inclui automaticamente:
-- Título e descrição
-- Badges (se detectado CI)
-- Features principais
-- Stack tecnológica
-- Instalação e configuração
-- Exemplos de uso
-- Testes
-- Estrutura de pastas
-- Contribuição
-- Licença
+Automatically includes:
+- Title and description
+- Badges (if CI detected)
+- Main features
+- Technology stack
+- Installation and configuration
+- Usage examples
+- Tests
+- Folder structure
+- Contributing
+- License
 
 ### API Docs
 
-Suporta:
-- REST API (Markdown ou OpenAPI)
-- GraphQL (schemas e exemplos)
+Supports:
+- REST API (Markdown or OpenAPI)
+- GraphQL (schemas and examples)
 - gRPC (protobuf docs)
 
 ### Changelog
 
-Segue [Keep a Changelog](https://keepachangelog.com/):
+Follows [Keep a Changelog](https://keepachangelog.com/):
 - Added
 - Changed
 - Deprecated
@@ -112,11 +112,11 @@ Segue [Keep a Changelog](https://keepachangelog.com/):
 - Fixed
 - Security
 
-## Exemplos
+## Examples
 
-### Antes e Depois
+### Before and After
 
-**Projeto sem README:**
+**Project without README:**
 ```
 src/
 ├── index.ts
@@ -124,60 +124,60 @@ src/
 └── utils.ts
 ```
 
-**Após executar:**
+**After executing:**
 ```markdown
-# Meu Projeto
+# My Project
 
-## 🎯 Propósito
-API REST para gerenciamento de tarefas.
+## 🎯 Purpose
+REST API for task management.
 
-## 🚀 Tecnologias
+## 🚀 Technologies
 - Node.js + TypeScript
 - Express
 - PostgreSQL
 - Prisma
 
-## 📦 Instalação
+## 📦 Installation
 ```bash
 npm install
 npm run migrate
 npm run dev
 ```
 
-## 🔧 Configuração
+## 🔧 Configuration
 ```env
 DATABASE_URL="postgresql://..."
 JWT_SECRET="your-secret"
 ```
 
-## 🚦 Uso
+## 🚦 Usage
 ```bash
 curl http://localhost:3000/api/tasks
 ```
 
-## 📁 Estrutura
+## 📁 Structure
 ```
 src/
 ├── index.ts      # Entry point
-├── api.ts        # Rotas da API
-└── utils.ts      # Utilitários
+├── api.ts        # API routes
+└── utils.ts      # Utilities
 ```
 ```
 
-## Customização
+## Customization
 
-Para customizar a saída, edite o workflow ou crie um novo baseado no template.
+To customize output, edit the workflow or create a new one based on the template.
 
-## Dicas
+## Tips
 
-1. **Revise sempre** - A documentação gerada é um ponto de partida
-2. **Adicione contexto** - Inclua informações específicas do negócio
-3. **Mantenha atualizado** - Regere periodicamente
-4. **Use no CI** - Gere docs automaticamente em releases
+1. **Always review** - Generated documentation is a starting point
+2. **Add context** - Include business-specific information
+3. **Keep updated** - Regenerate periodically
+4. **Use in CI** - Generate docs automatically on releases
 
-## Integração com CI
+## CI Integration
 
-### GitHub Actions - Gerar README
+### GitHub Actions - Generate README
 ```yaml
 name: Generate Docs
 on:
@@ -195,7 +195,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add README.md
-          git commit -m "[doc] Atualiza README automaticamente" || true
+          git commit -m "[doc] Update README automatically" || true
           git push
 ```
 
@@ -216,13 +216,13 @@ jobs:
         run: claude "execute doc-generator --type=changelog"
 ```
 
-## Limitações
+## Limitations
 
-- Requer código bem estruturado para melhores resultados
-- Não substitui documentação de negócio
-- Comentários inline podem precisar de revisão humana
-- Detecção de stack limitada às mais comuns
+- Requires well-structured code for best results
+- Does not replace business documentation
+- Inline comments may need human review
+- Stack detection limited to most common ones
 
-## Histórico
+## History
 
-- 1.0.0 (2024-07-07) - Versão inicial
+- 1.0.0 (2024-07-07) - Initial version

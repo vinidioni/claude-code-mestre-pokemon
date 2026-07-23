@@ -1,159 +1,119 @@
 # code-review
 
-Agente de revisão de código automatizada.
+Automated code review agent.
 
-## Propósito
+## Purpose
 
-Executa revisão de código abrangente analisando múltiplas dimensões:
-- 🐛 Bugs e problemas de lógica
-- 🔒 Vulnerabilidades de segurança
-- ⚡ Gargalos de performance
-- 📖 Legibilidade e manutenibilidade
-- 🧪 Testabilidade
+Performs comprehensive code review analyzing multiple dimensions:
+- 🐛 Bugs and logic issues
+- 🔒 Security vulnerabilities
+- ⚡ Performance bottlenecks
+- 📖 Readability and maintainability
+- 🧪 Testability
 
-## Uso
+## Usage
 
-### Básico
+### Basic
 ```bash
-# Revisar mudanças não commitadas
+# Review uncommitted changes
 claude "execute code-review"
 
-# Revisar arquivo específico
+# Review specific file
 claude "execute code-review --target=src/components/Button.tsx"
 
-# Revisar diretório
+# Review directory
 claude "execute code-review --target=src/api/"
 ```
 
-### Foco Específico
+### Specific Focus
 ```bash
-# Apenas segurança
+# Only security
 claude "execute code-review --focus=security"
 
-# Apenas performance
+# Only performance
 claude "execute code-review --focus=performance"
 
-# Apenas bugs
+# Only bugs
 claude "execute code-review --focus=bugs"
 ```
 
-### Filtrar Severidade
+### Filter Severity
 ```bash
-# Apenas erros críticos
+# Only critical errors
 claude "execute code-review --severity=error"
 
-# Warnings e acima
+# Warnings and above
 claude "execute code-review --severity=warning"
 ```
 
-## Parâmetros
+## Parameters
 
-| Parâmetro | Tipo | Obrigatório | Padrão | Descrição |
-|-----------|------|-------------|--------|-----------|
-| target | string | Não | `git diff HEAD` | Alvo da análise |
-| focus | string | Não | `all` | Foco específico |
-| severity | string | Não | `all` | Severidade mínima |
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| target | string | No | `git diff HEAD` | Analysis target |
+| focus | string | No | `all` | Specific focus |
+| severity | string | No | `all` | Minimum severity |
 
-### Valores para `target`
-- `git diff` (padrão): mudanças não staged
-- `git diff HEAD`: mudanças desde último commit
-- Caminho de arquivo: `src/api/users.ts`
-- Caminho de diretório: `src/components/`
+### Values for `target`
+- `git diff` (default): unstaged changes
+- `git diff HEAD`: changes since last commit
+- File path: `src/api/users.ts`
+- Directory path: `src/components/`
 
-### Valores para `focus`
-- `all`: Todas as dimensões
-- `security`: Apenas segurança
-- `performance`: Apenas performance
-- `bugs`: Apenas bugs e lógica
-- `style`: Apenas estilo e legibilidade
+### Values for `focus`
+- `all`: All dimensions
+- `security`: Only security
+- `performance`: Only performance
+- `bugs`: Only bugs and logic
+- `style`: Only style and readability
 
 ## Output
 
-O relatório é gerado em formato Markdown com:
+Report is generated in Markdown format with:
 
-### 🔴 CRÍTICO
-Issues que devem ser corrigidas antes do merge.
+### 🔴 CRITICAL
+Issues that must be fixed before merge.
 
-### 🟡 IMPORTANTE
-Issues que devem ser corrigidas na sprint atual.
+### 🟡 IMPORTANT
+Issues that should be fixed in current sprint.
 
-### 🟢 SUGESTÃO
-Melhorias para considerar futuramente.
+### 🟢 SUGGESTION
+Improvements to consider.
 
-### 📊 Resumo
-- Total de issues
-- Distribuição por severidade
-- Recomendações prioritárias
-
-O arquivo é salvo automaticamente em:
-`reports/{data}/code-review-{timestamp}.md`
-
-## Checklist de Análise
-
-### Segurança
-- [ ] SQL Injection
-- [ ] XSS
-- [ ] CSRF
-- [ ] Path Traversal
-- [ ] Hardcoded secrets
-- [ ] Validação de input
-- [ ] Autenticação/autorização
-
-### Performance
-- [ ] Complexidade algorítmica
-- [ ] Re-renderizações
-- [ ] Memory leaks
-- [ ] N+1 queries
-- [ ] Lazy loading
-- [ ] Caching
-
-### Bugs
-- [ ] Race conditions
-- [ ] Null/undefined handling
-- [ ] Off-by-one errors
-- [ ] Async/await correto
-- [ ] Erros de tipagem
-
-### Qualidade
-- [ ] Tamanho de funções
-- [ ] Código duplicado
-- [ ] Nomenclatura
-- [ ] Complexidade ciclomática
-- [ ] Tratamento de erros
-- [ ] Testes
-
-## Exemplo de Output
+## Report Structure
 
 ```markdown
 # Code Review Report
 
-## 🔴 CRÍTICO
+## Summary
+- Files analyzed: 12
+- Issues found: 8
+- Critical: 2
+- Important: 3
+- Suggestions: 3
 
-### src/auth.ts:23
-**Vulnerabilidade:** SQL Injection
-```typescript
-const query = `SELECT * FROM users WHERE id = ${userId}`;
+## Critical Issues
+
+### 🔴 CRITICAL: SQL Injection Risk
+**File:** `src/api/users.ts:45`
+**Issue:** User input directly concatenated in SQL query
+**Fix:** Use parameterized queries
+
+## Important Issues
+
+### 🟡 IMPORTANT: Memory Leak
+**File:** `src/components/List.tsx:23`
+**Issue:** Event listener not removed on unmount
+**Fix:** Add cleanup in useEffect return
+
+## Suggestions
+
+### 🟢 SUGGESTION: Extract Function
+**File:** `src/utils/helpers.ts:112`
+**Suggestion:** This logic could be extracted into a separate function
 ```
-**Correção:**
-```typescript
-const query = 'SELECT * FROM users WHERE id = ?';
-db.query(query, [userId]);
-```
 
-## 🟡 IMPORTANTE
-
-### src/api.ts:45
-**Problema:** Função muito longa (85 linhas)
-**Sugestão:** Extrair em funções menores
-
-## 📊 Resumo
-- Total: 12 issues
-- Críticas: 1
-- Importantes: 5
-- Sugestões: 6
-```
-
-## Integração com CI/CD
+## CI/CD Integration
 
 ### GitHub Actions
 ```yaml
@@ -164,29 +124,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Claude Code Review
+      - name: Run Code Review
         run: |
-          claude "execute code-review --target=${{ github.event.pull_request.base.sha }}..${{ github.sha }}"
+          claude "execute code-review --target=git diff HEAD"
 ```
 
 ### Pre-commit Hook
 ```bash
-#!/bin/sh
+#!/bin/bash
 # .git/hooks/pre-commit
-claude "execute code-review --severity=error"
-if [ $? -ne 0 ]; then
-  echo "Erros críticos encontrados. Corrija antes de commitar."
-  exit 1
-fi
+claude "execute code-review --target=git diff --cached"
 ```
 
-## Limitações
+## Limitations
 
-- Não executa código (análise estática apenas)
-- Pode ter falsos positivos
-- Requer contexto do projeto para análises mais precisas
-- Performance depende do tamanho do codebase
+- Requires code to be syntactically valid
+- Does not execute code (static analysis only)
+- May produce false positives in complex codebases
 
-## Histórico
+---
 
-- 1.0.0 (2024-07-07) - Versão inicial
+**Version:** 1.0.0  
+**Last updated:** 2024-07-15

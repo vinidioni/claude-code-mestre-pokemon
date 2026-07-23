@@ -1,185 +1,185 @@
-# DCCrazy - Kit de Ferramentas para DCC
+# DCC - Development Center Repository
 
-> Extensão de workflows, skills e automações para o DCC (Claude Code Infrastructure).
+> Extension of workflows, skills, and automations for DCC (Claude Code Infrastructure).
 
-**O que é:**
-- **DCC** = Repositório base com estrutura, convenções e documentação
-- **DCCrazy** = Kit de ferramentas (workflows, skills, scripts) que adicionamos por cima
+**What it is:**
+- **DCC** = Base repository with structure, conventions, and documentation
+- **This repo** = Toolkit (workflows, skills, scripts) built on top
 
-**Autor:** Vinicius Castanho (viniciuscastanho@didiglobal.com)
-
----
-
-## 🚀 Quero Usar o DCCrazy (3 Passos Simples)
-
-> **⚠️ Recomendação Importante:** O DCCrazy foi projetado e testado no **VS Code**. Para a melhor experiência, instale a extensão do Claude Code no VS Code e use por lá.
-
-### Passo 1: Baixar
-1. Clique no botão verde **"<> Code"** no GitHub
-2. Selecione **"Download ZIP"**
-3. Salve o arquivo no seu computador
-
-### Passo 2: Preparar
-1. **Descompacte** o arquivo ZIP
-2. **Renomeie** a pasta para `dcc`
-3. **Mova** a pasta `dcc` para sua **Área de Trabalho**
-
-### Passo 3: Instalar (Via VS Code - Recomendado)
-1. Abra o **VS Code**
-2. Instale a extensão **Claude Code** (se ainda não tiver)
-3. Abra a pasta `dcc` da Área de Trabalho no VS Code
-4. Abra o Claude Code (Ctrl+Shift+P → "Claude Code: Open")
-5. Execute: `python scripts/dccrazy-install.py`
-6. Siga as instruções interativas
-
-**Alternativa:** Também funciona via terminal com `claude` diretamente, mas o VS Code oferece integração completa.
-
-✅ **Pronto!** O DCCrazy será instalado automaticamente.
+**Author:** Vinicius Castanho (viniciuscastanho@didiglobal.com)
 
 ---
 
-## 🎯 Índice
+## 🚀 Quick Start (3 Simple Steps)
 
-1. [O que é o DCCrazy](#-o-que-é-o-dccrazy)
-2. [Começando (Setup Detalhado)](#-começando-setup-do-zero)
-3. [O que você pode fazer](#-o-que-você-pode-fazer-com-o-dccrazy)
-4. [Comandos e Convenções](#-comandos-essenciais)
-5. [Documentação](#-documentação)
+> **⚠️ Important Recommendation:** This toolkit is designed and tested for **VS Code**. For the best experience, install the Claude Code extension in VS Code and use it there.
+
+### Step 1: Download
+1. Click the green **"<> Code"** button on GitHub
+2. Select **"Download ZIP"**
+3. Save the file to your computer
+
+### Step 2: Prepare
+1. **Extract** the ZIP file
+2. **Rename** the folder to `dcc`
+3. **Move** the `dcc` folder to your **Desktop**
+
+### Step 3: Install (Via VS Code - Recommended)
+1. Open **VS Code**
+2. Install the **Claude Code** extension (if not already installed)
+3. Open the `dcc` folder from Desktop in VS Code
+4. Open Claude Code (Ctrl+Shift+P → "Claude Code: Open")
+5. Run: `python scripts/install/dccrazy-install.py`
+6. Follow the interactive instructions
+
+**Alternative:** Also works via terminal with `claude` directly, but VS Code offers full integration.
+
+✅ **Done!** The toolkit will be installed automatically.
 
 ---
 
-## 🎓 O Que é o DCCrazy
+## 🎯 Table of Contents
 
-O DCCrazy é um **kit de ferramentas** que estende as capacidades do Claude Code (DCC) com:
-
-- **Workflows** → Automações prontas (code review, relatórios, etc)
-- **Skills** → Conhecimento especializado que ativa automaticamente
-- **Dev Docs** → Sistema para não perder contexto entre sessões
-- **Enciclopédia** → Mapeamento automático de tabelas do banco
-- **Integrações** → Conectores para GitHub, DiDi Docs, D-Chat, etc
+1. [What is DCC](#-what-is-dcc)
+2. [Getting Started (Detailed Setup)](#-getting-started-setup-from-scratch)
+3. [What You Can Do](#-what-you-can-do)
+4. [Commands and Conventions](#-essential-commands)
+5. [Documentation](#-documentation)
 
 ---
 
-## 🔗 Recebeu o Link do Repositório?
+## 🎓 What is DCC
 
-Se alguém te enviou o link do DCCrazy no GitHub, aqui está o passo a passo para ter acesso:
+This is a **toolkit** that extends Claude Code capabilities with:
 
-### Opção 1: Quero Ter Meu Próprio DCCrazy (Recomendado)
+- **Workflows** → Ready automations (code review, reports, etc.)
+- **Skills** → Specialized knowledge that activates automatically
+- **Dev Docs** → System to not lose context between sessions
+- **Encyclopedia** → Automatic mapping of database tables
+- **Integrations** → Connectors for GitHub, DiDi Docs, D-Chat, etc.
 
-Isso te dá acesso a todos os workflows, skills e ferramentas:
+---
+
+## 🔗 Received the Repository Link?
+
+If someone sent you this repository link on GitHub, here's how to access it:
+
+### Option 1: I Want My Own Copy (Recommended)
+
+This gives you access to all workflows, skills, and tools:
 
 ```bash
-# 1. Clone o repositório
-git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git dccrazy
-cd dccrazy
+# 1. Clone the repository
+git clone https://github.com/your-org/dcc-claude-infrastructure.git dcc
+cd dcc
 
-# 2. Execute o setup automático
+# 2. Run automatic setup
 # Windows:
-.\scripts\setup.ps1
+.\scripts\setup\setup.ps1
 # macOS/Linux:
-bash scripts/setup.sh
+bash scripts/setup/setup.sh
 
-# 3. Configure suas credenciais (veja seção "Onde Pegar as Credenciais")
+# 3. Configure your credentials (see "Where to Get Credentials" section)
 cp .env.example .env
-# Edite o .env com seus tokens
+# Edit .env with your tokens
 
-# 4. Verifique a instalação
-node scripts/verify-setup.js
+# 4. Verify installation
+node scripts/setup/verify-setup.js
 
-# 5. Pronto!
+# 5. Done!
 claude
 ```
 
-**Você terá:**
-- ✅ Todos os workflows do DCCrazy
-- ✅ Skills que ativam automaticamente
-- ✅ Sistema de Dev Docs
-- ✅ Enciclopédia de tabelas
-- ✅ Scripts de backup e atualização
+**You will have:**
+- ✅ All workflows
+- ✅ Auto-activating skills
+- ✅ Dev Docs system
+- ✅ Table encyclopedia
+- ✅ Backup and update scripts
 
 ---
 
-### Opção 2: Só Quero Ver/Consultar o Conteúdo
+### Option 2: Just Want to View/Consult Content
 
-Se você só quer ver as queries, documentações ou relatorios:
+If you just want to see queries, documentation, or reports:
 
-1. **Acesse o GitHub diretamente:** https://github.com/vinidioni/claude-code-mestre-pokemon
-2. **Navegue pelas pastas:**
-   - `analytics/queries/` → Queries SQL prontas
-   - `docs/` → Documentações e guias
-   - `reports/` → Relatórios gerados
-   - `.claude/workflows/agents/` → Workflows disponíveis
+1. **Access GitHub directly:** https://github.com/your-org/dcc-claude-infrastructure
+2. **Navigate folders:**
+   - `sql-library/queries/` → Ready SQL queries
+   - `docs/` → Documentation and guides
+   - `reports/` → Generated reports
+   - `.claude/workflows/agents/` → Available workflows
 
-3. **Para usar:** Você pode copiar arquivos específicos manualmente, mas não terá o sistema completo funcionando.
-
----
-
-### ⚠️ Importante sobre Acesso
-
-**O repositório é público?**
-- Se sim: qualquer pessoa com o link pode clonar e usar
-- Se não: a pessoa precisa que você adicione ela como colaboradora no GitHub
-
-**Para adicionar alguém como colaboradora:**
-1. Vá em Settings → Manage access (no GitHub)
-2. Clique em "Invite a collaborator"
-3. Adicione o email/username da pessoa
+3. **To use:** You can copy specific files manually, but won't have the complete working system.
 
 ---
 
-## 📁 Por Que Pasta Local?
+### ⚠️ Important About Access
 
-O DCCrazy é projetado para funcionar em **pasta local** (não Google Drive) por:
+**Is the repository public?**
+- If yes: anyone with the link can clone and use
+- If no: the person needs you to add them as a collaborator on GitHub
 
-| Vantagem | Explicação |
-|----------|------------|
-| **Git Versionado** | Histórico completo de mudanças, branches, rollback |
-| **Execução de Scripts** | Scripts Python funcionam nativamente |
-| **Velocidade** | Sem latência de rede para arquivos pequenos |
-| **Claude Code** | Integração nativa com a CLI |
-| **MCPs** | Servidores locais (D-Chat, Cooper) funcionam melhor |
-
-**Backup no Drive:** Oferecemos função opcional para sincronizar com Google Drive quando desejar (ver seção "Backup no Google Drive").
+**To add someone as collaborator:**
+1. Go to Settings → Manage access (on GitHub)
+2. Click "Invite a collaborator"
+3. Add the person's email/username
 
 ---
 
-## 🚀 Começando (Setup do Zero)
+## 📁 Why Local Folder?
 
-### 1. Clone e Entre no Diretório
+This toolkit is designed to work in a **local folder** (not Google Drive) because:
+
+| Advantage | Explanation |
+|-----------|-------------|
+| **Git Versioned** | Complete change history, branches, rollback |
+| **Script Execution** | Python scripts work natively |
+| **Speed** | No network latency for small files |
+| **Claude Code** | Native CLI integration |
+| **MCPs** | Local servers (D-Chat, Cooper) work better |
+
+**Backup to Drive:** Optional function to sync with Google Drive when desired (see "Backup to Google Drive" section).
+
+---
+
+## 🚀 Getting Started (Setup from Scratch)
+
+### 1. Clone and Enter Directory
 
 ```bash
-git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git dcc
+git clone https://github.com/your-org/dcc-claude-infrastructure.git dcc
 cd dcc
 ```
 
-### 2. Execute o Setup Automático
+### 2. Run Automatic Setup
 
-**Windows (PowerShell como Admin):**
+**Windows (PowerShell as Admin):**
 ```powershell
-.\scripts\setup.ps1
+.\scripts\setup\setup.ps1
 ```
 
 **macOS/Linux:**
 ```bash
-bash scripts/setup.sh
+bash scripts/setup/setup.sh
 ```
 
-### 3. Configure suas Credenciais
+### 3. Configure Your Credentials
 
 ```bash
-# Copie o arquivo de exemplo
+# Copy example file
 cp .env.example .env
 
-# Edite com suas credenciais
+# Edit with your credentials
 ```
 
-### 4. Verifique a Instalação
+### 4. Verify Installation
 
 ```bash
-node scripts/verify-setup.js
+node scripts/setup/verify-setup.js
 ```
 
-### 5. Comece a Usar
+### 5. Start Using
 
 ```bash
 claude
@@ -187,437 +187,433 @@ claude
 
 ---
 
-## 📋 Requisitos
+## 📋 Requirements
 
-| Ferramenta | Versão | Obrigatório |
+| Tool | Version | Required |
 |------------|--------|-------------|
 | [Node.js](https://nodejs.org) | 18+ | ✅ |
 | [Python](https://python.org) | 3.10+ | ✅ |
 | [Git](https://git-scm.com) | 2.40+ | ✅ |
 | [Claude Code](https://claude.ai/code) | latest | ✅ |
 
-Veja [SETUP.md](SETUP.md) para instruções detalhadas de instalação.
+See [SETUP.md](SETUP.md) for detailed installation instructions.
 
 ---
 
-## 🔑 Onde Pegar as Credenciais
+## 🔑 Where to Get Credentials
 
-**⚠️ Importante:** Todos os MCPs (integrações) requerem que você configure seu próprio token de acesso. O DCC não inclui credenciais pré-configuradas.
+**⚠️ Important:** All MCPs (integrations) require you to configure your own access token. DCC does not include pre-configured credentials.
 
-| Serviço | Onde Obter | Notas |
+| Service | Where to Obtain | Notes |
 |---------|------------|-------|
-| **GitHub** | https://github.com/settings/tokens | Token classic, scopes: `repo`, `read:user`, `read:org` |
-| **Google Workspace** | https://console.cloud.google.com | Criar projeto → Ativar APIs (Gmail, Calendar, Drive) → Criar credenciais OAuth 2.0 → Baixar `client_secret.json` |
-| **Cooper (DiDi Docs)** | https://mcphub.intra.xiaojukeji.com/ | Clique em **访问令牌** (token de acesso). ⚠️ **Dica:** Se criar o token e não aparecer a chave, desative o tradutor da página - o erro só aparece no idioma original |
-| **D-Chat** | https://mcphub.intra.xiaojukeji.com/ | Mesmo processo do Cooper. Requer SmartWork CLI instalado |
-| **Gattaran** | https://mcphub.intra.xiaojukeji.com/ | Mesmo processo do Cooper |
+| **GitHub** | https://github.com/settings/tokens | Classic token, scopes: `repo`, `read:user`, `read:org` |
+| **Google Workspace** | https://console.cloud.google.com | Create project → Enable APIs (Gmail, Calendar, Drive) → Create OAuth 2.0 credentials → Download `client_secret.json` |
+| **Cooper (DiDi Docs)** | https://mcphub.intra.xiaojukeji.com/ | Click **访问令牌** (access token). ⚠️ **Tip:** If you create the token and the key doesn't appear, disable page translator - the error only appears in the original language |
+| **D-Chat** | https://mcphub.intra.xiaojukeji.com/ | Same process as Cooper. Requires SmartWork CLI installed |
+| **Gattaran** | https://mcphub.intra.xiaojukeji.com/ | Same process as Cooper |
 
-Após obter os tokens, configure-os no arquivo `.env` e no `.mcp.json`.
+After obtaining tokens, configure them in `.env` and `.mcp.json`.
 
 ---
 
-## 🏗️ Arquitetura do DCC
+## 🏗️ DCC Architecture
 
-O DCC é organizado em **5 camadas** que trabalham juntas:
+DCC is organized in **5 layers** that work together:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  1. Camada de Interface                                  │
+│  1. Interface Layer                                      │
 │     - Slash Commands (/dev-docs, /skill, /workflow)     │
 ├─────────────────────────────────────────────────────────┤
-│  2. Camada de Automação                                  │
-│     - Workflows (YAML) - Processos completos            │
-│     - Subagentes (MD) - Raciocínio adaptativo           │
+│  2. Automation Layer                                     │
+│     - Workflows (YAML) - Complete processes             │
+│     - Subagents (MD) - Adaptive reasoning               │
 ├─────────────────────────────────────────────────────────┤
-│  3. Camada de Conhecimento                               │
+│  3. Knowledge Layer                                      │
 │     - Skills (Progressive Disclosure)                   │
-│     - Dev Docs (Continuidade entre sessões)             │
+│     - Dev Docs (Continuity between sessions)            │
 ├─────────────────────────────────────────────────────────┤
-│  4. Camada de Segurança                                  │
-│     - PreToolUse Hook (Sugestões contextuais)           │
-│     - Security Hook (Detecção de injeção)               │
+│  4. Security Layer                                       │
+│     - PreToolUse Hook (Contextual suggestions)          │
+│     - Security Hook (Injection detection)               │
 ├─────────────────────────────────────────────────────────┤
-│  5. Camada de Integração                                 │
+│  5. Integration Layer                                    │
 │     - MCP Servers (GitHub, Google, Cooper, etc.)        │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 💡 O Que Você Pode Fazer com o DCC
+## 💡 What You Can Do
 
-Pergunte ao Claude no DCC usando linguagem natural:
+Ask Claude in DCC using natural language:
 
-### Integrar com Serviços Externos
-**Você diz:** *"Como integro com GitHub?"* ou *"Configure o MCP para Slack"*
+### Integrate with External Services
+**You say:** *"How do I integrate with GitHub?"* or *"Configure MCP for Slack"*
 
-**O DCC faz:** Explica como configurar o `.mcp.json` e quais tokens são necessários
+**DCC does:** Explains how to configure `.mcp.json` and which tokens are needed
 
-**MCPs disponíveis:**
-| Servidor | Função | Status |
+**Available MCPs:**
+| Server | Function | Status |
 |----------|--------|--------|
-| **Cooper** | Documentação DiDi (DiDi Docs) | ✅ Requer token mcphub |
-| **D-Chat** | Mensagens internas DiDi | ✅ Requer token mcphub + SmartWork CLI |
-| **Gattaran** | Order Management Viewer | ✅ Requer token mcphub |
-| **Google Workspace** | Gmail, Calendar, Drive | ⚙️ Requer configuração OAuth |
-| **GitHub** | Issues, PRs, repositórios | ⚙️ Requer token GitHub |
+| **Cooper** | DiDi Documentation (DiDi Docs) | ✅ Requires mcphub token |
+| **D-Chat** | Internal DiDi messages | ✅ Requires mcphub token + SmartWork CLI |
+| **Gattaran** | Order Management Viewer | ✅ Requires mcphub token |
+| **Google Workspace** | Gmail, Calendar, Drive | ⚙️ Requires OAuth configuration |
+| **GitHub** | Issues, PRs, repositories | ⚙️ Requires GitHub token |
 
 ---
 
-### Criar Queries Organizadas
-**Você diz:** *"Crie uma query para [descrição]"*
+### Create Organized Queries
+**You say:** *"Create a query for [description]"*
 
-**O DCC faz:**
-1. Cria a query com cabeçalho obrigatório
-2. **Pergunta:** "Esta query acessa Data-E?" → Salva em `presto/` ou `data-e/`
-3. Atualiza o índice do diretório
-4. Detecta tabelas novas → Atualiza a **Enciclopédia**
+**DCC does:**
+1. Creates query with mandatory header
+2. **Asks:** "Does this query access Data-E?" → Saves in `presto/` or `data-e/`
+3. Updates directory index
+4. Detects new tables → Updates **Encyclopedia**
 
-**Documentação:** [docs/convenção-queries.md](docs/convenção-queries.md)
-
----
-
-### Consultar a Enciclopédia de Tabelas
-**Você diz:** *"Quais tabelas eu já usei?"* ou *"Me mostre a estrutura da tabela X"*
-
-**O DCC faz:** Consulta `analytics/encyclopedia/tables.json` e mostra:
-- Tabelas que você já consultou
-- Descrições que você adicionou
-- Colunas documentadas
-
-**Como funciona:**
-- Toda query é analisada automaticamente
-- Tabelas novas são adicionadas à enciclopédia
-- Você pode adicionar descrições manualmente depois
-
-**Documentação:** [docs/enciclopedia-tabelas.md](docs/enciclopedia-tabelas.md)
+**Documentation:** [docs/sql/query-template.md](docs/sql/query-template.md)
 
 ---
 
-### Ensinar o DCCrazy Meus Padrões
-**Você diz:** *"Sempre que eu [fazer X], sugira [Y]"*
+### Consult Table Encyclopedia
+**You say:** *"What tables have I used?"* or *"Show me table X structure"*
 
-**O DCC faz:**
-1. Registra o padrão em `.claude/memory/feedback-system.md`
-2. Nas próximas vezes, aplica o aprendizado
+**DCC does:** Queries `sql-library/encyclopedia/tables.json` and shows:
+- Tables you have consulted
+- Descriptions you added
+- Documented columns
 
-**Exemplo:**
+**How it works:**
+- Every query is automatically analyzed
+- New tables are added to the encyclopedia
+- You can add descriptions manually later
+
+---
+
+### Teach DCC Your Patterns
+**You say:** *"Whenever I [do X], suggest [Y]"*
+
+**DCC does:**
+1. Records the pattern in `.claude/memory/feedback-system.md`
+2. Applies learning in future interactions
+
+**Example:**
 ```
-Você: "Sempre use CTE ao invés de subquery nas minhas queries"
-DCC: "Vou lembrar disso. Posso sugerir CTEs da próxima vez?"
-Você: "Sim"
-[DCC salva o feedback]
+You: "Always use CTE instead of subquery in my queries"
+DCC: "I'll remember that. Can I suggest CTEs next time?"
+You: "Yes"
+[DCC saves the feedback]
 
-[Próxima query]
-DCC: "Quer que eu use CTE para essa query?"
+[Next query]
+DCC: "Want me to use CTE for this query?"
 ```
 
-**Documentação:** [docs/sistema-feedback.md](docs/sistema-feedback.md)
-
 ---
 
-### Automatizar uma Tarefa que Você Faz Sempre
-**Você diz:** *"Crie um workflow para [descreva a tarefa]"*
+### Automate a Task You Always Do
+**You say:** *"Create a workflow for [describe task]"*
 
-**O DCC faz:** Cria um workflow YAML personalizado em `.claude/workflows/agents/`
+**DCC does:** Creates a custom YAML workflow in `.claude/workflows/agents/`
 
-**Workflows já disponíveis:**
-| Workflow | Quando Usar |
+**Available workflows:**
+| Workflow | When to Use |
 |----------|-------------|
-| `code-review` | Revisar código automaticamente (bugs, segurança, performance) |
-| `doc-generator` | Gerar documentação de um projeto |
-| `report-generator` | Criar relatórios estruturados |
+| `code-review` | Automatically review code (bugs, security, performance) |
+| `doc-generator` | Generate project documentation |
+| `report-generator` | Create structured reports |
 
 ---
 
-### Ter o Claude Especializado em Certos Contextos
-**Você diz:** *"Crie uma skill para [assunto]"* ou simplesmente mencione o assunto
+### Have Claude Specialized in Certain Contexts
+**You say:** *"Create a skill for [subject]"* or simply mention the subject
 
-**O DCC faz:** Cria uma skill que ativa automaticamente quando você fala sobre aquele tema
+**DCC does:** Creates a skill that activates automatically when you talk about that topic
 
-**Como funciona:**
+**How it works:**
 ```
-Você diz: "crie um componente React"
+You say: "create a React component"
           ↓
-Skill "react-patterns" detecta a palavra "React"
+Skill "react-patterns" detects the word "React"
           ↓
-Claude responde seguindo padrões React definidos
+Claude responds following defined React patterns
 ```
 
-**Skills disponíveis:**
-| Skill | Ativa Quando Você Menciona... |
+**Available skills:**
+| Skill | Activates When You Mention... |
 |-------|-------------------------------|
 | `conventional-commits` | "commit", "conventional commits" |
-| `react-patterns` | "react", "componente", "tsx" |
+| `react-patterns` | "react", "component", "tsx" |
 | `api-design` | "api", "endpoint", "rest" |
-| `cooper` | "cooper", "documento didi", "docs2" |
-| `engineering-skills` | "data engineering", "arquitetura", "backend", "devops" |
+| `cooper` | "cooper", "didi document", "docs2" |
+| `engineering-skills` | "data engineering", "architecture", "backend", "devops" |
 
 ---
 
-### Não Perder Contexto Entre Sessões de Trabalho
-**Você diz:** *"Inicie um Dev Doc para [nome da tarefa]"*
+### Don't Lose Context Between Work Sessions
+**You say:** *"Start a Dev Doc for [task name]"*
 
-**O DCC faz:** Cria uma estrutura de acompanhamento em `dev/active/[nome]/`
+**DCC does:** Creates a tracking structure in `incubator/in-progress/[name]/`
 
-**Por que usar Dev Docs?**
+**Why use Dev Docs?**
 
-**Problema real:** Você trabalha em uma tarefa complexa hoje, para no meio, e amanhã não lembra:
-- Onde parou
-- Quais arquivos estava editando
-- Qual era a decisão arquitetural que tomou
+**Real problem:** You work on a complex task today, stop in the middle, and tomorrow don't remember:
+- Where you stopped
+- Which files you were editing
+- What architectural decision you made
 
-**Solução - Arquivos gerados:**
-| Arquivo | Utilidade |
+**Solution - Generated files:**
+| File | Utility |
 |---------|-----------|
-| `plan.md` | **Decisões e estratégia** - Documenta o "porquê" das escolhas. Útil quando você volta dias depois e não lembra a lógica |
-| `context.md` | **Histórico por sessão** - Registra o que foi feito em cada dia, quais arquivos foram tocados. Útil para saber exatamente "onde parei" |
-| `tasks-checklist.md` | **Tarefas pendentes** - Lista o que falta fazer com checkboxes. Útil para não esquecer nenhum passo |
+| `plan.md` | **Decisions and strategy** - Documents the "why" of choices. Useful when you return days later and don't remember the logic |
+| `context.md` | **Session history** - Records what was done each day, which files were touched. Useful to know exactly "where I left off" |
+| `tasks-checklist.md` | **Pending tasks** - Lists what remains to do with checkboxes. Useful to not forget any step |
 
-**Como usar:**
+**How to use:**
 ```bash
-# Iniciar tarefa
-/dev-docs init implementar-autenticacao
+# Start task
+/dev-docs init implement-authentication
 
-# Ver tarefas ativas
+# View active tasks
 /dev-docs status
 
-# Continuar depois
-/dev-docs continue implementar-autenticacao
+# Continue later
+/dev-docs continue implement-authentication
 
-# Marcar como concluída
-/dev-docs archive implementar-autenticacao
+# Mark as complete
+/dev-docs archive implement-authentication
 ```
 
 ---
 
-### Verificar Atualizações do DCCrazy
-**Você diz:** *"Há atualizações no DCCrazy?"* ou *"Verifique atualizações"*
+### Check for Updates
+**You say:** *"Are there updates?"* or *"Check for updates"*
 
-**O DCC faz:** Executa o script `scripts/check-updates.py` que:
-1. Verifica se há commits novos no GitHub
-2. Mostra o que mudou
-3. Faz backup das suas configurações (.env, .mcp.json)
-4. Atualiza se você aprovar
-5. Restaura suas configurações locais
+**DCC does:** Runs `scripts/maintenance/check-updates.py` which:
+1. Checks for new commits on GitHub
+2. Shows what changed
+3. Backs up your configurations (.env, .mcp.json)
+4. Updates if you approve
+5. Restores your local configurations
 
 ---
 
-### Outras Funcionalidades
+### Other Features
 
-| Quero... | Diga ao DCC... |
+| I want to... | Tell DCC... |
 |----------|----------------|
-| **Revisar código** | "Execute code review" ou "revise meu código" |
-| **Gerar relatório** | "Crie um relatório de [tipo]" |
-| **Listar skills disponíveis** | `/skill list` |
-| **Executar skill específica** | `/skill run conventional-commits` |
-| **Mudar estilo de resposta** | "Use o estilo direto e organizado" |
-| **Ver integrações ativas** | `claude mcp status` |
+| **Review code** | "Execute code review" or "review my code" |
+| **Generate report** | "Create a [type] report" |
+| **List available skills** | `/skill list` |
+| **Execute specific skill** | `/skill run conventional-commits` |
+| **Change response style** | "Use direct and organized style" |
+| **View active integrations** | `claude mcp status` |
 
 ---
 
-## 🛠️ Comandos Essenciais
+## 🛠️ Essential Commands
 
 ### Slash Commands
 
-| Comando | O que Faz | Exemplo |
+| Command | What It Does | Example |
 |---------|-----------|---------|
-| `/skill` | Lista ou executa skills | `/skill list`, `/skill run conventional-commits` |
-| `/workflow` | Lista ou executa workflows | `/workflow`, `/workflow code-review` |
-| `/dev-docs` | Gerencia documentação de desenvolvimento | `/dev-docs init minha-feature` |
+| `/skill` | Lists or executes skills | `/skill list`, `/skill run conventional-commits` |
+| `/workflow` | Lists or executes workflows | `/workflow`, `/workflow code-review` |
+| `/dev-docs` | Manages development documentation | `/dev-docs init my-feature` |
 
-### Comandos do Claude Code
+### Claude Code Commands
 
 ```bash
-/help              # Mostra todos os comandos disponíveis
-/clear             # Limpa o contexto da conversa
-/cost              # Mostra o custo da sessão atual
-/tokens            # Mostra uso de tokens
+/help              # Shows all available commands
+/clear             # Clears conversation context
+/cost              # Shows current session cost
+/tokens            # Shows token usage
 ```
 
 ---
 
-## 📝 Convenções do Projeto
+## 📝 Project Conventions
 
 ### Queries
 
-Toda query deve seguir as regras rigorosas de organização:
+Every query must follow strict organization rules:
 
-- **Local:** Salvar em `analytics/queries/presto/` (genéricas) ou `analytics/queries/data-e/` (Data-E)
-- **Template:** Usar cabeçalho obrigatório com descrição, autor, tabelas
-- **Índice:** Sempre adicionar ao README.md da pasta
+- **Location:** Save in `sql-library/queries/presto/` (generic) or `sql-library/queries/data-e/` (Data-E)
+- **Template:** Use mandatory header with description, author, tables
+- **Index:** Always add to folder README.md
 
-**Documentação completa:** [docs/convenção-queries.md](docs/convenção-queries.md)
+**Full documentation:** [docs/sql/query-template.md](docs/sql/query-template.md)
 
 ---
 
-### Nomenclatura
+### Naming
 
-| Elemento | Padrão | Exemplo |
+| Element | Pattern | Example |
 |----------|--------|---------|
-| Arquivos | `kebab-case` | `code-review.yaml` |
-| Pastas | `kebab-case` | `api-service/` |
-| Agentes | `kebab-case` | `code-review`, `doc-generator` |
-| Relatórios | `{tipo}-report-YYYY-MM-DD.{ext}` | `weekly-report-2024-07-22.md` |
+| Files | `kebab-case` | `code-review.yaml` |
+| Folders | `kebab-case` | `api-service/` |
+| Agents | `kebab-case` | `code-review`, `doc-generator` |
+| Reports | `{type}-report-YYYY-MM-DD.{ext}` | `weekly-report-2024-07-22.md` |
 
 ### Commits
 
 ```
-[tipo] Descrição curta
+[type] Short description
 
-Corpo detalhado se necessário.
+Detailed body if necessary.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-**Tipos:**
-- `[agent]` - Novo agente ou atualização
-- `[skill]` - Nova skill modular
-- `[report]` - Relatório gerado
-- `[template]` - Template adicionado/atualizado
-- `[doc]` - Documentação
-- `[chore]` - Manutenção
-- `[fix]` - Correção em agente
+**Types:**
+- `[agent]` - New agent or update
+- `[skill]` - New modular skill
+- `[report]` - Generated report
+- `[template]` - Added/updated template
+- `[doc]` - Documentation
+- `[chore]` - Maintenance
+- `[fix]` - Agent fix
 
 ### Branches
 
 ```
-main                    # Branch principal
-├── feature/[nome]       # Novas funcionalidades
-├── agent/[nome]         # Novos agentes
-├── fix/[nome]          # Correções
-├── report/[periodo]    # Relatórios
-└── docs/[assunto]      # Documentação
+main                    # Main branch
+├── feature/[name]       # New features
+├── agent/[name]         # New agents
+├── fix/[name]          # Fixes
+├── report/[period]    # Reports
+└── docs/[subject]      # Documentation
 ```
 
 ---
 
-## 🧪 Primeiros Passos Após Instalação
+## 🧪 First Steps After Installation
 
-Teste se tudo funciona:
+Test if everything works:
 
 ```bash
-# 1. Verificar skills
+# 1. Check skills
 /skill list
 
-# 2. Testar ativação automática
-"como faço um commit no padrão conventional commits?"
+# 2. Test automatic activation
+"how do I make a conventional commit?"
 
-# 3. Executar workflow
+# 3. Execute workflow
 /workflow
 
-# 4. Criar Dev Docs
-/dev-docs init minha-primeira-tarefa
+# 4. Create Dev Docs
+/dev-docs init my-first-task
 
-# 5. Verificar MCPs
+# 5. Check MCPs
 claude mcp status
 
-# 6. Verificar atualizações
-python scripts/check-updates.py
+# 6. Check for updates
+python scripts/maintenance/check-updates.py
 ```
 
 ---
 
-## 📚 Documentação
+## 📚 Documentation
 
-### Principais
-- **[CLAUDE.md](CLAUDE.md)** - Documentação completa de referência
-- **[SETUP.md](SETUP.md)** - Guia detalhado de instalação
+### Main
+- **[CLAUDE.md](CLAUDE.md)** - Complete reference documentation
+- **[docs/guides/claude-code.md](docs/guides/claude-code.md)** - Detailed installation guide
 
-### Funcionalidades do DCCrazy
-- **[docs/convenção-queries.md](docs/convenção-queries.md)** - Regras para criar queries
-- **[docs/enciclopedia-tabelas.md](docs/enciclopedia-tabelas.md)** - Sistema de documentação de tabelas
-- **[docs/sistema-feedback.md](docs/sistema-feedback.md)** - Aprendizado contínuo
+### Toolkit Features
+- **[docs/sql/query-template.md](docs/sql/query-template.md)** - Rules for creating queries
+- **[sql-library/encyclopedia/README.md](sql-library/encyclopedia/README.md)** - Table documentation system
+- **[docs/operations/feedback-system.md](docs/operations/feedback-system.md)** - Continuous learning
 
-### Integrações
-- **[docs/mcp-setup-guide.md](docs/mcp-setup-guide.md)** - Como adicionar MCPs
-- **[docs/google-workspace-setup.md](docs/google-workspace-setup.md)** - Integração Google
+### Integrations
+- **[docs/guides/mcp-setup.md](docs/guides/mcp-setup.md)** - How to add MCPs
+- **[docs/guides/google-workspace.md](docs/guides/google-workspace.md)** - Google integration
 
-### Contexto Específico
-- **.claude/workflows/CLAUDE.md** - Como criar workflows
-- **.claude/skills/CLAUDE.md** - Como criar skills
-- **dev/CLAUDE.md** - Como usar Dev Docs
+### Specific Context
+- **.claude/workflows/CLAUDE.md** - How to create workflows
+- **.claude/skills/CLAUDE.md** - How to create skills
+- **incubator/CLAUDE.md** - How to use Dev Docs
 
 ---
 
-## ✅ Verificação de Instalação
+## ✅ Installation Verification
 
 ```bash
-node scripts/verify-setup.js
+node scripts/setup/verify-setup.js
 ```
 
-Verifica:
-- ✅ Node.js instalado
-- ✅ Python instalado
-- ✅ Claude Code instalado
-- ✅ Variáveis de ambiente configuradas
-- ✅ MCPs funcionando
-- ✅ Skills carregadas
+Checks:
+- ✅ Node.js installed
+- ✅ Python installed
+- ✅ Claude Code installed
+- ✅ Environment variables configured
+- ✅ MCPs working
+- ✅ Skills loaded
 
 ---
 
-## 💾 Backup no Google Drive
+## 💾 Backup to Google Drive
 
-Para criar um backup do seu DCCrazy completo no Google Drive:
+To create a backup of your complete DCC in Google Drive:
 
 ```bash
-python scripts/backup-to-drive.py
+python scripts/google/backup-to-drive.py
 ```
 
-**O que é sincronizado:**
-- Todo o conteúdo do DCCrazy (cópia exata)
-- Estrutura de pastas preservada
-- Configurações pessoais (.env, .mcp.json)
-- Queries, relatórios, dev docs
+**What is synchronized:**
+- All DCC content (exact copy)
+- Preserved folder structure
+- Personal configurations (.env, .mcp.json)
+- Queries, reports, dev docs
 
-**Requisitos:**
-- MCP Google Workspace configurado
-- Pasta `DCCrazy_Backup` será criada no seu Drive
+**Requirements:**
+- Google Workspace MCP configured
+- `DCC_Backup` folder will be created in your Drive
 
-**Observações:**
-- Backup é **manual** (você executa quando quiser)
-- Sempre cria uma nova versão (não sobrescreve)
-- Útil para acessar de outros dispositivos ou recuperar após formatação
+**Notes:**
+- Backup is **manual** (you run when you want)
+- Always creates a new version (doesn't overwrite)
+- Useful to access from other devices or recover after formatting
 
 ---
 
-## 🔄 Atualizando o DCCrazy
+## 🔄 Updating
 
-Para atualizar seu kit de ferramentas com as últimas mudanças do GitHub:
+To update your toolkit with the latest changes from GitHub:
 
 ```bash
-python scripts/check-updates.py
+python scripts/maintenance/check-updates.py
 ```
 
-O script irá:
-1. Verificar se há atualizações disponíveis no DCCrazy
-2. Mostrar o que mudou
-3. Fazer backup das suas configurações locais
-4. Aplicar a atualização (se você aprovar)
-5. Restaurar suas configurações
+The script will:
+1. Check if updates are available
+2. Show what changed
+3. Backup your local configurations
+4. Apply update (if you approve)
+5. Restore your configurations
 
 ---
 
-## 👤 Autoria
+## 👤 Authorship
 
-Criado por **Vinicius Castanho** (viniciuscastanho@didiglobal.com) com assistência de Claude Code.
+Created by **Vinicius Castanho** (viniciuscastanho@didiglobal.com) with Claude Code assistance.
 
-Em caso de dúvidas ou sugestões, entre em contato.
+For questions or suggestions, please contact.
 
 ---
 
 ## 💬 Feedback
 
-Teve algum problema ou tem sugestões para melhorar o DCCrazy?
+Had any issues or have suggestions to improve the toolkit?
 
-**Preencha nosso formulário:** https://forms.gle/vSPXWawXUr4a1zE78
-
----
-
-## 📄 Licença
-
-MIT - Livre para uso e modificação.
+**Fill our form:** https://forms.gle/example
 
 ---
 
-**DCC Claude Infrastructure v1.0.0** | [Validação: 24/24 ✅](scripts/validate.js)
+## 📄 License
+
+MIT - Free to use and modify.
+
+---
+
+**DCC Claude Infrastructure v1.0.0** | [Validation: 24/24 ✅](scripts/setup/validate.js)

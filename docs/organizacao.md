@@ -1,349 +1,521 @@
-# 🗂️ Organização do Repositório DCC
+# 🗂️ DCC Repository Organization
 
-Este documento explica a estrutura e propósito de cada diretório do repositório.
-
----
-
-## Visão Geral
-
-```
-dcc/                                  ← RAIZ DO REPOSITÓRIO
-│
-├── 📄 README.md                      ← Cartão de visitas do projeto
-├── 📄 CLAUDE.md                      ← Cérebro do projeto (contexto para Claude)
-├── 📄 MEMORY.md                      ← Índice de memórias persistentes
-├── 📄 .gitignore                     ← Arquivos ignorados pelo git
-│
-├── 📁 .claude/                       ← ⚙️ CONFIGURAÇÕES DO CLAUDE CODE
-│   ├── 📁 workflows/                 ← 🤖 AGENTES E AUTOMATIZAÇÕES
-│   │   ├── 📁 agents/                ← Agentes reutilizáveis
-│   │   ├── 📁 reports/               ← Geradores de relatórios
-│   │   └── 📁 tasks/                 ← Tarefas pontuais
-│   ├── 📁 memory/                    ← Memórias persistentes (auto)
-│   └── 📄 settings.local.json        ← Configurações locais
-│
-├── 📁 agents/                        ← 📚 DOCUMENTAÇÃO DE AGENTES
-│   ├── 📄 README.md                  ← Catálogo de agentes disponíveis
-│   ├── 📁 code-review/               ← Docs do agente code-review
-│   ├── 📁 doc-generator/             ← Docs do agente doc-generator
-│   └── 📁 report-generator/          ← Docs de relatórios
-│
-├── 📁 docs/                          ← 📖 DOCUMENTAÇÃO GERAL
-│   ├── 📄 guia-claude-code.md        ← Guia completo do Claude Code
-│   ├── 📄 convenções.md              ← Regras e convenções do projeto
-│   └── 📄 organizacao.md             ← Este arquivo
-│
-├── 📁 reports/                       ← 📊 RELATÓRIOS GERADOS
-│   └── 📁 templates/                 ← Templates para relatórios
-│
-├── 📁 templates/                     ← 🎨 TEMPLATES DE PROJETOS
-│   ├── 📁 web-app/                   ← Template Next.js/React
-│   └── 📁 api-service/               ← Template de API (vazio)
-│
-├── 📁 archive/                       ← 📦 ARQUIVOS ANTIGOS
-│
-└── 📄 .mcp.json                      ← Integrações MCP (Google Workspace)
-```
+This document explains the structure and purpose of each directory in the repository.
 
 ---
 
-## Raiz do Repositório
+## Overview
+
+```
+dcc/                                  ← REPOSITORY ROOT
+│
+├── 📄 README.md                      ← Project business card
+├── 📄 CLAUDE.md                      ← Project brain (context for Claude)
+├── 📄 MEMORY.md                      ← Persistent memories index
+├── 📄 .gitignore                     ← Git ignored files
+│
+├── 📁 .claude/                       ← ⚙️ CLAUDE CODE CONFIGURATIONS
+│   ├── 📁 workflows/                 ← 🤖 AGENTS AND AUTOMATIONS
+│   │   ├── 📁 agents/                ← Reusable agents
+│   │   ├── 📁 reports/               ← Report generators
+│   │   └── 📁 tasks/                 ← One-time tasks
+│   ├── 📁 memory/                    ← Persistent memories (auto)
+│   └── 📄 settings.local.json        ← Local settings
+│
+├── 📁 agents/                        ← 📚 AGENT DOCUMENTATION
+│   ├── 📄 README.md                  ← Available agents catalog
+│   ├── 📁 code-review/               ← Code-review agent docs
+│   ├── 📁 doc-generator/             ← Doc-generator agent docs
+│   └── 📁 report-generator/          ← Report docs
+│
+├── 📁 docs/                          ← 📖 GENERAL DOCUMENTATION
+│   ├── 📄 README.md                  ← Index and navigation
+│   ├── 📁 guides/                    ← Guides and tutorials
+│   │   ├── 📄 claude-code.md         ← How to use Claude Code
+│   │   ├── 📄 mcp-setup.md           ← Configure MCP integrations
+│   │   └── 📄 google-workspace.md    ← Google Workspace setup
+│   ├── 📁 conventions/               ← Conventions and standards
+│   │   └── 📄 README.md              ← Project rules
+│   ├── 📁 skills/                    ← Skills Documentation
+│   │   ├── 📁 skillshub/             ← SkillsHub skills
+│   │   └── 📁 cooper/                ← Cooper skills
+│   ├── 📁 operations/                ← Operational documentation
+│   │   └── 📄 feedback-system.md     ← Learning system
+│   └── 📁 sql/                       ← SQL Documentation
+│       └── 📄 query-template.md      ← Query templates
+│
+├── 📁 sql-library/                   ← 📊 SQL LIBRARY
+│   ├── 📁 encyclopedia/              ← Data dictionary
+│   ├── 📁 queries/                   ← Reusable SQL queries
+│   │   ├── 📁 data-e/                ← Productive queries (no CTEs, no variables)
+│   │   ├── 📁 data-e-test/           ← Test queries (no CTEs, with variables)
+│   │   ├── 📁 presto/                ← Scheduled queries
+│   │   ├── 📁 draft/                 ← Temporary/draft queries
+│   │   └── 📄 README.md              ← Query catalog
+│   ├── 📁 repository/                ← Catalogued reference queries
+│   └── 📄 CLAUDE.md                  ← sql-library guide
+│
+├── 📁 incubator/                     ← 🧪 PROJECTS IN DEVELOPMENT
+│   ├── 📁 in-progress/               ← Active projects
+│   ├── 📁 backlog/                   ← Draft ideas
+│   ├── 📄 README.md                  ← Projects index
+│   └── 📄 CLAUDE.md                  ← Format guide
+│
+├── 📁 temp-storage/                  ← 🗄️ TEMPORARY FILES
+│   ├── 📁 backup/                    ← Backups (90 days)
+│   ├── 📁 screenshots/               ← Screenshots (30 days)
+│   ├── 📁 txt/                       ← Temporary analyses (30 days)
+│   └── 📄 README.md                  ← Retention rules
+│
+├── 📁 reports/                       ← 📊 GENERATED REPORTS
+│   ├── 📁 weekly/                    ← Weekly reports
+│   └── 📁 monthly/                   ← Monthly reports
+│
+├── 📁 templates/                     ← 🎨 PROJECT TEMPLATES
+│   ├── 📁 web-app/                   ← Next.js/React template
+│   └── 📁 api-service/               ← API template
+│
+└── 📄 .mcp.json                      ← MCP integrations
+```
+
+---
+
+## Repository Root
 
 ### `README.md`
-**Propósito:** Cartão de visitas do projeto. Quem chega aqui entende rapidamente o que é.
+**Purpose:** Project business card. Anyone arriving here quickly understands what it is.
 
-**Contém:**
-- Propósito do repositório
-- Estrutura simplificada
-- Comandos quick-start
-- Lista de agentes principais
+**Contains:**
+- Repository purpose
+- Simplified structure
+- Quick-start commands
+- List of main agents
 
-**Quando editar:**
-- Ao adicionar agentes principais
-- Ao mudar a estrutura base
-- Ao atualizar comandos comuns
+**When to edit:**
+- When adding main agents
+- When changing base structure
+- When updating common commands
 
 ---
 
 ### `CLAUDE.md`
-**Propósito:** Cérebro do projeto. É lido automaticamente pelo Claude em toda sessão.
+**Purpose:** Project brain. Automatically read by Claude in every session.
 
-**Contém:**
-- Propósito do repositório
-- Estrutura detalhada de pastas
-- Convenções de nomenclatura
-- Tipos de commits
-- Catálogo de agentes
-- Comandos úteis
+**Contains:**
+- Repository purpose
+- Detailed folder structure
+- Naming conventions
+- Commit types
+- Agent catalog
+- Useful commands
 - Roadmap
 
-**Quando editar:**
-- Ao criar novas categorias de agentes
-- Ao mudar convenções
-- Ao adicionar integrações
+**When to edit:**
+- When creating new agent categories
+- When changing conventions
+- When adding integrations
 
-**⚠️ IMPORTANTE:** Este arquivo é essencial! O Claude sempre o consulta.
+**⚠️ IMPORTANT:** This file is essential! Claude always consults it.
 
 ---
 
 ### `MEMORY.md`
-**Propósito:** Índice de memórias persistentes que o Claude cria automaticamente.
+**Purpose:** Index of persistent memories that Claude creates automatically.
 
-**Como funciona:**
-- O Claude salva memórias em `.claude/memory/`
-- Este arquivo lista e organiza essas memórias
-- Tipos: user, project, feedback, reference
+**How it works:**
+- Claude saves memories in `.claude/memory/`
+- This file lists and organizes those memories
+- Types: user, project, feedback, reference
 
-**Quando usar:**
-- Quando quiser que o Claude "lembre" de algo: "Lembre-se de usar camelCase"
-- Para consultar decisões passadas
+**When to use:**
+- When you want Claude to "remember" something: "Remember to use camelCase"
+- To consult past decisions
 
 ---
 
 ### `.gitignore`
-**Propósito:** Define arquivos que não devem ser versionados.
+**Purpose:** Defines files that should not be versioned.
 
-**Ignora:**
-- `.claude/memory/` (dados locais)
-- Arquivos de log e cache
-- Dados sensíveis (.env, secrets)
-- Dependências (node_modules)
+**Ignores:**
+- `.claude/memory/` (local data)
+- Log and cache files
+- Sensitive data (.env, secrets)
+- Dependencies (node_modules)
 
 ---
 
-## `.claude/` - Configurações do Claude Code
+## `.claude/` - Claude Code Configurations
 
-### `workflows/` - Automatizações
+### `workflows/` - Automations
 
-#### `workflows/agents/` - Agentes Reutilizáveis
+#### `workflows/agents/` - Reusable Agents
 
-Agentes são workflows parametrizáveis que resolvem tarefas específicas.
+Agents are parameterized workflows that solve specific tasks.
 
-**Arquivos:**
+**Files:**
 
-| Arquivo | Propósito | Como usar |
+| File | Purpose | How to use |
 |---------|-----------|-----------|
-| `_template.yaml` | Template base para criar novos agentes | Copie e modifique |
-| `code-review.yaml` | Revisa código (bugs, segurança, performance) | `claude "execute code-review"` |
-| `doc-generator.yaml` | Gera documentação automaticamente | `claude "execute doc-generator --type=readme"` |
-| `security-audit.yaml` | Auditoria de vulnerabilidades | `claude "execute security-audit"` |
+| `_template.yaml` | Base template for creating new agents | Copy and modify |
+| `code-review.yaml` | Reviews code (bugs, security, performance) | `claude "execute code-review"` |
+| `doc-generator.yaml` | Automatically generates documentation | `claude "execute doc-generator --type=readme"` |
+| `security-audit.yaml` | Vulnerability audit | `claude "execute security-audit"` |
+| `cleanup-temp.yaml` | Cleans expired files from temp-storage | `claude "execute cleanup-temp"` |
 
-**Estrutura de um agente:**
+**Agent structure:**
 ```yaml
-name: nome-do-agente           ← Identificador
+name: agent-name           ← Identifier
 description: |
-  Descrição do que faz        ← Para o usuário entender
+  Description of what it does        ← For user to understand
 
-parameters:                    ← Parâmetros aceitos
-  - name: parametro1
+parameters:                    ← Accepted parameters
+  - name: parameter1
     type: string
     required: true
-    default: "valor"
+    default: "value"
 
-steps:                         ← Passos de execução
-  - name: passo1
+steps:                         ← Execution steps
+  - name: step1
     prompt: |
-      Instruções para o Claude
+      Instructions for Claude
 
-settings:                      ← Configurações
+settings:                      ← Settings
   model: sonnet
   save_output: true
   output_path: "reports/..."
 ```
 
-#### `workflows/reports/` - Geradores de Relatórios
+#### `workflows/reports/` - Report Generators
 
-Relatórios são workflows especializados em gerar documentos periódicos.
+Reports are workflows specialized in generating periodic documents.
 
-**Arquivos:**
+**Files:**
 
-| Arquivo | Propósito | Saída |
+| File | Purpose | Output |
 |---------|-----------|-------|
-| `report-weekly.yaml` | Relatório semanal de atividades | `reports/2024-07/weekly-report-W27.md` |
+| `report-weekly.yaml` | Weekly activities report | `reports/2024-07/weekly-report-W27.md` |
 
-**Diferença entre agentes e reports:**
-- **Agentes:** Tarefas genéricas (review, audit)
-- **Reports:** Documentos periódicos com data/hora
+**Difference between agents and reports:**
+- **Agents:** Generic tasks (review, audit)
+- **Reports:** Periodic documents with date/time
 
-#### `workflows/tasks/` - Tarefas Pontuais
+#### `workflows/tasks/` - One-time Tasks
 
-**Propósito:** Scripts de uma única execução.
+**Purpose:** Scripts for single execution.
 
-**Exemplos futuros:**
-- Migração de dados
-- Renomeação em massa
-- Limpeza de arquivos temporários
+**Future examples:**
+- Data migration
+- Mass renaming
+- Temporary file cleanup
 
 ---
 
-### `memory/` - Memórias Persistentes
+### `memory/` - Persistent Memories
 
-**Propósito:** Armazena informações que o Claude deve lembrar entre sessões.
+**Purpose:** Stores information that Claude should remember between sessions.
 
-**Local:** `.claude/memory/` (não commitado no git)
+**Location:** `.claude/memory/` (not committed to git)
 
-**Formato:**
+**Format:**
 ```markdown
 ---
-name: preferencia-codigo
-description: Prefere arrow functions
+name: code-preference
+description: Prefers arrow functions
 metadata:
   type: user
 ---
 
-Sempre usar arrow functions ao invés de function declarations.
+Always use arrow functions instead of function declarations.
 
-**Por que:** Mais conciso, não tem hoisting problemático.
+**Why:** More concise, no problematic hoisting.
 
-**Como aplicar:** Substituir `function foo()` por `const foo = () =>`
+**How to apply:** Replace `function foo()` with `const foo = () =>`
 ```
 
-**Tipos de memória:**
-- `user` - Preferências pessoais
-- `project` - Decisões arquiteturais
-- `feedback` - Correções recebidas
-- `reference` - Links e recursos
+**Memory types:**
+- `user` - Personal preferences
+- `project` - Architectural decisions
+- `feedback` - Received corrections
+- `reference` - Links and resources
 
 ---
 
 ### `settings.local.json`
 
-**Propósito:** Configurações locais do Claude Code.
+**Purpose:** Local Claude Code settings.
 
-**Atual:**
+**Current:**
 ```json
 {
-  "enabledMcpjsonServers": ["google-workspace"],
+  "enabledMcpjsonServers": ["google-workspace", "gattaran"],
   "enableAllProjectMcpServers": true
 }
 ```
 
-**O que faz:**
-- Habilita integração com Google Workspace (Gmail, Calendar, Drive)
-- Permite que MCP servers do projeto sejam usados
+**What it does:**
+- Enables Google Workspace integration (Gmail, Calendar, Drive)
+- Enables Gattaran MCP Server
+- Allows project MCP servers to be used
 
 ---
 
-## `agents/` - Documentação de Agentes
+## `agents/` - Agent Documentation
 
-**Propósito:** Documentação detalhada de cada agente disponível.
+**Purpose:** Detailed documentation of each available agent.
 
-**Por que separar:**
-- Workflows (`workflows/agents/`) = código executável
-- Documentação (`agents/`) = guia de uso
+**Why separate:**
+- Workflows (`workflows/agents/`) = executable code
+- Documentation (`agents/`) = usage guide
 
-**Estrutura por agente:**
+**Structure per agent:**
 ```
 agents/
-├── README.md                    ← Catálogo de todos os agentes
+├── README.md                    ← Catalog of all agents
 ├── code-review/
-│   └── README.md               ← Uso, parâmetros, exemplos
+│   └── README.md               ← Usage, parameters, examples
 ├── doc-generator/
-│   └── README.md               ← Uso, parâmetros, exemplos
+│   └── README.md               ← Usage, parameters, examples
 └── report-generator/
-    └── README.md               ← Uso, parâmetros, exemplos
+    └── README.md               ← Usage, parameters, examples
 ```
 
-**O que contém cada README:**
-- Propósito do agente
-- Como usar (básico e avançado)
-- Tabela de parâmetros
-- Exemplos de output
-- Integração com CI/CD
-- Limitações
+**What each README contains:**
+- Agent purpose
+- How to use (basic and advanced)
+- Parameter table
+- Output examples
+- CI/CD integration
+- Limitations
 
 ---
 
-## `docs/` - Documentação Geral
+## `docs/` - General Documentation
 
-**Propósito:** Documentação sobre o próprio repositório e ferramentas.
+**Purpose:** Documentation about the repository itself and tools.
 
-**Arquivos:**
+**Structure:**
 
-| Arquivo | Conteúdo |
-|---------|----------|
-| `guia-claude-code.md` | Guia completo de como usar o Claude Code |
-| `convenções.md` | Regras de nomenclatura, commits, workflows |
-| `organizacao.md` | Este arquivo - explicação da estrutura |
+```
+docs/
+├── README.md                   ← Index and navigation
+├── guides/                     ← Guides and tutorials
+│   ├── claude-code.md         ← How to use Claude Code
+│   ├── mcp-setup.md           ← Configure MCP integrations
+│   └── google-workspace.md    ← Google Workspace setup
+├── conventions/               ← Conventions and standards
+│   └── README.md              ← Project rules
+├── skills/                    ← Skills Documentation
+│   ├── skillshub/             ← SkillsHub skills
+│   └── cooper/                ← Cooper skills
+├── operations/                ← Operational documentation
+│   └── feedback-system.md     ← Learning system
+└── sql/                       ← SQL Documentation
+    └── query-template.md      ← Query templates
+```
 
-**Diferença de `CLAUDE.md`:**
-- `CLAUDE.md` = Contexto do projeto (lido pelo Claude)
-- `docs/` = Referência para humanos
+**Difference from `CLAUDE.md`:**
+- `CLAUDE.md` = Project context (read by Claude)
+- `docs/` = Reference for humans
 
 ---
 
-## `reports/` - Relatórios Gerados
+## `sql-library/` - SQL Library
 
-**Propósito:** Armazenar saídas dos agentes de relatório.
+**Purpose:** Central repository for SQL queries and analytical assets.
 
-**Estrutura:**
+**Structure:**
+
+```
+sql-library/
+├── encyclopedia/              ← Data dictionary
+│   └── tables.json           ← Schema of used tables
+├── queries/                   ← Reusable SQL queries
+│   ├── data-e/               ← Productive queries (no CTEs, no variables)
+│   ├── data-e-test/          ← Test queries (no CTEs, with variables)
+│   ├── presto/               ← Scheduled queries
+│   ├── draft/                ← Temporary/draft queries
+│   └── README.md             ← Query catalog
+├── repository/                ← Catalogued reference queries
+│   └── README.md             ← High-value queries
+└── CLAUDE.md                 ← sql-library guide
+```
+
+**Rules by folder:**
+| Folder | CTEs | Variables | Usage |
+|-------|------|-----------|-----|
+| `data-e/` | ❌ No | ❌ No | Productive queries |
+| `data-e-test/` | ❌ No | ✅ Yes | Local testing |
+| `presto/` | ✅ Yes | ✅ Yes | Scheduled queries |
+| `draft/` | ✅ Yes | ✅ Yes | Temporary drafts |
+
+---
+
+## `incubator/` - Projects in Development
+
+**Purpose:** Space for ongoing projects and incubating ideas.
+
+**Structure:**
+
+```
+incubator/
+├── in-progress/               ← Active projects in development
+│   └── [project].md
+├── backlog/                   ← Draft future ideas
+│   └── [idea].md
+├── README.md                  ← Projects index
+└── CLAUDE.md                 ← Format guide
+```
+
+**Lifecycle flow:**
+```
+backlog/ → in-progress/ → [final destination]
+  (idea)   (execution)     (completed)
+```
+
+**Formats:**
+- `backlog/[idea].md`: Context + Proposal + Action Plan
+- `in-progress/[project].md`: Context + Plan + What We Did + Where We Are + Next Steps + Results
+
+---
+
+## `temp-storage/` - Temporary Files
+
+**Purpose:** Temporary storage for short-duration files.
+
+**Structure:**
+
+```
+temp-storage/
+├── backup/              # Backups with 90-day retention
+├── screenshots/         # Screenshots with 30-day retention
+├── txt/                 # Analyses, page content, etc (30 days)
+└── README.md            # Rules documentation
+```
+
+**Retention Rules:**
+| Folder | Period | Deletion |
+|-------|-------|----------|
+| `backup/` | **90 days** | With user approval |
+| `screenshots/` | **30 days** | Automatic |
+| `txt/` | **30 days** | Automatic |
+
+**Cleanup:**
+```bash
+# List expired files
+claude workflow run cleanup-temp
+
+# Execute cleanup
+claude workflow run cleanup-temp --action=execute
+```
+
+---
+
+## `reports/` - Generated Reports
+
+**Purpose:** Store outputs from report agents.
+
+**Structure:**
 ```
 reports/
-├── 2024-07/                    ← Organizado por mês
-│   ├── weekly-report-W27.md
-│   ├── weekly-report-W28.md
-│   ├── security-audit-2024-07-15.md
-│   └── code-review-2024-07-20.md
-├── 2024-08/
+├── weekly/                     ← Weekly reports
+│   ├── 2024-W27-code-review.md
+│   ├── 2024-W28-security-audit.md
 │   └── ...
-└── templates/                  ← Templates de formatação
-    ├── weekly-template.md
-    └── audit-template.md
+└── monthly/                    ← Monthly reports
+    ├── 2024-07-weekly-summary.md
+    ├── 2024-07-security-audit.md
+    └── ...
 ```
 
-**Benefícios:**
-- Histórico de análises
-- Rastreamento de evolução
-- Compartilhamento fácil
+**Benefits:**
+- Analysis history
+- Evolution tracking
+- Easy sharing
 
 ---
 
-## `templates/` - Templates de Projetos
+## `templates/` - Project Templates
 
-**Propósito:** Projetos base prontos para copiar e começar.
+**Purpose:** Base projects ready to copy and start.
 
-**Estrutura:**
+**Structure:**
 ```
 templates/
-├── web-app/                    ← Template Next.js/React
-│   └── exemplo-projeto/
+├── web-app/                    ← Next.js/React template
+│   └── example-project/
 │       └── .claude/
-│           └── CLAUDE.md       ← Contexto específico do template
-├── api-service/                ← Template de API (vazio, pronto)
-└── python-script/              ← (pode criar)
+│           └── CLAUDE.md       ← Template-specific context
+├── api-service/                ← API template (empty, ready)
+└── python-script/              ← Python script template
 ```
 
-**Como usar:**
+**How to use:**
 ```bash
-# Copiar template para novo projeto
-cp -r templates/web-app/exemplo-projeto ~/projetos/meu-novo-site
+# Copy template to new project
+cp -r templates/web-app/example-project ~/projects/my-new-site
 
-# Ou usar como referência
+# Or use as reference
 ```
 
 ---
 
-## `archive/` - Arquivos Antigos
+## `scripts/` - Utility Scripts
 
-**Propósito:** Armazenar arquivos descontinuados sem deletar.
+**Purpose:** Scripts organized by functionality for automation and maintenance.
 
-**Quando usar:**
-- Versões antigas de agentes
-- Relatórios muito antigos
-- Experimentos abandonados
+**Structure:**
+```
+scripts/
+├── README.md              ← Scripts documentation
+├── setup/                 ← Installation and initial setup
+│   ├── install.js
+│   ├── validate.js
+│   ├── verify-setup.js
+│   ├── setup.ps1
+│   └── setup.sh
+├── auth/                  ← Authentication
+│   ├── auth-google.py
+│   ├── auth-google-full.sh
+│   ├── setup-google-auth.sh
+│   └── test-google-mcp.sh
+├── analysis/              ← Data analysis
+│   ├── analyze_skill.py
+│   ├── fetch-skillshub.py
+│   └── test-skillshub.py
+├── dchat/                 ← DChat
+│   ├── dchat_mcp_processor.py
+│   └── dchat_summarizer.py
+├── google/                ← Google Workspace
+│   ├── backup-to-drive.py
+│   └── generate-pdf-manual.py
+├── maintenance/           ← Maintenance
+│   ├── check-updates.py
+│   └── update-encyclopedia.py
+├── install/               ← Distributable installer
+│   └── dccrazy-install.py
+└── utils/                 ← Utilities
+    └── fetch-intranet.py
+```
 
-**Diferente de deletar:**
-- Mantém histórico
-- Pode recuperar se necessário
-- Não polui os diretórios ativos
+**How to use:**
+```bash
+# Python
+python scripts/maintenance/check-updates.py
+
+# Node.js
+node scripts/setup/validate.js
+
+# Shell
+bash scripts/auth/setup-google-auth.sh
+```
 
 ---
 
-## `.mcp.json` - Integrações MCP
+## `.mcp.json` - MCP Integrations
 
-**Propósito:** Configura integrações com serviços externos.
+**Purpose:** Configures integrations with external services.
 
-**Atual:**
+**Current:**
 ```json
 {
   "mcpServers": {
@@ -353,136 +525,196 @@ cp -r templates/web-app/exemplo-projeto ~/projetos/meu-novo-site
       "env": {
         "GOOGLE_REDIRECT_URI": "http://localhost:3000/oauth2callback"
       }
+    },
+    "gattaran": {
+      "command": "node",
+      "args": ["mcp-servers/gattaran/src/index.js"]
     }
   }
 }
 ```
 
-**O que habilita:**
-- Acesso ao Gmail
-- Acesso ao Google Calendar
-- Acesso ao Google Drive
-- Envio de emails automatizados
+**What it enables:**
+- Gmail access
+- Google Calendar access
+- Google Drive access
+- Gattaran access (Order Management)
+- Automated email sending
 
 ---
 
-## Fluxo de Trabalho Típico
+## Typical Workflow
 
-### 1. Usar um Agente Existente
+### 1. Use an Existing Agent
 ```bash
-# Executar agente
+# Execute agent
 claude "execute code-review --target=src/"
 
-# Output salvo automaticamente em reports/
+# Output automatically saved in reports/
 ```
 
-### 2. Criar um Novo Agente
+### 2. Create a New Agent
 ```bash
-# 1. Copiar template
+# 1. Copy template
 cp .claude/workflows/agents/_template.yaml \
-   .claude/workflows/agents/meu-agente.yaml
+   .claude/workflows/agents/my-agent.yaml
 
-# 2. Editar o YAML
+# 2. Edit the YAML
 
-# 3. Criar documentação
-mkdir agents/meu-agente
-touch agents/meu-agente/README.md
+# 3. Create documentation
+mkdir agents/my-agent
+touch agents/my-agent/README.md
 
-# 4. Adicionar ao catálogo
-# (editar agents/README.md)
+# 4. Add to catalog
+# (edit agents/README.md)
 
-# 5. Testar
-claude "execute meu-agente"
+# 5. Test
+claude "execute my-agent --parameter1=value"
 
 # 6. Commit
-# git add .
-# git commit -m "[agent] Adiciona meu-agente"
+git add .
+git commit -m "[agent] Add my-agent for [purpose]"
 ```
 
-### 3. Gerar Relatório
+### 3. Generate Report
 ```bash
-# Gerar e salvar
+# Generate and save
 claude "execute report-weekly"
 
 # Output: reports/2024-07/weekly-report-W27.md
 ```
 
+### 4. Add SQL Query
+```bash
+# 1. Create in appropriate folder
+# sql-library/queries/presto/my-query.sql
+
+# 2. Follow conventions (no CTEs for data-e)
+
+# 3. Update index
+# sql-library/queries/README.md
+
+# 4. Commit
+git add .
+git commit -m "[query] Add my-query"
+```
+
+### 5. Start Project
+```bash
+# 1. Create in backlog or in-progress
+# incubator/backlog/my-idea.md
+# or
+# incubator/in-progress/my-project.md
+
+# 2. Follow format defined in incubator/CLAUDE.md
+
+# 3. When completed, move result to appropriate folder
+```
+
 ---
 
-## Convenções Importantes
+## Important Conventions
 
-### Nomenclatura
-- Pastas/arquivos: `kebab-case`
-- Agentes: nome descritivo da ação
-- Commits: `[tipo] descrição`
+### Naming
+- Files/folders: `kebab-case`
+- Agents: descriptive action name
+- Commits: `[type] description`
 
 ### Commits
 ```
-[agent]    Novo ou atualização de agente
-[report]   Relatório gerado
-[template] Template adicionado
-[doc]      Documentação
-[chore]    Manutenção
-[fix]      Correção
+[agent]    New or updated agent
+[report]   Generated report
+[template] Added/updated template
+[doc]      Documentation
+[chore]    Maintenance
+[fix]      Fix
+[query]    Added SQL query
 ```
 
 ### Gitignore
-Nunca commitar:
-- `.claude/memory/` (dados locais)
-- `reports/*/processed/` (processados)
-- Arquivos de secrets
+Never commit:
+- `.claude/memory/` (local data)
+- `reports/*/processed/` (processed)
+- Secret files
+- `temp-storage/` (temporary files)
 
 ---
 
-## Checklist de Manutenção
+## Maintenance Checklist
 
-### Semanal
-- [ ] Revisar relatórios gerados em `reports/`
-- [ ] Verificar se há memórias novas em `.claude/memory/`
+### Weekly
+- [ ] Review generated reports in `reports/`
+- [ ] Check for new memories in `.claude/memory/`
 
-### Mensal
-- [ ] Atualizar catálogo em `agents/README.md`
-- [ ] Revisar documentação em `docs/`
-- [ ] Arquivar relatórios antigos (mover para `archive/`)
+### Monthly
+- [ ] Update catalog in `agents/README.md`
+- [ ] Review documentation in `docs/`
+- [ ] Run `cleanup-temp` to clean expired files
+- [ ] Review projects in `incubator/in-progress/`
 
-### Novo Agente
-- [ ] Criar workflow em `.claude/workflows/agents/`
-- [ ] Criar documentação em `agents/[nome]/README.md`
-- [ ] Adicionar ao catálogo em `agents/README.md`
-- [ ] Adicionar ao `CLAUDE.md` se for agente principal
-- [ ] Testar antes de commitar
-- [ ] Commitar com tag `[agent]`
+### New Agent
+- [ ] Create workflow in `.claude/workflows/agents/`
+- [ ] Create documentation in `agents/[name]/README.md`
+- [ ] Add to catalog in `agents/README.md`
+- [ ] Add to `CLAUDE.md` if main agent
+- [ ] Test before committing
+- [ ] Commit with tag `[agent]`
+
+### New Query
+- [ ] Create in appropriate folder (`sql-library/queries/`)
+- [ ] Follow CTE and variable conventions
+- [ ] Update index in `sql-library/queries/README.md`
+- [ ] Test before committing
+- [ ] Commit with tag `[query]`
 
 ---
 
-## Resumo Visual
+## Visual Summary
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  RAIZ (entry points)                                    │
-│  ├── README.md        → Para humanos conhecerem         │
-│  ├── CLAUDE.md        → Para o Claude entender          │
-│  └── MEMORY.md        → Índice de memórias              │
+│  ROOT (entry points)                                    │
+│  ├── README.md        → For humans to learn             │
+│  ├── CLAUDE.md        → For Claude to understand        │
+│  └── MEMORY.md        → Memories index                  │
 ├─────────────────────────────────────────────────────────┤
-│  .claude/ (executáveis)                                 │
-│  ├── workflows/agents/    → Código dos agentes          │
-│  ├── workflows/reports/   → Geradores de relatórios     │
-│  └── memory/              → Dados persistentes          │
+│  .claude/ (executables)                                 │
+│  ├── workflows/agents/    → Agents code                 │
+│  ├── workflows/reports/   → Report generators           │
+│  └── memory/              → Persistent data             │
 ├─────────────────────────────────────────────────────────┤
-│  agents/ (documentação)                                 │
-│  └── [nome]/README.md     → Como usar cada agente       │
+│  agents/ (documentation)                                │
+│  └── [name]/README.md     → How to use each agent       │
 ├─────────────────────────────────────────────────────────┤
-│  docs/ (referência)                                     │
-│  └── *.md                 → Guias e convenções          │
+│  docs/ (reference)                                      │
+│  ├── guides/              → Guides and tutorials        │
+│  ├── conventions/         → Rules and patterns          │
+│  ├── skills/              → Skills documentation        │
+│  ├── operations/          → Operational documentation   │
+│  └── sql/                 → SQL documentation           │
 ├─────────────────────────────────────────────────────────┤
-│  reports/ (saídas)                                      │
-│  └── YYYY-MM/*.md         → Relatórios gerados          │
+│  sql-library/ (queries)                                 │
+│  ├── encyclopedia/        → Data dictionary             │
+│  ├── queries/             → Reusable queries            │
+│  └── repository/          → Reference queries           │
 ├─────────────────────────────────────────────────────────┤
-│  templates/ (projetos base)                             │
-│  └── [tipo]/              → Copiar para novos projetos  │
+│  incubator/ (projects)                                  │
+│  ├── backlog/             → Future ideas                │
+│  └── in-progress/         → Active projects             │
+├─────────────────────────────────────────────────────────┤
+│  temp-storage/ (temporary)                              │
+│  ├── backup/              → Backups (90 days)           │
+│  ├── screenshots/         → Screenshots (30 days)       │
+│  └── txt/                 → Temporary analyses (30 days)│
+├─────────────────────────────────────────────────────────┤
+│  reports/ (outputs)                                     │
+│  └── YYYY-MM/*.md         → Generated reports           │
+├─────────────────────────────────────────────────────────┤
+│  templates/ (base projects)                             │
+│  └── [type]/              → Copy for new projects       │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-**Última atualização:** 2024-07-07
+**Last updated:** 2026-07-23

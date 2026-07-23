@@ -1,68 +1,68 @@
 # MCP Server - Cooper (DiDi Documentation Platform)
 
-Servidor MCP para integração com a plataforma de documentação [Cooper](https://cooper.didichuxing.com) da DiDi.
+MCP Server for integration with DiDi's documentation platform [Cooper](https://cooper.didichuxing.com).
 
-## 🚀 Instalação Rápida
+## 🚀 Quick Installation
 
-### 1. Instale as dependências
+### 1. Install dependencies
 
 ```bash
 cd mcp-servers/cooper
 npm install
 ```
 
-### 2. Configure o token de autenticação
+### 2. Configure authentication token
 
-1. Acesse: https://mcphub.intra.xiaojukeji.com/square
-2. Clique em **"申请令牌"** (Solicitar Token)
-3. Selecione a versão **ANTIGA (Legacy)**
-4. Copie o token no formato: `fcfc9605-1d50-486f-aa72-80fca2315984`
-5. Configure o arquivo `.env`:
+1. Access: https://mcphub.intra.xiaojukeji.com/square
+2. Click **"申请令牌"** (Request Token)
+3. Select **OLD (Legacy)** version
+4. Copy token in format: `fcfc9605-1d50-486f-aa72-80fca2315984`
+5. Configure `.env` file:
 
 ```bash
-# Copie o arquivo de exemplo
+# Copy example file
 cp .env.example .env
 
-# Edite o arquivo .env e adicione seu token
-COOPER_TOKEN=seu-token-aqui
+# Edit .env file and add your token
+COOPER_TOKEN=your-token-here
 ```
 
-Ou edite diretamente o arquivo `.env`:
+Or edit `.env` file directly:
 ```bash
 # mcp-servers/cooper/.env
-COOPER_TOKEN=seu-token-aqui
+COOPER_TOKEN=your-token-here
 COOPER_API_URL=http://10.88.128.45/cooper_mcp/mcp
 ```
 
-> ⚠️ **Importante:** Use a versão **LEGACY** da API. A versão nova requer LCA (滴滴安全助手) instalado.
-> 🔒 **Segurança:** O arquivo `.env` está no `.gitignore` e nunca será commitado!
+> ⚠️ **Important:** Use **LEGACY** API version. New version requires LCA (滴滴安全助手) installed.
+> 🔒 **Security:** `.env` file is in `.gitignore` and will never be committed!
 
-### 3. Valide a configuração
+### 3. Validate configuration
 
 ```bash
 npm run setup
 ```
 
-Este comando verifica se todas as configurações estão corretas.
+This command checks if all configurations are correct.
 
-### 4. Verifique a configuração no `.mcp.json`
+### 4. Check configuration in `.mcp.json`
 
-O servidor já deve estar configurado no `.mcp.json` da raiz:
+Server should already be configured in root `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "cooper": {
       "command": "node",
-      "args": ["C:\\\\Users\\\\viniciuscastanho\\\\Desktop\\\\dcc\\\\mcp-servers\\\\cooper\\\\src\\\\index.js"]
+      "args": ["C:\\Users\\viniciuscastanho\\Desktop\\dcc\\mcp-servers\\cooper\\src\\index.js"]
     }
   }
 }
 ```
 
-### 4. Ative o servidor
+### 4. Activate server
 
-No `.claude/settings.local.json`:
+In `.claude/settings.local.json`:
 
 ```json
 {
@@ -72,158 +72,158 @@ No `.claude/settings.local.json`:
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📁 Project Structure
 
 ```
 mcp-servers/cooper/
-├── src/                           # Código fonte do MCP Server
-│   ├── index.js                  # Entry point - define ferramentas MCP
+├── src/                           # MCP Server source code
+│   ├── index.js                  # Entry point - defines MCP tools
 │   ├── auth/
-│   │   └── browser-auth.js       # Autenticação via browser (Playwright)
+│   │   └── browser-auth.js       # Browser authentication (Playwright)
 │   └── api/
-│       └── cooper-client.js      # Cliente API Cooper
+│       └── cooper-client.js      # Cooper API Client
 │
-├── scripts/                       # Scripts utilitários (standalone)
-│   ├── config.js                 # 🏭 Configuração central (carrega .env)
-│   ├── setup.js                  # ✅ Valida setup
-│   ├── create-doc-api.js         # 📝 Criar documento
-│   └── search-groceries.js       # 🔍 Buscar documentos
+├── scripts/                       # Utility scripts (standalone)
+│   ├── config.js                 # 🏭 Central configuration (loads .env)
+│   ├── setup.js                  # ✅ Validates setup
+│   ├── create-doc-api.js         # 📝 Create document
+│   └── search-groceries.js       # 🔍 Search documents
 │
-├── .env.example                   # 📝 Template de configuração (vai pro Git)
-├── .env                           # 🔐 SUAS CREDENCIAIS (nunca commit!)
-├── config.js                      # 🏭 Loader de configuração
+├── .env.example                   # 📝 Configuration template (goes to Git)
+├── .env                           # 🔐 YOUR CREDENTIALS (never commit!)
+├── config.js                      # 🏭 Configuration loader
 ├── examples/
-│   └── usage-examples.md         # Exemplos de uso da API
+│   └── usage-examples.md         # API usage examples
 │
 ├── package.json
-└── README.md                      # Este arquivo
+└── README.md                      # This file
 ```
 
-### 🔒 Segurança - Arquivos Sensíveis
+### 🔒 Security - Sensitive Files
 
-| Arquivo | Propósito | No Git? |
+| File | Purpose | In Git? |
 |---------|-----------|---------|
-| `.env` | SUAS credenciais | ❌ NUNCA |
-| `.env.example` | Template sem valores | ✅ Sim |
-| `config.js` | Carrega configurações | ✅ Sim |
-| `scripts/*.js` | Scripts parametrizados | ✅ Sim |
+| `.env` | YOUR credentials | ❌ NEVER |
+| `.env.example` | Template without values | ✅ Yes |
+| `config.js` | Loads configurations | ✅ Yes |
+| `scripts/*.js` | Parameterized scripts | ✅ Yes |
 
 ---
 
-## ⚙️ Configuração Centralizada
+## ⚙️ Centralized Configuration
 
-Todos os scripts usam o **config.js** central que carrega variáveis do `.env`:
+All scripts use **config.js** central that loads variables from `.env`:
 
 ```javascript
-// scripts/qualquer-script.js
+// scripts/any-script.js
 import { CONFIG, validateConfig } from '../config.js';
 
-// CONFIG.TOKEN vem do .env automaticamente!
+// CONFIG.TOKEN comes from .env automatically!
 const response = await fetch(CONFIG.API_URL, {
   headers: { 'Authorization': `Bearer ${CONFIG.TOKEN}` }
 });
 ```
 
-### Variáveis de Ambiente Suportadas
+### Supported Environment Variables
 
-| Variável | Descrição | Padrão |
+| Variable | Description | Default |
 |----------|-----------|--------|
-| `COOPER_TOKEN` | Token de autenticação (obrigatório) | - |
-| `COOPER_API_URL` | URL da API | `http://10.88.128.45/cooper_mcp/mcp` |
-| `COOPER_API_VERSION` | Versão da API | `legacy` |
-| `COOPER_TIMEOUT` | Timeout em ms | `30000` |
+| `COOPER_TOKEN` | Authentication token (required) | - |
+| `COOPER_API_URL` | API URL | `http://10.88.128.45/cooper_mcp/mcp` |
+| `COOPER_API_VERSION` | API version | `legacy` |
+| `COOPER_TIMEOUT` | Timeout in ms | `30000` |
 
 ---
 
-## 🛠️ Ferramentas MCP Disponíveis
+## 🛠️ Available MCP Tools
 
-| Ferramenta | Descrição | Parâmetros |
+| Tool | Description | Parameters |
 |------------|-----------|------------|
-| `cooper_search` | Busca documentos por palavra-chave | `query` (string), `limit` (number, opcional) |
-| `cooper_get_document` | Obtém conteúdo de um documento | `docId` (string - ID ou URL) |
-| `cooper_list_spaces` | Lista espaços/workspaces disponíveis | - |
-| `cooper_create_document` | Cria um novo documento | `title` (string), `content` (string), `spaceId` (opcional) |
+| `cooper_search` | Search documents by keyword | `query` (string), `limit` (number, optional) |
+| `cooper_get_document` | Get document content | `docId` (string - ID or URL) |
+| `cooper_list_spaces` | List available spaces/workspaces | - |
+| `cooper_create_document` | Create new document | `title` (string), `content` (string), `spaceId` (optional) |
 
 ---
 
-## 💬 Uso no Claude Code
+## 💬 Usage in Claude Code
 
-### Buscar documentos
+### Search documents
 ```
-"Busca no Cooper sobre onboarding de novos funcionários"
-"Procura documentos sobre API gateway no Cooper"
-```
-
-### Ler documento específico
-```
-"Lê o documento 2207291123516 do Cooper"
-"Pega o conteúdo do doc: https://cooper.didichuxing.com/docs2/document/2207291123516"
+"Search Cooper for new employee onboarding"
+"Find documents about API gateway in Cooper"
 ```
 
-### Criar documento
+### Read specific document
 ```
-"Cria um documento no Cooper chamado 'Reunião Daily' com a pauta: ..."
-"Salva isso no espaço de Engenharia do Cooper: [conteúdo]"
+"Read Cooper document 2207291123516"
+"Get content from doc: https://cooper.didichuxing.com/docs2/document/2207291123516"
 ```
 
-### Listar espaços
+### Create document
 ```
-"Quais espaços tenho no Cooper?"
-"Lista minhas workspaces do Cooper"
+"Create a Cooper document called 'Daily Meeting' with agenda: ..."
+"Save this to Cooper Engineering space: [content]"
+```
+
+### List spaces
+```
+"What spaces do I have in Cooper?"
+"List my Cooper workspaces"
 ```
 
 ---
 
-## 🔧 Uso via Scripts (Standalone)
+## 🔧 Usage via Scripts (Standalone)
 
-Se preferir usar sem o Claude Code:
+If you prefer to use without Claude Code:
 
 ```bash
-# Buscar documentos
+# Search documents
 cd mcp-servers/cooper
 node scripts/search.js
 
-# Ler documento específico
+# Read specific document
 node scripts/read.js
 
-# Criar documento
+# Create document
 node scripts/create.js
 ```
 
-> Nota: Os scripts usam a API REST diretamente, não o protocolo MCP.
+> Note: Scripts use REST API directly, not MCP protocol.
 
 ---
 
-## 🔗 Integração com Skills
+## 🔗 Integration with Skills
 
-Este MCP é complementado pelas seguintes skills em `.claude/skills/`:
+This MCP is complemented by the following skills in `.claude/skills/`:
 
-| Skill | Descrição | Quando Usar |
+| Skill | Description | When to Use |
 |-------|-----------|-------------|
-| `cooper` | Skill geral do Cooper | Contexto amplo sobre documentação DiDi |
-| `cooper-search` | Busca especializada | Quando o foco é encontrar documentos |
-| `cooper-read` | Leitura especializada | Quando o foco é extrair conteúdo |
-| `cooper-write` | Criação especializada | Quando o foco é criar documentos |
+| `cooper` | General Cooper skill | Broad context about DiDi documentation |
+| `cooper-search` | Specialized search | When focus is finding documents |
+| `cooper-read` | Specialized reading | When focus is extracting content |
+| `cooper-write` | Specialized creation | When focus is creating documents |
 
 ---
 
-## 📝 Dicas
+## 📝 Tips
 
-- **IDs de documentos** podem ser extraídos das URLs:
+- **Document IDs** can be extracted from URLs:
   - URL: `https://cooper.didichuxing.com/docs2/document/2207291123516`
   - ID: `2207291123516`
 
-- **Token** não expira (versão legacy)
+- **Token** doesn't expire (legacy version)
 
-- **Espaço padrão**: Use `spaceId: "0"` para espaço pessoal
+- **Default space**: Use `spaceId: "0"` for personal space
 
-- **Encoding**: Evite acentos no conteúdo para prevenir erros de encoding
+- **Encoding**: Avoid accents in content to prevent encoding errors
 
 ---
 
-## 🔗 Links Úteis
+## 🔗 Useful Links
 
-| Recurso | URL |
+| Resource | URL |
 |---------|-----|
 | Cooper | https://cooper.didichuxing.com |
 | MCPHub (Tokens) | https://mcphub.intra.xiaojukeji.com/square |
@@ -231,5 +231,5 @@ Este MCP é complementado pelas seguintes skills em `.claude/skills/`:
 
 ---
 
-**Versão:** 1.0.0  
-**Licença:** MIT
+**Version:** 1.0.0  
+**License:** MIT

@@ -1,43 +1,56 @@
 # MCP D-Chat Server
 
-Servidor MCP (Model Context Protocol) para integração com D-Chat via CLI `dws`.
-
-## 🆕 Versão 2.0 Disponível!
-
-Esta pasta contém a **versão atual (v2.0)**. Para a versão antiga, veja `v1/`.
-
-### Principais Melhorias na v2.0
-
-| Feature | v1 | v2.0 | Impacto |
-|---------|-----|------|---------|
-| Tools | 4 | 10 | +150% funcionalidades |
-| Cache | ❌ | ✅ | Performance 3x |
-| Rate Limiting | ❌ | ✅ | Sem bloqueios |
-| Todo Integration | ❌ | ✅ | Novo workflow |
-| Report Generation | ❌ | ✅ | Analytics |
-| Dry-run Mode | ❌ | ✅ | Segurança |
-
-📖 **Documentação completa da v2.0**: [`v2/README.md`](v2/README.md)
+MCP (Model Context Protocol) Server for integration with D-Chat via CLI `dws`.
 
 ---
 
-## 🚀 Quick Start
+## 📁 Structure
 
-### Instalação
+```
+mcp-servers/dchat/
+├── index.js              # Main entry point
+├── package.json          # Dependencies
+├── test.js              # Tests
+├── README.md            # This file
+└── .mcp.json.example    # Configuration example
+```
+
+---
+
+## 🛠️ Available Tools
+
+| Tool | Description |
+|------|-----------|
+| `send_message` | Send message to user or group |
+| `list_chats` | List available chats |
+| `get_messages` | Get messages from a chat |
+| `search_messages` | Search messages by text |
+| `create_todo_from_message` | Create todo from message |
+| `manage_todo` | Manage todos (CRUD) |
+| `generate_report` | Generate activity reports |
+| `get_chat_info` | Get chat information |
+| `get_rate_limit_status` | Check rate limit status |
+| `clear_cache` | Clear internal cache |
+
+---
+
+## ⚙️ Configuration
+
+### 1. Install dependencies
 
 ```bash
-cd mcp-servers/dchat/v2
+cd mcp-servers/dchat
 npm install
 ```
 
-### Configuração no `.mcp.json`
+### 2. Configure `.mcp.json` (project root)
 
 ```json
 {
   "mcpServers": {
     "dchat": {
       "command": "node",
-      "args": ["C:\\Users\\viniciuscastanho\\Desktop\\dcc\\mcp-servers\\dchat\\v2\\index.js"],
+      "args": ["C:\\Users\\viniciuscastanho\\Desktop\\dcc\\mcp-servers\\dchat\\index.js"],
       "env": {
         "DWS_SCRIPT_PATH": "C:\\Users\\viniciuscastanho\\.SmartWork\\skills\\smartwork-cli\\smartwork-shared\\assets\\dws-windows.ps1"
       }
@@ -46,63 +59,64 @@ npm install
 }
 ```
 
----
+### 3. Activate in `.claude/settings.local.json`
 
-## 📋 Ferramentas Disponíveis (v2.0)
-
-### Core (Melhoradas)
-- `send_message` - Envio otimizado com rate limiting e dry-run
-- `list_chats` - Com cache e filtros
-- `get_messages` - Busca incremental e caching
-
-### Novas (v2.0)
-- `create_todo_from_message` - Workflow: msg → todo
-- `manage_todo` - CRUD completo de tarefas
-- `search_messages` - Busca eficiente
-- `generate_report` - Relatórios de atividade
-- `get_chat_info` - Metadados detalhados
-- `get_rate_limit_status` - Monitoramento
-- `clear_cache` - Troubleshooting
-
----
-
-## 📁 Estrutura
-
-```
-mcp-servers/dchat/
-├── v1/                    # Versão 1.0 (backup)
-│   ├── index.js
-│   └── README.md
-├── v2/                    # ✅ Versão 2.0 (atual)
-│   ├── index.js
-│   ├── package.json
-│   ├── README.md          # Documentação completa
-│   └── test.js            # Testes
-├── README.md              # Este arquivo
-└── .mcp.json.example
-```
-
----
-
-## 🛠️ Troubleshooting
-
-### Limpar cache
 ```json
 {
-  "cache_type": "all"
+  "enabledMcpjsonServers": ["dchat", "google-workspace", "gattaran"]
 }
 ```
 
-### Verificar rate limit
-```json
-{}  // get_rate_limit_status
+---
+
+## 🚀 Usage Examples
+
+### Send message
+
+```javascript
+{
+  "target_type": "user",
+  "target": "maurojunior",
+  "message": "Hello! Test message"
+}
+```
+
+### Search messages
+
+```javascript
+{
+  "target_type": "chat_name",
+  "target": "SSI AI Initiatives",
+  "query": "meeting",
+  "since": "2026-07-10T00:00:00Z"
+}
+```
+
+### Create todo
+
+```javascript
+{
+  "message_link": "https://im-dichat.xiaojukeji.com/chat/123#message-456",
+  "assignee": "maurojunior",
+  "priority": "high",
+  "due_date": "2026-07-20T18:00:00Z"
+}
 ```
 
 ---
 
-## 📚 Documentação
+## 🔄 Features
 
-- [Documentação v2.0 Completa](v2/README.md)
-- [Versão 1.0 (Legacy)](v1/README.md)
-- [Skills Hub - dchat-message](https://skillshub.intra.xiaojukeji.com/skill/dchat-message)
-- [Skills Hub - dchat-todo](https://skillshub.intra.xiaojukeji.com/skill/dchat-todo)
+- ✅ **Chat Caching** - Chat list cache (5 min TTL)
+- ✅ **Message Caching** - Incremental message cache
+- ✅ **Rate Limiting** - Internal control 10 msg/min
+- ✅ **Multiple Formats** - JSON, Text, Markdown
+- ✅ **Dry-run mode** - Preview before sending
+
+---
+
+## 🔗 References
+
+- [D-Chat Open Platform](https://open.dchat.xiaojukeji.com)
+- [MCP SDK](https://github.com/modelcontextprotocol/sdk)
+- [MCP Servers Governance](../README.md)

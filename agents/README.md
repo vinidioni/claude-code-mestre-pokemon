@@ -1,274 +1,271 @@
-# 🤖 Catálogo de Agentes
+# 🤖 Agent Catalog
 
-Este diretório documenta todos os agentes disponíveis no repositório DCC.
+This directory documents all available agents in the DCC repository.
 
-## Índice
+## Index
 
-- [Como Usar](#como-usar)
-- [Agentes Disponíveis](#agentes-disponíveis)
-  - [Análise e Qualidade](#análise-e-qualidade-)
-  - [Documentação](#documentação-)
-  - [Relatórios](#relatórios-)
-  - [Automação](#automação-)
-- [Criando Novos Agentes](#criando-novos-agentes)
+- [How to Use](#how-to-use)
+- [Available Agents](#available-agents)
+  - [Analysis and Quality](#analysis-and-quality-)
+  - [Documentation](#documentation-)
+  - [Automation](#automation-)
+- [Creating New Agents](#creating-new-agents)
 
 ---
 
-## Como Usar
+## How to Use
 
-### Via Claude Code (Interativo)
+### Via Claude Code (Interactive)
 ```bash
-claude "execute o agente de code-review"
-claude "execute o agente report-weekly --period=2024-01"
+claude "execute code-review agent"
+claude "execute security-audit agent"
 ```
 
-### Via Workflow (Direto)
+### Via Workflow (Direct)
 ```bash
 claude workflow run .claude/workflows/agents/code-review.yaml
 ```
 
-### Com Parâmetros
+### With Parameters
 ```bash
-# Passando contexto adicional
-claude "execute code-review focando em segurança no arquivo src/auth.ts"
+# Passing additional context
+claude "execute code-review focusing on security in file src/auth.ts"
 ```
 
 ---
 
-## Agentes Disponíveis
+## Available Agents
 
-### Análise e Qualidade 🔍
+### Analysis and Quality 🔍
 
 #### `code-review`
-**Propósito:** Revisão completa de código com foco em múltiplas dimensões.
+**Purpose:** Complete code review focusing on multiple dimensions.
 
-**Dimensões analisadas:**
-- 🐛 Bugs e lógica
-- 🔒 Segurança
+**Analyzed dimensions:**
+- 🐛 Bugs and logic
+- 🔒 Security
 - ⚡ Performance
-- 🧪 Testabilidade
-- 📖 Legibilidade
+- 🧪 Testability
+- 📖 Readability
 
-**Uso:**
+**Usage:**
 ```bash
-# Revisar mudanças não commitadas
+# Review uncommitted changes
 claude "execute code-review"
 
-# Revisar arquivo específico
-claude "execute code-review no arquivo src/api.ts"
+# Review specific file
+claude "execute code-review on file src/api.ts"
 
-# Foco em segurança
+# Focus on security
 claude "execute code-review --focus=security"
 ```
 
-**Local:** [`.claude/workflows/agents/code-review.yaml`](../.claude/workflows/agents/code-review.yaml)  
+**Location:** [`.claude/workflows/agents/code-review.yaml`](../.claude/workflows/agents/code-review.yaml)  
 **Docs:** [`code-review/README.md`](./code-review/README.md)
 
 ---
 
 #### `security-audit`
-**Propósito:** Auditoria focada em vulnerabilidades de segurança.
+**Purpose:** Audit focused on security vulnerabilities.
 
-**Detecta:**
+**Detects:**
 - SQL Injection
 - XSS (Cross-Site Scripting)
 - CSRF
-- Exposição de dados sensíveis
-- Dependências vulneráveis
+- Sensitive data exposure
+- Vulnerable dependencies
 
-**Uso:**
+**Usage:**
 ```bash
 claude "execute security-audit"
-claude "execute security-audit no diretório src/"
+claude "execute security-audit on directory src/"
 ```
 
 ---
 
-### Documentação 📝
+### Documentation 📝
 
 #### `doc-generator`
-**Propósito:** Gera documentação automaticamente a partir do código.
+**Purpose:** Automatically generates documentation from code.
 
-**Capacidades:**
-- README.md a partir da estrutura
-- Documentação de API (OpenAPI/Swagger)
-- Changelogs a partir de commits
-- Comentários JSDoc/TSDoc
+**Capabilities:**
+- README.md from structure
+- API documentation (OpenAPI/Swagger)
+- Changelogs from commits
+- JSDoc/TSDoc comments
 
-**Uso:**
+**Usage:**
 ```bash
-# Gerar README
+# Generate README
 claude "execute doc-generator --type=readme"
 
-# Documentar API
+# Document API
 claude "execute doc-generator --type=api-docs"
 
 # Changelog
 claude "execute doc-generator --type=changelog --since=v1.0.0"
 ```
 
-**Local:** [`.claude/workflows/agents/doc-generator.yaml`](../.claude/workflows/agents/doc-generator.yaml)  
+**Location:** [`.claude/workflows/agents/doc-generator.yaml`](../.claude/workflows/agents/doc-generator.yaml)  
 **Docs:** [`doc-generator/README.md`](./doc-generator/README.md)
 
 ---
 
-### Relatórios 📊
+### Automation ⚙️
 
-#### `report-weekly`
-**Propósito:** Gera relatório semanal de atividades do desenvolvimento.
+#### `cleanup-temp`
+**Purpose:** Cleans expired files from `temp-storage/` folder.
 
-**Inclui:**
-- Commits e mudanças
-- PRs abertos/mergeados
-- Issues resolvidas
-- Métricas de código (linhas, complexidade)
-- Análise de tendências
+**Features:**
+- Lists expired files by category
+- Automatically removes files from `screenshots/` and `txt/` (>30 days)
+- Requests confirmation to delete backups (>90 days)
+- Reports freed space
 
-**Output:** `reports/YYYY-MM/report-weekly-YYYY-MM-DD.md`
-
-**Uso:**
+**Usage:**
 ```bash
-# Relatório da semana atual
-claude "execute report-weekly"
+# Just list expired files
+claude "execute cleanup-temp --action=list"
+claude workflow run cleanup-temp
 
-# Relatório de período específico
-claude "execute report-weekly --week=2024-W01"
+# Execute cleanup
+claude "execute cleanup-temp --action=execute"
+claude workflow run cleanup-temp --action=execute
 ```
 
-**Local:** [`.claude/workflows/reports/report-weekly.yaml`](../.claude/workflows/reports/report-weekly.yaml)  
-**Docs:** [`report-generator/README.md`](./report-generator/README.md)
+**Retention Rules:**
+| Folder | Period | Deletion |
+|-------|-------|----------|
+| `backup/` | 90 days | With approval |
+| `screenshots/` | 30 days | Automatic |
+| `txt/` | 30 days | Automatic |
+
+**Location:** [`.claude/workflows/agents/cleanup-temp.yaml`](../.claude/workflows/agents/cleanup-temp.yaml)
 
 ---
-
-#### `report-project-health`
-**Propósito:** Análise de saúde geral do projeto.
-
-**Métricas:**
-- Cobertura de testes
-- Débito técnico
-- Dependências desatualizadas
-- Complexidade ciclomática
-- Code smells
-
-**Uso:**
-```bash
-claude "execute report-project-health"
-claude "execute report-project-health --output=html"
-```
-
----
-
-### Automação ⚙️
 
 #### `refactor-suggester`
-**Propósito:** Sugere refatorações baseadas em padrões.
+**Purpose:** Suggests refactorings based on patterns.
 
-**Capacidades:**
-- Detecta código duplicado
-- Sugere extração de funções
-- Identifica oportunidades de otimização
-- Propõe modernização (ex: callbacks → async/await)
+**Capabilities:**
+- Detects duplicate code
+- Suggests function extraction
+- Identifies optimization opportunities
+- Proposes modernization (e.g.: callbacks → async/await)
 
-**Uso:**
+**Usage:**
 ```bash
-# Analisar todo o projeto
+# Analyze entire project
 claude "execute refactor-suggester"
 
-# Foco em arquivo específico
+# Focus on specific file
 claude "execute refactor-suggester --file=src/utils.ts"
 ```
 
 ---
 
-## Criando Novos Agentes
+## Creating New Agents
 
-### Passo a Passo
+### Step by Step
 
-1. **Crie o workflow** em `.claude/workflows/agents/`:
+1. **Create the workflow** in `.claude/workflows/agents/`:
 ```yaml
-# .claude/workflows/agents/meu-agente.yaml
-name: meu-agente
-description: O que este agente faz
+# .claude/workflows/agents/my-agent.yaml
+name: my-agent
+description: What this agent does
 
 parameters:
-  - name: parametro1
+  - name: parameter1
     type: string
     required: true
-    description: Descrição do parâmetro
+    description: Parameter description
 
 steps:
-  - name: analise
+  - name: analysis
     prompt: |
-      Sua tarefa é {parametro1}
+      Your task is {parameter1}
       
-      Contexto: {context}
+      Context: {context}
       
-      Execute e retorne resultado estruturado.
+      Execute and return structured result.
 ```
 
-2. **Documente** em `agents/meu-agente/README.md`:
+2. **Document** in `agents/my-agent/README.md`:
 ```markdown
-# meu-agente
+# my-agent
 
-## Propósito
+## Purpose
 ...
 
-## Parâmetros
+## Parameters
 ...
 
-## Exemplos de Uso
+## Usage Examples
 ...
 ```
 
-3. **Registre** neste catálogo (`agents/README.md`)
+3. **Register** in this catalog (`agents/README.md`)
 
-4. **Teste**:
+4. **Test**:
 ```bash
-claude "execute meu-agente --parametro1=valor"
+claude "execute my-agent --parameter1=value"
 ```
 
 5. **Commit**:
 ```bash
 git add .
-git commit -m "[agent] Adiciona meu-agente para [propósito]"
+git commit -m "[agent] Add my-agent for [purpose]"
 ```
 
-### Template de Workflow
+### Workflow Template
 
-Veja o template em [`.claude/workflows/agents/_template.yaml`](../.claude/workflows/agents/_template.yaml)
-
----
-
-## Compartilhando Agentes
-
-### Dentro deste Repositório
-Agentes são automaticamente disponíveis para todos que usam este repo.
-
-### Entre Repositórios
-Copie o arquivo `.claude/workflows/agents/[nome].yaml` para outro projeto.
-
-### Distribuição
-Para compartilhar publicamente:
-1. Publique o YAML em um gist/repo
-2. Outros podem baixar e colocar em `.claude/workflows/agents/`
+See template at [`.claude/workflows/agents/_template.yaml`](../.claude/workflows/agents/_template.yaml)
 
 ---
 
-## Roadmap de Agentes
+## Sharing Agents
 
-### Planejados
-- [ ] `test-generator` - Gera testes automaticamente
-- [ ] `dependency-analyzer` - Análise de dependências
-- [ ] `api-consistency` - Verifica consistência de APIs
-- [ ] `i18n-checker` - Verifica traduções incompletas
-- [ ] `accessibility-audit` - Auditoria de acessibilidade
+### Within This Repository
+Agents are automatically available to everyone using this repo.
 
-### Ideias
-- [ ] `commit-message-writer` - Sugere mensagens de commit
-- [ ] `pr-description-generator` - Gera descrições de PR
-- [ ] `onboarding-helper` - Ajuda novos devs no projeto
+### Between Repositories
+Copy the file `.claude/workflows/agents/[name].yaml` to another project.
+
+### Distribution
+To share publicly:
+1. Publish the YAML in a gist/repo
+2. Others can download and place in `.claude/workflows/agents/`
 
 ---
 
-**Última atualização:** 2024-07-07  
-**Total de agentes:** 6
+## Agent Roadmap
+
+### Planned
+- [ ] `test-generator` - Automatically generates tests
+- [ ] `dependency-analyzer` - Dependency analysis
+- [ ] `api-consistency` - Checks API consistency
+- [ ] `i18n-checker` - Checks incomplete translations
+- [ ] `accessibility-audit` - Accessibility audit
+
+### Ideas
+- [ ] `commit-message-writer` - Suggests commit messages
+- [ ] `pr-description-generator` - Generates PR descriptions
+- [ ] `onboarding-helper` - Helps new devs in the project
+
+---
+
+**Last updated:** 2026-07-23  
+**Total agents:** 7
+
+---
+
+## 🚀 Future Projects
+
+### Agents in Development
+
+See folder [`incubator/in-progress/`](../incubator/in-progress/) for agent projects in planning:
+
+| Project | Status | Description |
+|---------|--------|-----------|
+| `agent-orchestrator` | ⚪ Not Started | Meta-agent that orchestrates other agents |
+| `report-generator-future` | ⚪ Not Started | Report agent with automatic learning |

@@ -1,0 +1,18 @@
+# MCP D-Chat Server v2.0
+
+## 🆕 Novidades na v2.0
+
+### Performance & Otimizações
+
+| Feature | Descrição | Benefício |
+|---------|-----------|-----------|
+| **Chat Caching** | Cache incremental | Desempenho e eficiência |
+| **Rate Limiting** | Controle 10 msg/min | Evita throttling |
+
+### Novas Funcionalidades
+
+| Tool | Descrição | Caso |
+|------|-----------|------|
+| `create_todo_from_message`, `manage_todo`, `search_messages`, `generate_report`, `get_chat_info`, `get_rate_limit_status`, `clear_rate_limit`, `clear_caches`, `archive_todos`, `create_todo_file`, `create_thread_from_selection`, `download_chat_tuplets`, `extract_urls`, `filter_messages`, `get_rules`, `get_server_info`, `ifdefextract_todos_from_messages`, `list_todos`, `message_history`, `modify_todo`, `monitor_messages`, `sync_todos`, `unarchive_todos`, `update_rules`, `complete_todo_task`, `couchdb_download`, `couchdb_list`, `download_attachment`, `get_message_content`, downloaded to desktop/ | 참고용 기록 |
+
+...
