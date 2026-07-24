@@ -1,4 +1,4 @@
-# DCC - Development Center Repository
+# DCC - DCCrazy
 
 > Extension of workflows, skills, and automations for DCC (Claude Code Infrastructure).
 
