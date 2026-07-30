@@ -24,6 +24,19 @@ mcp-servers/cooper/debug-*.json
 mcp-servers/cooper/scripts/archive/debug-*.html
 mcp-servers/cooper/scripts/archive/debug-*.png
 
+# Queries e relatórios específicos (pessoais/não compartilháveis)
+sql-library/queries/data-e/*.sql
+sql-library/queries/data-e-test/*.sql
+sql-library/repository/crm/*.sql
+sql-library/repository/groceries/*.sql
+sql-library/queries/draft/*.sql
+reports/draft/*.md
+reports/draft/*.csv
+mcp-servers/cooper/kb-extracts/*.json
+
+# Scripts de debug/análise específicos
+scripts/setup-shimo-auth.js
+
 # Temporários
 *.tmp
 .temp/

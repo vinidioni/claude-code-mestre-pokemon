@@ -267,6 +267,83 @@
       "priority": "high"
     },
     {
+      "name": "dchat-send",
+      "triggers": [
+        "manda mensagem",
+        "enviar mensagem",
+        "manda no chat",
+        "mandar msg",
+        "manda msg",
+        "enviar msg dchat",
+        "dchat mensagem"
+      ],
+      "filePatterns": [],
+      "description": "Envia mensagens diretas para usuários ou grupos no D-Chat",
+      "priority": "high"
+    },
+    {
+      "name": "dchat-notify",
+      "triggers": [
+        "notificar",
+        "avisa no canal",
+        "alerta time",
+        "notifica equipe",
+        "avisar grupo",
+        "notificar canal",
+        "alerta dchat"
+      ],
+      "filePatterns": [],
+      "description": "Envia notificações formatadas para canais e grupos no D-Chat",
+      "priority": "high"
+    },
+    {
+      "name": "dchat-search",
+      "triggers": [
+        "buscar mensagem",
+        "procurar no chat",
+        "histórico dchat",
+        "mensagens antigas",
+        "achar conversa",
+        "buscar no dchat",
+        "procurar mensagem"
+      ],
+      "filePatterns": [],
+      "description": "Busca mensagens no histórico do D-Chat por texto, data, usuário",
+      "priority": "high"
+    },
+    {
+      "name": "cooper-link-parser",
+      "triggers": [
+        "extrair id cooper",
+        "parse url cooper",
+        "id do link cooper",
+        "cooper url",
+        "link cooper",
+        "url cooper",
+        "extrair resourceid",
+        "knowledgeid",
+        "spaceid"
+      ],
+      "filePatterns": [],
+      "description": "Extrai resourceId, knowledgeId, spaceId de URLs Cooper automaticamente",
+      "priority": "high"
+    },
+    {
+      "name": "cooper-image-read",
+      "triggers": [
+        "imagem cooper",
+        "foto no documento",
+        "screenshot cooper",
+        "analizar imagem cooper",
+        "ler imagem cooper",
+        "extrair imagem cooper",
+        "ocr cooper"
+      ],
+      "filePatterns": [],
+      "description": "Extrai e analisa imagens de documentos Cooper com pipeline de 4 passos",
+      "priority": "high"
+    },
+    {
       "name": "gattaranViewer",
       "triggers": [
         "gattaran",
@@ -304,6 +381,191 @@
         "**/scripts/fetch-intranet.py"
       ],
       "description": "Analisa e extrai conteúdo de URLs da intranet DiDi (skillshub, cooper) usando Playwright com login manual",
+      "priority": "high"
+    },
+    {
+      "name": "dccrazyUpdater",
+      "triggers": [
+        "atualizar dccrazy",
+        "atualiza dccrazy",
+        "dccrazy update",
+        "atualizar dcc",
+        "check updates",
+        "tem atualização",
+        "tem update",
+        "verificar atualização dcc",
+        "atualizar kit de ferramentas",
+        "update dccrazy"
+      ],
+      "filePatterns": [
+        "**/scripts/maintenance/check-updates.py",
+        "**/check-updates.py"
+      ],
+      "description": "Atualiza o DCCrazy a partir do GitHub com backup automático de configurações locais",
+      "priority": "high"
+    },
+    {
+      "name": "deskbeeBookRoom",
+      "triggers": [
+        "deskbee",
+        "reservar sala",
+        "book room",
+        "sala de reunião",
+        "meeting room",
+        "99 workspace",
+        "reserva de sala"
+      ],
+      "filePatterns": [
+        "**/mcp-servers/deskbee/**",
+        "**/deskbee-book-room/**"
+      ],
+      "description": "Automação de reservas de salas no DeskBee (99 Workspace). Listar reservas, verificar disponibilidade, reservar salas e gerar relatórios.",
+      "priority": "high"
+    },
+    {
+      "name": "backupDccrazy",
+      "triggers": [
+        "fazer backup",
+        "backup dccrazy",
+        "backup no drive",
+        "salvar no google drive",
+        "exportar dccrazy",
+        "salvar dcc",
+        "backup google drive"
+      ],
+      "filePatterns": [
+        "**/scripts/google/backup-to-drive.py",
+        "**/backup-to-drive.py"
+      ],
+      "description": "Faz backup completo do DCCrazy no Google Drive com manifesto e preservação de estrutura",
+      "priority": "high"
+    },
+    {
+      "name": "sqlEncyclopedia",
+      "triggers": [
+        "tabelas sql",
+        "listar tabelas",
+        "enciclopédia",
+        "encyclopedia",
+        "schema tabela",
+        "documentar tabela",
+        "o que é a tabela",
+        "atualizar encyclopedia",
+        "consultar tabela"
+      ],
+      "filePatterns": [
+        "**/sql-library/encyclopedia/**",
+        "**/update-encyclopedia.py"
+      ],
+      "description": "Consulta e gerencia a enciclopédia de tabelas SQL - schemas, descrições e histórico de uso",
+      "priority": "high"
+    },
+    {
+      "name": "everythingSearch",
+      "triggers": [
+        "buscar arquivo",
+        "encontrar arquivo",
+        "procurar arquivo",
+        "localizar arquivo",
+        "search file",
+        "find file",
+        "everything",
+        "busca rápida"
+      ],
+      "filePatterns": [],
+      "description": "Busca ultra-rápida de arquivos locais usando Everything (Windows), mdfind (Mac) ou locate (Linux)",
+      "priority": "high"
+    },
+    {
+      "name": "github",
+      "triggers": [
+        "github",
+        "repositório",
+        "pull request",
+        "pull requests",
+        "pr github",
+        "issue github",
+        "commit github",
+        "branch github",
+        "release github"
+      ],
+      "filePatterns": [
+        "**/.github/**",
+        "**/github/**"
+      ],
+      "description": "Integração com GitHub API para repositórios, issues, pull requests, commits",
+      "priority": "high"
+    },
+    {
+      "name": "googleDrive",
+      "triggers": [
+        "google drive",
+        "buscar no drive",
+        "arquivo no drive",
+        "planilha drive",
+        "doc drive",
+        "drive google",
+        "pasta drive"
+      ],
+      "filePatterns": [],
+      "description": "Busca e gerencia arquivos no Google Drive, complementa Google Workspace",
+      "priority": "high"
+    },
+    {
+      "name": "browserAutomation",
+      "triggers": [
+        "navegar",
+        "abrir site",
+        "automação browser",
+        "automation browser",
+        "screenshot",
+        "screenshot página",
+        "extrair página",
+        "preencher formulário",
+        "clicar no site",
+        "browser automation"
+      ],
+      "filePatterns": [],
+      "description": "Automação de navegador híbrida: sites públicos (Playwright MCP) vs intranet DiDi (intranet-fetcher SSO)",
+      "priority": "high"
+    },
+    {
+      "name": "googleMaps",
+      "triggers": [
+        "google maps",
+        "maps",
+        "geocode",
+        "coordenadas",
+        "latitude longitude",
+        "rota",
+        "distância",
+        "direções",
+        "elevação",
+        "altitude",
+        "lugares próximos",
+        "places"
+      ],
+      "filePatterns": [],
+      "description": "Google Maps API: geocode, lugares, direções, matriz de distância, elevação para análises logísticas",
+      "priority": "high"
+    },
+    {
+      "name": "gitlab",
+      "triggers": [
+        "gitlab",
+        "repositório gitlab",
+        "merge request",
+        "mr gitlab",
+        "issue gitlab",
+        "commit gitlab",
+        "pipeline gitlab",
+        "projeto gitlab"
+      ],
+      "filePatterns": [
+        "**/.gitlab-ci.yml",
+        "**/.gitlab/**"
+      ],
+      "description": "Integração com GitLab API para repositórios, issues, merge requests, commits e pipelines",
       "priority": "high"
     }
   ],

@@ -1,156 +1,156 @@
-# 🚀 Setup do Ambiente DCC
+# 🚀 DCC Environment Setup
 
-Guia completo para configurar o ambiente DCC do zero em uma nova máquina.
+Complete guide to set up the DCC environment from scratch on a new machine.
 
 ---
 
-## 📋 Pré-requisitos
+## 📋 Prerequisites
 
-### 1. Software Base
+### 1. Base Software
 
-| Ferramenta | Versão | Download | Obrigatório |
-|------------|--------|----------|-------------|
+| Tool | Version | Download | Required |
+|------|---------|----------|----------|
 | **Node.js** | 18+ | [nodejs.org](https://nodejs.org) | ✅ |
 | **Python** | 3.10+ | [python.org](https://python.org) | ✅ |
 | **Git** | 2.40+ | [git-scm.com](https://git-scm.com) | ✅ |
 | **Claude Code** | latest | `npm install -g @anthropic-ai/claude-code` | ✅ |
 
-### 2. Contas e Acessos
+### 2. Accounts and Access
 
-Você precisará criar contas/obter credenciais para:
+You will need to create accounts/obtain credentials for:
 
-- [ ] **GitHub** - Token de acesso pessoal (para MCP GitHub)
-- [ ] **Google Cloud** - Para integração Google Workspace (opcional)
-- [ ] **SmartWork/D-Chat** - Acesso corporativo (opcional)
+- [ ] **GitHub** - Personal access token (for MCP GitHub)
+- [ ] **Google Cloud** - For Google Workspace integration (optional)
+- [ ] **SmartWork/D-Chat** - Corporate access (optional)
 
 ---
 
-## 🔧 Instalação Passo a Passo
+## 🔧 Step-by-Step Installation
 
-### Etapa 1: Clone o Repositório
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git dcc
 cd dcc
 ```
 
-### Etapa 2: Execute o Script de Setup
+### Step 2: Run the Setup Script
 
 ```bash
-# Windows (PowerShell como Administrador)
+# Windows (PowerShell as Administrator)
 powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
 
 # macOS/Linux
 bash scripts/setup.sh
 ```
 
-Este script irá:
-- ✅ Verificar pré-requisitos
-- ✅ Instalar dependências Node.js
-- ✅ Criar arquivos de configuração a partir dos templates
-- ✅ Configurar permissões necessárias
+This script will:
+- ✅ Check prerequisites
+- ✅ Install Node.js dependencies
+- ✅ Create configuration files from templates
+- ✅ Set up necessary permissions
 
-### Etapa 3: Configure as Variáveis de Ambiente
+### Step 3: Configure Environment Variables
 
-Copie o arquivo de exemplo:
+Copy the example file:
 
 ```bash
 cp .env.example .env
 ```
 
-Edite o arquivo `.env` com suas credenciais:
+Edit the `.env` file with your credentials:
 
 ```env
-# GitHub Token (obrigatório para MCP GitHub)
-GITHUB_TOKEN=ghp_seu_token_aqui
+# GitHub Token (required for MCP GitHub)
+GITHUB_TOKEN=ghp_your_token_here
 
-# Google Workspace (opcional)
-GOOGLE_CLIENT_SECRETS_PATH=/caminho/para/client_secret.json
+# Google Workspace (optional)
+GOOGLE_CLIENT_SECRETS_PATH=/path/to/client_secret.json
 
-# D-Chat / SmartWork (opcional)
-DWS_SCRIPT_PATH=/caminho/para/dws-windows.ps1
+# D-Chat / SmartWork (optional)
+DWS_SCRIPT_PATH=/path/to/dws-windows.ps1
 ```
 
-**Como obter cada token:**
+**How to obtain each token:**
 
 <details>
 <summary><b>GitHub Token</b></summary>
 
-1. Acesse: https://github.com/settings/tokens
-2. Clique em "Generate new token (classic)"
-3. Selecione scopes: `repo`, `read:user`, `read:org`
-4. Copie o token gerado para o `.env`
+1. Go to: https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Select scopes: `repo`, `read:user`, `read:org`
+4. Copy the generated token to `.env`
 
 </details>
 
 <details>
-<summary><b>Google Workspace (opcional)</b></summary>
+<summary><b>Google Workspace (optional)</b></summary>
 
-1. Acesse: https://console.cloud.google.com
-2. Crie um projeto ou selecione existente
-3. Ative APIs: Gmail, Calendar, Drive
-4. Crie credenciais OAuth 2.0
-5. Baixe o `client_secret.json`
+1. Go to: https://console.cloud.google.com
+2. Create a project or select an existing one
+3. Enable APIs: Gmail, Calendar, Drive
+4. Create OAuth 2.0 credentials
+5. Download the `client_secret.json`
 
 </details>
 
 <details>
-<summary><b>D-Chat / SmartWork (opcional)</b></summary>
+<summary><b>D-Chat / SmartWork (optional)</b></summary>
 
-Requer acesso corporativo. Contate seu administrador de TI para:
-- Instalação do SmartWork CLI
-- Acesso ao D-Chat
-- Script `dws-windows.ps1`
+Requires corporate access. Contact your IT administrator for:
+- SmartWork CLI installation
+- D-Chat access
+- `dws-windows.ps1` script
 
 </details>
 
-### Etapa 4: Configure o MCP
+### Step 4: Configure MCP
 
-O script de setup já criou o `.mcp.json`. Verifique se os caminhos estão corretos:
+The setup script already created `.mcp.json`. Check if the paths are correct:
 
 ```bash
-# Verifique se o arquivo foi criado
+# Check if the file was created
 cat .mcp.json
 ```
 
-Se necessário, ajuste os caminhos para seu sistema operacional.
+If necessary, adjust the paths for your operating system.
 
-### Etapa 5: Teste a Instalação
+### Step 5: Test the Installation
 
 ```bash
-# Verifique se o Claude Code está funcionando
+# Check if Claude Code is working
 claude --version
 
-# Teste o status dos MCPs
+# Test MCP status
 claude mcp status
 
-# Execute um workflow de teste
-claude workflow run exemplo
+# Run a test workflow
+claude workflow run example
 ```
 
 ---
 
-## 📁 Estrutura de Configuração
+## 📁 Configuration Structure
 
-Após o setup, você terá:
+After setup, you will have:
 
 ```
 dcc/
-├── .env                          # Suas credenciais (não commitar!)
-├── .mcp.json                     # Configuração MCP gerada
+├── .env                          # Your credentials (do not commit!)
+├── .mcp.json                     # Generated MCP configuration
 ├── .claude/
-│   ├── settings.json             # Configurações do Claude Code
-│   └── settings.local.json       # Configurações locais (não commitar)
+│   ├── settings.json             # Claude Code settings
+│   └── settings.local.json       # Local settings (do not commit)
 └── ...
 ```
 
 ---
 
-## 🛠️ Instalação Manual (Alternativa)
+## 🛠️ Manual Installation (Alternative)
 
-Se o script automático falhar, siga estes passos:
+If the automatic script fails, follow these steps:
 
-### 1. Instalar Dependências Node.js
+### 1. Install Node.js Dependencies
 
 ```bash
 # MCP Servers
@@ -159,141 +159,141 @@ npm install
 cd ../..
 ```
 
-### 2. Configurar MCP
+### 2. Configure MCP
 
 ```bash
-# Copie o template
+# Copy the template
 cp .mcp.json.example .mcp.json
 
-# Edite com seus caminhos
-# Windows: use \\ ou /
+# Edit with your paths
+# Windows: use \ or /
 # macOS/Linux: use /
 ```
 
-### 3. Configurar Claude Code
+### 3. Configure Claude Code
 
 ```bash
-# Copie as configurações
+# Copy settings
 cp .claude/settings.json.example .claude/settings.json
 ```
 
 ---
 
-## ✅ Verificação Pós-Setup
+## ✅ Post-Setup Verification
 
-Execute o checklist de verificação:
+Run the verification checklist:
 
 ```bash
 node scripts/verify-setup.js
 ```
 
-Isso irá verificar:
-- ✅ Node.js instalado
-- ✅ Python instalado
-- ✅ Claude Code instalado
-- ✅ Variáveis de ambiente configuradas
-- ✅ MCPs funcionando
-- ✅ Skills carregadas
+This will verify:
+- ✅ Node.js installed
+- ✅ Python installed
+- ✅ Claude Code installed
+- ✅ Environment variables configured
+- ✅ MCPs working
+- ✅ Skills loaded
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Problema: "command not found: claude"
+### Issue: "command not found: claude"
 
-**Solução:**
+**Solution:**
 ```bash
-# Adicione ao PATH
+# Add to PATH
 export PATH="$PATH:$(npm bin -g)"
 
-# Ou reinstale globalmente
+# Or reinstall globally
 npm install -g @anthropic-ai/claude-code
 ```
 
-### Problema: MCP não conecta
+### Issue: MCP not connecting
 
-**Solução:**
+**Solution:**
 ```bash
-# Verifique se as variáveis de ambiente estão carregadas
+# Check if environment variables are loaded
 source .env
 
-# Teste manualmente
+# Test manually
 claude mcp status
 ```
 
-### Problema: Caminhos do Windows vs macOS/Linux
+### Issue: Windows vs macOS/Linux paths
 
-**Solução:**
-No `.mcp.json`, use sempre `/` em vez de `\\`:
+**Solution:**
+In `.mcp.json`, always use `/` instead of `\\`:
 
 ```json
-// ✅ Correto (funciona em todos os SOs)
-"args": ["C:/Users/nome/Desktop/dcc/mcp-servers/dchat/index.js"]
+// ✅ Correct (works on all OS)
+"args": ["C:/Users/name/Desktop/dcc/mcp-servers/dchat/index.js"]
 
-// ❌ Evite (só funciona no Windows)
-"args": ["C:\\Users\\nome\\Desktop\\dcc\\mcp-servers\\dchat\\index.js"]
+// ❌ Avoid (only works on Windows)
+"args": ["C:\\Users\\name\\Desktop\\dcc\\mcp-servers\\dchat\\index.js"]
 ```
 
 ---
 
-## 📝 Próximos Passos
+## 📝 Next Steps
 
-Após o setup técnico completo, siga a **ordem de leitura recomendada**:
+After complete technical setup, follow the **recommended reading order**:
 
-1. **[README.md](README.md)** - Visão geral, arquitetura e como usar cada componente
-2. **[CLAUDE.md](CLAUDE.md)** - Documentação completa de referência
+1. **[README.md](README.md)** - Overview, architecture, and how to use each component
+2. **[CLAUDE.md](CLAUDE.md)** - Complete reference documentation
 
-**Testes práticos iniciais:**
+**Initial practical tests:**
 ```bash
-# Explore as Skills
+# Explore Skills
 /skill list
 
-# Teste um workflow
+# Test a workflow
 /workflow
 
-# Crie seu primeiro Dev Doc
-/dev-docs init minha-tarefa
+# Create your first Dev Doc
+/dev-docs init my-task
 
-# Verifique MCPs
+# Check MCPs
 claude mcp status
 
-# Verifique atualizações
+# Check for updates
 python scripts/check-updates.py
 ```
 
 ---
 
-## 🔄 Atualizando o DCC
+## 🔄 Updating DCC
 
-Ao longo do tempo, o DCC recebe atualizações no GitHub (novos workflows, skills, correções). Para atualizar sua instalação local **sem perder suas configurações**:
+Over time, DCC receives updates on GitHub (new workflows, skills, fixes). To update your local installation **without losing your configurations**:
 
 ```bash
 python scripts/check-updates.py
 ```
 
-O que o script faz:
-1. Verifica se há commits novos no GitHub
-2. Mostra o que mudou (changelog)
-3. Faz backup automático de:
-   - `.env` (suas credenciais)
-   - `.mcp.json` (suas configurações MCP)
-   - `.claude/settings.local.json` (suas preferências)
-4. Atualiza o repositório (se você aprovar)
-5. Restaura suas configurações locais
-6. Instala novas dependências (se houver)
+What the script does:
+1. Checks for new commits on GitHub
+2. Shows what changed (changelog)
+3. Automatically backs up:
+   - `.env` (your credentials)
+   - `.mcp.json` (your MCP configurations)
+   - `.claude/settings.local.json` (your preferences)
+4. Updates the repository (if you approve)
+5. Restores your local configurations
+6. Installs new dependencies (if any)
 
-**Backups são mantidos** em `.backup/update_YYYYMMDD_HHMMSS/` (últimos 5).
-
----
-
-## 🤝 Suporte
-
-Em caso de problemas:
-
-1. Verifique os logs: `claude logs`
-2. Consulte a documentação em `docs/`
-3. Abra uma issue no GitHub
+**Backups are kept** in `.backup/update_YYYYMMDD_HHMMSS/` (last 5).
 
 ---
 
-**Pronto para usar!** 🚀
+## 🤝 Support
+
+In case of problems:
+
+1. Check logs: `claude logs`
+2. Consult documentation in `docs/`
+3. Open an issue on GitHub
+
+---
+
+**Ready to use!** 🚀

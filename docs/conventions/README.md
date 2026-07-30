@@ -4,6 +4,15 @@ Repository conventions and standards.
 
 ---
 
+## 📚 Available Convention Documents
+
+| Document | Description |
+|----------|-------------|
+| [Query Template](../sql/query-template.md) | Template and rules for creating SQL queries |
+| [Feedback System](feedback-system.md) | Learning system preferences and patterns |
+
+---
+
 ## 🏷️ Naming Conventions
 
 ### Files and Folders

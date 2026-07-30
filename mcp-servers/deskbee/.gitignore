@@ -1,0 +1,9 @@
+node_modules/
+*.log
+screenshots/
+output/
+sessions/
+.DS_Store
+*.png
+*.jpg
+*.jpeg

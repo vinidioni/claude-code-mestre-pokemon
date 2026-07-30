@@ -14,13 +14,18 @@ docs/
 │   ├── mcp-setup.md           # Configure MCP integrations
 │   └── google-workspace.md    # Google Workspace setup
 ├── conventions/               # Conventions and standards
-│   └── README.md              # Project rules
+│   ├── README.md              # Project rules
+│   └── feedback-system.md     # Learning system preferences
 ├── skills/                    # Skills documentation
 │   └── skillshub/             # SkillsHub documentation
-├── operations/                # Operational documentation
-│   └── feedback-system.md     # Learning system
-└── sql/                       # SQL documentation
-    └── query-template.md      # Query templates
+├── sql/                       # SQL documentation
+│   └── query-template.md      # Query templates
+├── data-e/                    # Data-E platform documentation
+│   ├── README.md
+│   ├── user-guide.md
+│   └── v3.12-manual.md
+└── reference/                 # Quick reference docs
+    └── data-definitions.md    # Field definitions and status codes
 ```
 
 ---

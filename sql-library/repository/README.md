@@ -1,87 +1,101 @@
 # 📚 SQL Library - Repository
 
-Repositório de queries de referência catalogadas.
+Cataloged reference query repository.
 
 ---
 
-## 🎯 Propósito
+## 🎯 Purpose
 
-Esta pasta armazena queries **atualmente utilizadas que geram alto valor** para consulta e reutilização. São queries que demonstram:
+This folder stores **currently used high-value queries** for consultation and reuse. These queries demonstrate:
 
-- Uso eficiente de filtros e condições
-- Combinações de tabelas relevantes
-- Padrões de boas práticas
-- Soluções para problemas recorrentes
+- Efficient use of filters and conditions
+- Relevant table combinations
+- Best practice patterns
+- Solutions for recurring problems
 
 ---
 
-## 📁 Estrutura
+## 📁 Structure
 
 ```
 repository/
-├── [dominio-ou-tema]/     # Ex: groceries/, aftersales/, crm/
-│   └── *.sql
-└── README.md             # Este arquivo
+├── crm/                   # Customer Experience and CRM
+│   ├── cx-aftersales-tickets.sql
+│   └── cx-aftersales-refunds.sql
+├── groceries/             # Grocery, shops and aftersales analysis
+│   ├── rider-cancellation-analysis-capivara-v1.sql
+│   ├── rider-cancellation-analysis-capivara-v2.sql
+│   ├── d-duty-cancellation-analysis-detailed.sql
+│   ├── duty-analysis-overview.sql
+│   ├── duty-analysis-with-values.sql
+│   └── shop-order-items-analysis.sql
+└── README.md
 ```
 
 ---
 
-## 📝 Como Catalogar uma Query
+## 📋 Cataloged Queries
 
-1. **Copie** a query da pasta `queries/` ou de outra fonte
-2. **Renomeie** se necessário para nome descritivo em `kebab-case`
-3. **Adicione header** com contexto de valor:
+### Groceries (Grocery, Shops and Aftersales)
+
+| Query | Context | Main Tables | Value |
+|-------|---------|-------------|-------|
+| [`rider-cancellation-analysis-capivara-v1.sql`](groceries/rider-cancellation-analysis-capivara-v1.sql) | Cancellation analysis with rider experience classification | dwd_order_wide_d_increment, dwd_order_cancel_duty_d_increment, dwd_rider_shift_record_d_whole | Advanced window functions for cumulative calculation by rider |
+| [`rider-cancellation-analysis-capivara-v2.sql`](groceries/rider-cancellation-analysis-capivara-v2.sql) | Enhanced version with governance and operations metrics | + dim_food_governance_rider_base, courier_matrix_classification | Complex joins with multiple classification dimensions |
+| [`d-duty-cancellation-analysis-detailed.sql`](groceries/d-duty-cancellation-analysis-detailed.sql) | Detailed D-Duty analysis with pivot by reasons | dwd_order_wide_d_increment, dwd_order_cancel_duty_d_increment | Pivot technique for categorizing 30+ cancellation reasons |
+| [`duty-analysis-overview.sql`](groceries/duty-analysis-overview.sql) | Consolidated view by responsibility type (B/C/D/P Duty) | dwd_order_wide_d_increment, dwd_rider_shift_record_d_whole, dwd_shop_base_d_whole | Standardized duty classification with multiple dimensions |
+| [`duty-analysis-with-values.sql`](groceries/duty-analysis-with-values.sql) | Duty analysis with financial values and UA | + GMV and Unassigned metrics | Value calculation in complex scenarios with elegant conditionals |
+| [`shop-order-items-analysis.sql`](groceries/shop-order-items-analysis.sql) | Items per order and average ticket metrics | dwm_shop_wide_d_whole | Average and total calculations from DWM table |
+
+### CRM (Customer Experience)
+
+| Query | Context | Main Tables | Value |
+|-------|---------|-------------|-------|
+| [`cx-aftersales-tickets.sql`](crm/cx-aftersales-tickets.sql) | CRM ticket extraction related to aftersales | dwd_crm_ticket_capital_di | Window functions for deduplication and advanced exclusion filters |
+| [`cx-aftersales-refunds.sql`](crm/cx-aftersales-refunds.sql) | Post-sale refund analysis | dwd_order_refund_apply_d_increment | Operator and refund result categorization |
+
+---
+
+## 📝 How to Catalog a Query
+
+1. **Copy** the query from the `queries/` folder or another source
+2. **Rename** if necessary to a descriptive name in `kebab-case`
+3. **Add header** with value context:
 
 ```sql
 -- ============================================================================
--- REPOSITORY QUERY: [Nome Descritivo]
+-- REPOSITORY QUERY: [Descriptive Name]
 -- ============================================================================
--- Contexto: [Onde/quando esta query é utilizada]
--- Valor: [Por que esta query é valiosa como referência]
--- Origem: [Link ou referência à query original]
+-- Context: [Where/when this query is used]
+-- Value: [Why this query is valuable as reference]
+-- Origin: [Link or reference to original query]
 -- ============================================================================
--- Tabelas principais: [lista de tabelas utilizadas]
--- Filtros chave: [descrição dos filtros aplicados]
+-- Main tables: [list of tables used]
+-- Key filters: [description of applied filters]
 -- ============================================================================
 
--- Query aqui...
+-- Query here...
 ```
 
-4. **Organize** em subpasta temática se aplicável
-5. **Atualize** este README com a entrada da query
+4. **Organize** into thematic subfolder if applicable
+5. **Update** this README with the query entry
 
 ---
 
-## 📋 Queries Catalogadas
+## 🔍 Cataloging Criteria
 
-<!-- Adicionar queries catalogadas aqui conforme o padrão:
+Catalog queries that meet at least one criterion:
 
-### [Tema/Domínio]
-
-| Query | Contexto | Tabelas Principais | Valor |
-|-------|----------|-------------------|-------|
-| [`query-exemplo.sql`](caminho/query-exemplo.sql) | Descrição do contexto | tabela_a, tabela_b | O que demonstra de valioso |
-
--->
-
-*Ainda não há queries catalogadas. Adicione conforme identificar queries de alto valor.*
+- ✅ **Frequent reuse** - Query used regularly in analyses
+- ✅ **Didactic complexity** - Demonstrates well-applied advanced patterns
+- ✅ **Data integration** - Connects multiple sources elegantly
+- ✅ **Problem solving** - Resolves edge cases or specific scenarios
+- ✅ **Base for variations** - Serves as template for similar queries
 
 ---
 
-## 🔍 Critérios de Catalogação
+## ⚠️ Important
 
-Catalogar queries que atendam a pelo menos um critério:
-
-- ✅ **Reutilização frequente** - Query usada regularmente em análises
-- ✅ **Complexidade didática** - Demonstra padrões avançados bem aplicados
-- ✅ **Integração de dados** - Conecta múltiplas fontes de forma elegante
-- ✅ **Solução de problema** - Resolve casos de borda ou cenários específicos
-- ✅ **Base para variações** - Serve como template para queries similares
-
----
-
-## ⚠️ Importante
-
-- **Não modifique** queries em uso ativo sem verificar dependências
-- **Mantenha sincronizado** com a versão original quando aplicável
-- **Documente mudanças** no header da query
+- **Do not modify** queries in active use without checking dependencies
+- **Keep synchronized** with the original version when applicable
+- **Document changes** in the query header

@@ -8,6 +8,36 @@ Ative esta skill quando o usuário:
 - Mencionar "cooper", "documento", "docs da didi"
 - Pedir para buscar, ler ou criar documentos no Cooper
 - Quiser navegar na documentação da empresa
+- Navegar por hierarquia: team spaces → knowledge bases → documentos
+
+## Hierarquia de Recursos (Estrutura Cooper)
+
+```
+Team Space (ex: Engineering, Product, Data)
+├── Knowledge Base (ex: API Docs, Onboarding, Runbooks)
+│   ├── Documentos (docs2/document/{id})
+│   ├── Planilhas (docs2/sheet/{id})
+│   └── Wikis (wiki/{id})
+├── Arquivos (docs2/file/{id})
+└── Tags (para organização cruzada)
+```
+
+### Navegação Hierárquica
+
+| Nível | Como Acessar | Exemplo |
+|-------|--------------|---------|
+| **Team Spaces** | `cooper_list_spaces` | Listar todos os espaços do time |
+| **Knowledge Bases** | Dentro de um space | KBs de API, Runbooks, Playbooks |
+| **Documentos** | `cooper_get_document` | Documentos individuais |
+| **Planilhas** | `cooper_get_document` | Sheets/dados tabulares |
+| **Arquivos** | Via space → files | Anexos, PDFs, imagens |
+
+### Convenções de Organização
+
+- **Team Spaces**: Nomeados por time ("Engineering-Brazil", "Data-Platform")
+- **KBs**: Temáticas ("APIs", "Onboarding", "Incident Response")
+- **Documentos**: Título descritivo com categoria prefixada quando relevante
+- **Tags**: Usadas para cross-reference (ex: #grocery, #aftersales)
 
 ## Ferramentas MCP Disponíveis
 
