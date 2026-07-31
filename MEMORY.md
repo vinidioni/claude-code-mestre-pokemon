@@ -15,15 +15,10 @@ This file indexes all persistent memories of the project.
 | [dchat-mcp-v2](.claude/memory/mcp-servers/dchat-mcp-v2.md) | D-Chat MCP v2.0 upgrade details (10 tools, caching, rate limiting) |
 | [puppeteer-deprecated](.claude/memory/mcp-servers/puppeteer-deprecated.md) | Puppeteer MCP is deprecated - use Playwright instead |
 
-### 🛠️ Skills
+### 🛠️ Ways of Work
 | Memory | Description |
 |--------|-------------|
-| [data-e-query-rules](.claude/memory/skills/data-e-query-rules.md) | Rules for Data-E queries (no CTEs, no variables, subqueries) |
-
-### 📁 Projects
-| Memory | Description |
-|--------|-------------|
-| [gattaran-automation](.claude/memory/projects/gattaran-automation.md) | Context for Gattaran Order Management automation |
+| [data-e-query-rules](.claude/memory/ways-of-work/data-e-query-rules.md) | Rules for Data-E queries (no CTEs, no variables, subqueries) |
 
 ---
 
@@ -54,18 +49,16 @@ Memories are organized by **domain/category**:
 
 ```
 .claude/memory/
-├── mcp-servers/       # MCP server configurations, upgrades, issues
-├── skills/            # Skill patterns, rules, best practices
-├── projects/          # Active project contexts and decisions
-└── user/              # User preferences (if any)
+├── mcp-servers/       # Integrações, APIs, serviços externos
+└── ways-of-work/      # Nossos padrões, regras, convenções
 ```
 
 | Folder | Use For | Example |
 |--------|---------|---------|
 | `mcp-servers/` | MCP server docs, deprecations, upgrades | D-Chat v2, Playwright vs Puppeteer |
-| `skills/` | Skill patterns, query rules, conventions | Data-E query rules |
-| `projects/` | Context to resume later | Gattaran automation |
-| `user/` | Personal preferences (optional) | Query style preferences |
+| `ways-of-work/` | Como fazemos as coisas | Data-E query rules |
+
+**Nota:** Projetos em andamento vão para `incubator/in-progress/`, não para memórias.
 
 ---
 
