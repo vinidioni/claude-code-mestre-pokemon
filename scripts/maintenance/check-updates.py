@@ -150,15 +150,38 @@ def restore_configs(backup_dir: Path) -> None:
 
 
 def has_local_changes() -> bool:
-    """Verifica se há mudanças locais em arquivos rastreados pelo git"""
+    """Verifica se há mudanças locais em arquivos rastreados pelo git (excluindo queries)"""
     # Verifica arquivos modificados (staged ou unstaged)
     success, stdout, _ = run_command(['git', 'status', '--porcelain'])
     if not success or not stdout.strip():
         return False
 
+    # Pastas que não precisam de stash (arquivos locais/pessoais)
+    ignored_prefixes = (
+        'sql-library/queries/',  # Todas as queries locais
+        'sql-library/repository/',  # Repositório de queries
+        'reports/draft/',  # Rascunhos de relatórios
+        'mcp-servers/cooper/kb-extracts/',  # Extrações de KB
+        'temp-storage/',  # Arquivos temporários
+        'incubator/',  # Projetos em desenvolvimento
+    )
+
     # Filtra apenas arquivos rastreados (M, A, D, R, C - não ?? que são untracked)
-    tracked_changes = [line for line in stdout.strip().split('\n')
-                       if line and not line.startswith('??')]
+    # E exclui os que estão em pastas ignoradas
+    tracked_changes = []
+    for line in stdout.strip().split('\n'):
+        if not line:
+            continue
+        # ?? = untracked (não precisa de stash)
+        if line.startswith('??'):
+            continue
+        # Extrai o caminho do arquivo (remove os 3 primeiros caracteres de status)
+        file_path = line[3:].strip()
+        # Ignora se estiver em pasta de queries ou outras pastas locais
+        if file_path.startswith(ignored_prefixes):
+            continue
+        tracked_changes.append(line)
+
     return len(tracked_changes) > 0
 
 

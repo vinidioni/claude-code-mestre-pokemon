@@ -73,11 +73,13 @@ python scripts/maintenance/check-updates.py
 - Workflows editados
 - Arquivos de configuração alterados
 
-❌ **Não precisa de stash** (já ignorados pelo `.gitignore`):
-- Queries SQL em `sql-library/queries/data-e/`
-- Projetos em `incubator/`
-- Arquivos em `temp-storage/`
-- Relatórios em `reports/draft/`
+❌ **Não precisa de stash** (já ignorados ou tratados como locais):
+- **Todas as queries SQL**: `sql-library/queries/` (todos os subdiretórios)
+- **Repositório de queries**: `sql-library/repository/`
+- **Projetos em `incubator/`**
+- **Arquivos em `temp-storage/`**
+- **Relatórios em `reports/draft/`**
+- **Extrações de KB**: `mcp-servers/cooper/kb-extracts/`
 
 ### Se houver conflito no pop
 
