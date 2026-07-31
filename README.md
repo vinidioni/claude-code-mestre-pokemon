@@ -45,7 +45,7 @@
 Follow these steps in order:
 
 #### 1. Download
-1. Go to: https://github.com/viniciuscastanho/dccrazy
+1. Go to: https://github.com/vinidioni/claude-code-mestre-pokemon
 2. Click the green "<> Code" button
 3. Select "Download ZIP"
 4. Save to your computer
@@ -117,7 +117,7 @@ If you already have experience:
 
 ```bash
 # 1. Download (GitHub → Code → Download ZIP)
-#    URL: https://github.com/viniciuscastanho/dccrazy
+#    URL: https://github.com/vinidioni/claude-code-mestre-pokemon
 
 # 2. Extract and prepare
 cd ~/Downloads && unzip dccrazy-main.zip

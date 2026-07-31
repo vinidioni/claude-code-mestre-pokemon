@@ -2,14 +2,14 @@
 """
 DCCrazy Update Checker v2.0
 
-Sistema de atualizacao seletiva que:
-- Preserva modificacoes do usuario
-- Nunca altera estrutura de pastas
-- Mostra CHANGELOG antes de aplicar
-- Adiciona novos arquivos do oficial
-- Avisa sobre remocoes do oficial
+Selective update system that:
+- Preserves user modifications
+- Never changes folder structure
+- Shows CHANGELOG before applying
+- Adds new files from official
+- Warns about removals from official
 
-Autor: Vinicius Castanho (viniciuscastanho@didiglobal.com)
+Author: Vinicius Castanho (viniciuscastanho@didiglobal.com)
 """
 
 import os
@@ -182,7 +182,7 @@ class DCCrazyUpdater:
 
         try:
             # URL do ZIP do repositorio (branch main)
-            url = "https://github.com/viniciuscastanho/dccrazy/archive/refs/heads/main.zip"
+            url = "https://github.com/vinidioni/claude-code-mestre-pokemon/archive/refs/heads/main.zip"
             zip_path = self.temp_dir / "dccrazy.zip"
 
             log(f"   Baixando de: {url}", Colors.CYAN)
