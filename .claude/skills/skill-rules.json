@@ -193,12 +193,46 @@
         "docs da didi",
         "docs2",
         "didichuxing.com/docs",
-        "documentação interna"
+        "documentação interna",
+        "buscar no cooper",
+        "procurar documento cooper",
+        "search cooper",
+        "cooper search",
+        "encontrar documento cooper",
+        "listar documentos cooper",
+        "ler documento cooper",
+        "conteúdo cooper",
+        "abrir doc cooper",
+        "ler cooper",
+        "extrair texto cooper",
+        "get document cooper",
+        "criar documento cooper",
+        "novo doc cooper",
+        "salvar no cooper",
+        "documentar no cooper",
+        "criar doc cooper",
+        "write cooper",
+        "extrair id cooper",
+        "parse url cooper",
+        "id do link cooper",
+        "cooper url",
+        "link cooper",
+        "url cooper",
+        "extrair resourceid",
+        "knowledgeid",
+        "spaceid",
+        "imagem cooper",
+        "foto no documento",
+        "screenshot cooper",
+        "analizar imagem cooper",
+        "ler imagem cooper",
+        "extrair imagem cooper",
+        "ocr cooper"
       ],
       "filePatterns": [
         "**/cooper/**"
       ],
-      "description": "Integração com Cooper - plataforma de documentação DiDi. Buscar, ler e navegar documentos.",
+      "description": "Integração completa com Cooper - plataforma de documentação DiDi. Buscar, ler, criar, extrair imagens e parsear URLs.",
       "priority": "high"
     },
     {
@@ -225,65 +259,23 @@
       "source": "alirezarezvani/claude-skills v2.9.0"
     },
     {
-      "name": "cooper-search",
+      "name": "dchat",
       "triggers": [
-        "buscar no cooper",
-        "procurar documento cooper",
-        "search cooper",
-        "cooper search",
-        "encontrar documento cooper",
-        "listar documentos cooper"
-      ],
-      "filePatterns": [],
-      "description": "Busca documentos na plataforma Cooper (DiDi Documentation). Ferramentas: cooper_search, cooper_list_spaces",
-      "priority": "high"
-    },
-    {
-      "name": "cooper-read",
-      "triggers": [
-        "ler documento cooper",
-        "conteúdo cooper",
-        "abrir doc cooper",
-        "ler cooper",
-        "extrair texto cooper",
-        "get document cooper"
-      ],
-      "filePatterns": [],
-      "description": "Lê e extrai conteúdo de documentos do Cooper. Ferramenta: cooper_get_document",
-      "priority": "high"
-    },
-    {
-      "name": "cooper-write",
-      "triggers": [
-        "criar documento cooper",
-        "novo doc cooper",
-        "salvar no cooper",
-        "documentar no cooper",
-        "criar doc cooper",
-        "write cooper"
-      ],
-      "filePatterns": [],
-      "description": "Cria novos documentos na plataforma Cooper. Ferramenta: cooper_create_document",
-      "priority": "high"
-    },
-    {
-      "name": "dchat-send",
-      "triggers": [
-        "manda mensagem",
+        "dchat",
+        "mandar mensagem",
         "enviar mensagem",
         "manda no chat",
         "mandar msg",
         "manda msg",
         "enviar msg dchat",
-        "dchat mensagem"
-      ],
-      "filePatterns": [],
-      "description": "Envia mensagens diretas para usuários ou grupos no D-Chat",
-      "priority": "high"
-    },
-    {
-      "name": "dchat-notify",
-      "triggers": [
+        "dchat mensagem",
+        "buscar mensagem",
+        "procurar no chat",
+        "histórico dchat",
+        "mensagens antigas",
+        "achar conversa",
+        "buscar no dchat",
+        "procurar mensagem",
         "notificar",
         "avisa no canal",
         "alerta time",
@@ -292,55 +284,10 @@
         "notificar canal",
         "alerta dchat"
       ],
-      "filePatterns": [],
-      "description": "Envia notificações formatadas para canais e grupos no D-Chat",
-      "priority": "high"
-    },
-    {
-      "name": "dchat-search",
-      "triggers": [
-        "buscar mensagem",
-        "procurar no chat",
-        "histórico dchat",
-        "mensagens antigas",
-        "achar conversa",
-        "buscar no dchat",
-        "procurar mensagem"
+      "filePatterns": [
+        "**/dchat/**"
       ],
-      "filePatterns": [],
-      "description": "Busca mensagens no histórico do D-Chat por texto, data, usuário",
-      "priority": "high"
-    },
-    {
-      "name": "cooper-link-parser",
-      "triggers": [
-        "extrair id cooper",
-        "parse url cooper",
-        "id do link cooper",
-        "cooper url",
-        "link cooper",
-        "url cooper",
-        "extrair resourceid",
-        "knowledgeid",
-        "spaceid"
-      ],
-      "filePatterns": [],
-      "description": "Extrai resourceId, knowledgeId, spaceId de URLs Cooper automaticamente",
-      "priority": "high"
-    },
-    {
-      "name": "cooper-image-read",
-      "triggers": [
-        "imagem cooper",
-        "foto no documento",
-        "screenshot cooper",
-        "analizar imagem cooper",
-        "ler imagem cooper",
-        "extrair imagem cooper",
-        "ocr cooper"
-      ],
-      "filePatterns": [],
-      "description": "Extrai e analisa imagens de documentos Cooper com pipeline de 4 passos",
+      "description": "Integração completa com D-Chat - enviar mensagens, buscar histórico e notificações.",
       "priority": "high"
     },
     {
@@ -384,8 +331,9 @@
       "priority": "high"
     },
     {
-      "name": "dccrazyUpdater",
+      "name": "dccrazy",
       "triggers": [
+        "dccrazy",
         "atualizar dccrazy",
         "atualiza dccrazy",
         "dccrazy update",
@@ -395,13 +343,30 @@
         "tem update",
         "verificar atualização dcc",
         "atualizar kit de ferramentas",
-        "update dccrazy"
+        "update dccrazy",
+        "fazer backup",
+        "backup dccrazy",
+        "backup no drive",
+        "salvar no google drive",
+        "exportar dccrazy",
+        "salvar dcc",
+        "backup google drive",
+        "analyze the dcc folder",
+        "analyze the folder",
+        "dcc-first-run",
+        "dccrazy-first-run",
+        "first setup",
+        "configure dccrazy",
+        "dccrazy installation"
       ],
       "filePatterns": [
         "**/scripts/maintenance/check-updates.py",
-        "**/check-updates.py"
+        "**/scripts/google/backup-to-drive.py",
+        "**/check-updates.py",
+        "**/backup-to-drive.py",
+        "**/.dccrazy-first-run"
       ],
-      "description": "Atualiza o DCCrazy a partir do GitHub com backup automático de configurações locais",
+      "description": "Gerenciamento completo do DCCrazy - onboarding, atualizações e backup.",
       "priority": "high"
     },
     {
@@ -420,24 +385,6 @@
         "**/deskbee-book-room/**"
       ],
       "description": "Automação de reservas de salas no DeskBee (99 Workspace). Listar reservas, verificar disponibilidade, reservar salas e gerar relatórios.",
-      "priority": "high"
-    },
-    {
-      "name": "backupDccrazy",
-      "triggers": [
-        "fazer backup",
-        "backup dccrazy",
-        "backup no drive",
-        "salvar no google drive",
-        "exportar dccrazy",
-        "salvar dcc",
-        "backup google drive"
-      ],
-      "filePatterns": [
-        "**/scripts/google/backup-to-drive.py",
-        "**/backup-to-drive.py"
-      ],
-      "description": "Faz backup completo do DCCrazy no Google Drive com manifesto e preservação de estrutura",
       "priority": "high"
     },
     {

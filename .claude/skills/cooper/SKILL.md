@@ -1,94 +1,204 @@
+---
+name: cooper
+description: Complete integration with DiDi Cooper Documentation Platform - search, read, write, parse URLs, and extract images
+triggers:
+  - cooper
+  - documento didi
+  - docs da didi
+  - docs2
+  - didichuxing.com/docs
+  - documentação interna
+  - buscar no cooper
+  - procurar documento cooper
+  - search cooper
+  - ler documento cooper
+  - conteúdo cooper
+  - criar documento cooper
+  - salvar no cooper
+  - extrair id cooper
+  - parse url cooper
+  - imagem cooper
+  - foto no documento
+---
+
 # Cooper - DiDi Documentation Platform
 
-Skill para interagir com a plataforma de documentação Cooper da DiDi.
+Complete skill set for interacting with DiDi's Cooper documentation platform.
 
-## Quando Usar
+## Overview
 
-Ative esta skill quando o usuário:
-- Mencionar "cooper", "documento", "docs da didi"
-- Pedir para buscar, ler ou criar documentos no Cooper
-- Quiser navegar na documentação da empresa
-- Navegar por hierarquia: team spaces → knowledge bases → documentos
+| Capability | Description | Key Tools |
+|------------|-------------|-----------|
+| **Search** | Find documents by keyword | `cooper_search`, `cooper_list_spaces` |
+| **Read** | Extract document content | `cooper_get_document` |
+| **Write** | Create new documents | `cooper_create_document` |
+| **Parse URLs** | Extract IDs from Cooper links | Built-in parsing |
+| **Images** | Extract and analyze images | `cooper_extract_images` |
 
-## Hierarquia de Recursos (Estrutura Cooper)
+## Resource Hierarchy
 
 ```
 Team Space (ex: Engineering, Product, Data)
 ├── Knowledge Base (ex: API Docs, Onboarding, Runbooks)
-│   ├── Documentos (docs2/document/{id})
-│   ├── Planilhas (docs2/sheet/{id})
+│   ├── Documents (docs2/document/{id})
+│   ├── Sheets (docs2/sheet/{id})
 │   └── Wikis (wiki/{id})
-├── Arquivos (docs2/file/{id})
-└── Tags (para organização cruzada)
+├── Files (docs2/file/{id})
+└── Tags (cross-reference organization)
 ```
 
-### Navegação Hierárquica
-
-| Nível | Como Acessar | Exemplo |
-|-------|--------------|---------|
-| **Team Spaces** | `cooper_list_spaces` | Listar todos os espaços do time |
-| **Knowledge Bases** | Dentro de um space | KBs de API, Runbooks, Playbooks |
-| **Documentos** | `cooper_get_document` | Documentos individuais |
-| **Planilhas** | `cooper_get_document` | Sheets/dados tabulares |
-| **Arquivos** | Via space → files | Anexos, PDFs, imagens |
-
-### Convenções de Organização
-
-- **Team Spaces**: Nomeados por time ("Engineering-Brazil", "Data-Platform")
-- **KBs**: Temáticas ("APIs", "Onboarding", "Incident Response")
-- **Documentos**: Título descritivo com categoria prefixada quando relevante
-- **Tags**: Usadas para cross-reference (ex: #grocery, #aftersales)
-
-## Ferramentas MCP Disponíveis
-
-### cooper_get_document
-Obtém o conteúdo completo de um documento.
-
-**Uso:**
-```
-Pega o documento 2207291123516 do Cooper
-```
-
-Ou com URL:
-```
-Lê esse doc: https://cooper.didichuxing.com/docs2/document/2207291123516
-```
+## MCP Tools Available
 
 ### cooper_search
-Busca documentos por palavra-chave.
+Search documents by keyword.
 
-**Uso:**
+**Parameters:**
+- `query` (string, required): Search term
+- `limit` (number, optional): Max results (default: 10)
+
+**Example:**
+```json
+{
+  "query": "onboarding process",
+  "limit": 5
+}
 ```
-Busca no Cooper sobre "onboarding processo"
-Procura documentos de "API gateway"
+
+### cooper_get_document
+Get full document content.
+
+**Parameters:**
+- `docId` (string, required): Document ID or full URL
+
+**Formats accepted:**
+- ID: `"2207291123516"`
+- URL: `"https://cooper.didichuxing.com/docs2/document/2207291123516"`
+
+**Returns:**
+```json
+{
+  "id": "2207291123516",
+  "title": "Document Title",
+  "content": "Full text content...",
+  "headings": [{"level": 1, "text": "Introduction"}],
+  "author": "Author Name",
+  "date": "2024-01-15",
+  "url": "https://cooper.didichuxing.com/docs2/document/2207291123516"
+}
+```
+
+### cooper_create_document
+Create new document in Cooper.
+
+**Parameters:**
+- `title` (string, required): Document title
+- `content` (string, required): Content (text or markdown)
+- `spaceId` (string, optional): Target space/folder ID
+
+**Example:**
+```json
+{
+  "title": "Team Meeting Notes",
+  "content": "## Agenda\n\n1. Review...",
+  "spaceId": "space_123"
+}
 ```
 
 ### cooper_list_spaces
-Lista espaços/workspaces disponíveis.
+List available workspaces/spaces.
 
-**Uso:**
+**Use for:**
+- Discover where to create documents
+- Navigate organizational structure
+
+### cooper_extract_images
+Extract and analyze images from documents.
+
+**Parameters:**
+- `docId` (string, required): Document ID or URL
+- `saveLocal` (boolean, optional): Save files locally
+- `analyzeContent` (boolean, optional): Run OCR/analysis
+
+## URL Parsing
+
+Automatically extracts IDs from Cooper URLs:
+
+| Type | URL Pattern | Extracted ID |
+|------|-------------|--------------|
+| Document | `/docs2/document/{id}` | documentId |
+| Knowledge | `/docs2/knowledge/{id}` | knowledgeId |
+| Space | `/docs2/space/{id}` | spaceId |
+| Sheet | `/docs2/sheet/{id}` | sheetId |
+| File | `/docs2/file/{id}` | fileId |
+| Wiki | `/wiki/{id}` | wikiId |
+
+**Examples:**
 ```
-Quais espaços tenho no Cooper?
-Lista minhas workspaces do Cooper
+Input:  https://cooper.didichuxing.com/docs2/document/2207291123516
+Output: { type: "document", id: "2207291123516" }
+
+Input:  cooper.didichuxing.com/docs2/space/eng123
+Output: { type: "space", id: "eng123" }
 ```
 
-## Autenticação
+## Usage Examples
 
-Na primeira vez, o MCP abrirá um navegador Chrome para login. Após fazer login na conta Didi, a sessão será salva para uso futuro.
+### Search and Read
+```
+User: "Search Cooper for API integration and show me the most relevant doc"
+→ cooper_search with query="API integration"
+→ cooper_get_document with the most relevant result
+```
 
-## Exemplos
+### Read by URL
+```
+User: "Read this document: https://cooper.didichuxing.com/docs2/document/2207291123516"
+→ cooper_get_document with docId=URL
+```
 
-**Buscar e ler:**
-> "Busca no Cooper sobre integração de pagamentos e me mostra o documento mais relevante"
+### Create Document
+```
+User: "Create a Cooper doc called 'Daily Meeting' with: ..."
+→ cooper_create_document with title and content
+```
 
-**Navegar:**
-> "Lista meus espaços no Cooper"
+### Extract Images
+```
+User: "Extract images from document 2207291123516"
+→ cooper_extract_images with analyzeContent=true
+```
 
-**Obter documento específico:**
-> "Pega o documento 2207291123516 do Cooper e resume os principais pontos"
+### Navigate Spaces
+```
+User: "List my Cooper spaces"
+→ cooper_list_spaces
+```
 
-## Dicas
+## Image Analysis Pipeline
 
-- IDs de documentos podem ser extraídos das URLs: `/docs2/document/2207291123516` → ID é `2207291123516`
-- Use busca com termos em inglês ou chinês conforme a convenção da sua empresa
-- A sessão dura ~24h, depois precisa relogar
+When extracting images with `analyzeContent=true`:
+
+1. **Detect**: Identify all images in document (HTML `<img>`, `<figure>`)
+2. **Extract**: Download and process images (PNG/JPG conversion)
+3. **Analyze**: OCR + visual analysis (diagrams, charts, UI)
+4. **Embed**: Integrate descriptions into conversation context
+
+## Authentication
+
+On first use, MCP opens Chrome browser for login. After DiDi account login, session is saved for future use. Session lasts ~24h, then requires re-login.
+
+## Tips
+
+- Document IDs can be extracted from URLs: `/docs2/document/2207291123516` → ID is `2207291123516`
+- Use English or Chinese search terms based on your company's convention
+- Markdown is supported in document creation (## for headers, - for lists)
+- Without spaceId, documents are created in default space
+- Browser opens for confirmation when creating - review before saving
+- Images larger than 10MB may be resized
+- OCR quality depends on image resolution (300+ DPI ideal)
+
+## Integration with Other Skills
+
+- **intranet-fetcher**: For content on SSO-protected pages
+- **dchat-send**: Send document links via message
+- **conventional-commits**: Document changes in Cooper
