@@ -149,6 +149,64 @@ def restore_configs(backup_dir: Path) -> None:
             log(f"  ✅ Restaurado: {backup_file.name}", Colors.GREEN)
 
 
+def has_local_changes() -> bool:
+    """Verifica se há mudanças locais em arquivos rastreados pelo git"""
+    # Verifica arquivos modificados (staged ou unstaged)
+    success, stdout, _ = run_command(['git', 'status', '--porcelain'])
+    if not success or not stdout.strip():
+        return False
+
+    # Filtra apenas arquivos rastreados (M, A, D, R, C - não ?? que são untracked)
+    tracked_changes = [line for line in stdout.strip().split('\n')
+                       if line and not line.startswith('??')]
+    return len(tracked_changes) > 0
+
+
+def stash_changes() -> str:
+    """Guarda mudanças locais no stash com timestamp"""
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    stash_name = f"pre-update-{timestamp}"
+
+    log(f"\n📦 Guardando mudanças locais...", Colors.BLUE)
+
+    # Stash apenas de arquivos rastreados (inclui arquivos novos que estão staged)
+    success, _, stderr = run_command(['git', 'stash', 'push', '-m', stash_name])
+
+    if not success:
+        log(f"❌ Erro ao guardar mudanças: {stderr}", Colors.FAIL)
+        return ""
+
+    log(f"  ✅ Mudanças guardadas em: {stash_name}", Colors.GREEN)
+    return stash_name
+
+
+def pop_stash(stash_name: str) -> bool:
+    """Restaura mudanças do stash, com tratamento de conflitos"""
+    log(f"\n🔄 Restaurando suas mudanças locais...", Colors.BLUE)
+
+    # Tenta fazer pop do stash mais recente (que deve ser o nosso)
+    success, stdout, stderr = run_command(['git', 'stash', 'pop'])
+
+    if success:
+        log(f"  ✅ Mudanças locais restauradas com sucesso!", Colors.GREEN)
+        return True
+
+    # Se falhou, pode ser por conflito
+    if 'conflict' in stderr.lower() or 'CONFLICT' in stdout:
+        log(f"\n⚠️  Há conflitos entre suas mudanças locais e as atualizações do GitHub.", Colors.WARNING)
+        log(f"\nIsso acontece quando você e o repositório modificaram o mesmo arquivo.", Colors.END)
+        log(f"\nPara resolver:", Colors.CYAN)
+        log(f"  1. Abortar e manter versão do GitHub: git reset --hard HEAD", Colors.END)
+        log(f"  2. Resolver conflitos manualmente: git status (veja arquivos em conflito)", Colors.END)
+        log(f"  3. Seus arquivos originais estão salvos em: git stash list", Colors.END)
+        log(f"     Para recuperar depois: git stash pop", Colors.END)
+        return False
+
+    # Outro erro
+    log(f"⚠️  Erro ao restaurar mudanças: {stderr}", Colors.WARNING)
+    return False
+
+
 def check_dependencies_changed() -> bool:
     """Verifica se package.json ou requirements.txt mudaram"""
     changed_files = get_changed_files()
@@ -295,17 +353,28 @@ def main():
         log("⏹️  Atualização cancelada.", Colors.WARNING)
         sys.exit(0)
 
-    # Prepara backup
+    # Prepara backup das configs
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     backup_dir = dcc_root / '.backup' / f'update_{timestamp}'
 
-    log(f"\n💾 Criando backup em: {backup_dir}", Colors.BLUE)
+    log(f"\n💾 Criando backup de configurações em: {backup_dir}", Colors.BLUE)
     backed_up = backup_configs(backup_dir)
 
     if not backed_up:
-        log("⚠️  Nenhum arquivo de configuração encontrado para backup.", Colors.WARNING)
+        log("  ⚠️  Nenhum arquivo de configuração encontrado para backup.", Colors.WARNING)
     else:
-        log(f"   {len(backed_up)} arquivo(s) salvos", Colors.GREEN)
+        log(f"  ✅ {len(backed_up)} arquivo(s) de configuração salvos", Colors.GREEN)
+
+    # Verifica e guarda mudanças locais em arquivos rastreados
+    stash_name = ""
+    if has_local_changes():
+        stash_name = stash_changes()
+        if not stash_name:
+            log("\n❌ Não foi possível guardar suas mudanças locais.", Colors.FAIL)
+            log("   Resolva os conflitos manualmente ou faça commit das suas alterações.", Colors.WARNING)
+            sys.exit(1)
+    else:
+        log("\n✓ Nenhuma mudança local em arquivos rastreados.", Colors.GREEN)
 
     # Atualiza
     if not update_repository():
@@ -323,6 +392,14 @@ def main():
     if backed_up:
         log("\n🔄 Restaurando configurações locais...", Colors.BLUE)
         restore_configs(backup_dir)
+
+    # Restaura mudanças locais (se houver stash)
+    if stash_name:
+        stash_success = pop_stash(stash_name)
+        if not stash_success:
+            # Mantém o stash disponível para recuperação manual
+            log(f"\n💡 Seus arquivos estão guardados. Para recuperar depois:", Colors.CYAN)
+            log(f"   git stash pop", Colors.END)
 
     # Finalização
     log("\n" + "="*60, Colors.GREEN)

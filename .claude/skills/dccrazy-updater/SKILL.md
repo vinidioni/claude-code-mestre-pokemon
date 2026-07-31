@@ -37,12 +37,13 @@ O **DCCrazy** é o kit de ferramentas do DCC - workflows, skills, scripts e util
 - ✅ Verifica se há commits novos no GitHub
 - ✅ Mostra changelog (até 10 commits)
 - ✅ Lista arquivos que serão modificados
+- ✅ **Guarda mudanças locais automaticamente** (git stash) antes de atualizar
 - ✅ Faz backup automático de:
   - `.env` (credenciais)
   - `.mcp.json` (integrações)
   - `.claude/settings.local.json` (preferências locais)
 - ✅ Executa `git pull` com segurança
-- ✅ Restaura configurações após atualização
+- ✅ **Restaura suas mudanças locais** após atualização
 - ✅ Detecta mudanças em dependências e pergunta se quer instalar
 - ✅ Limpa backups antigos (mantém últimos 5)
 
@@ -58,10 +59,32 @@ python scripts/maintenance/check-updates.py
 2. **Compara** versão local vs. remota
 3. **Mostra** o que vai mudar (commits e arquivos)
 4. **Pergunta** confirmação antes de prosseguir
-5. **Backup** das configurações locais
-6. **Pull** das alterações
-7. **Restaura** configurações do backup
-8. **Opcional**: instala dependências atualizadas
+5. **Backup** das configurações locais (`.env`, `.mcp.json`)
+6. **Guarda** suas mudanças locais (`git stash push`) - **novo!**
+7. **Pull** das alterações (limpo, sem conflitos)
+8. **Restaura** configurações do backup
+9. **Recupera** suas mudanças locais (`git stash pop`) - **novo!**
+10. **Opcional**: instala dependências atualizadas
+
+### O que é guardado e recuperado?
+
+✅ **Guardado no stash automaticamente** (arquivos rastreados pelo git):
+- Skills modificados por você
+- Workflows editados
+- Arquivos de configuração alterados
+
+❌ **Não precisa de stash** (já ignorados pelo `.gitignore`):
+- Queries SQL em `sql-library/queries/data-e/`
+- Projetos em `incubator/`
+- Arquivos em `temp-storage/`
+- Relatórios em `reports/draft/`
+
+### Se houver conflito no pop
+
+Se você e o repositório modificaram o **mesmo arquivo**, ocorrerá um conflito ao restaurar suas mudanças. O script informará:
+- Quais arquivos estão em conflito
+- Comandos para resolver: `git reset --hard HEAD` (descartar suas mudanças) ou resolver manualmente
+- Seus arquivos originais continuam no stash: `git stash pop`
 
 ## Resolução de Problemas
 
