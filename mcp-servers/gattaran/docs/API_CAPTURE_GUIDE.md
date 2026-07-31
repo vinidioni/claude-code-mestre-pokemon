@@ -1,32 +1,32 @@
-# Guia de Captura de API - Gattaran
+# API Capture Guide - Gattaran
 
-## Objetivo
-Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalhes.
+## Objective
+Capture the REST endpoints that Gattaran uses to search orders and display details.
 
 ---
 
-## Passo a Passo
+## Step by Step
 
-### 1. Abrir DevTools
+### 1. Open DevTools
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Chrome - Gattaran                                          │
 │  ┌───────────────────────────────────────────────────────┐  │
 │  │                                                       │  │
-│  │   Pressione F12 ou Ctrl+Shift+I                       │  │
+│  │   Press F12 or Ctrl+Shift+I                           │  │
 │  │                                                       │  │
 │  └───────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-- No Gattaran aberto, pressione `F12` (ou `Ctrl+Shift+I`)
-- O DevTools vai abrir (geralmente na parte inferior ou lateral)
+**Actions:**
+- With Gattaran open, press `F12` (or `Ctrl+Shift+I`)
+- DevTools will open (usually at the bottom or side)
 
 ---
 
-### 2. Configurar DevTools
+### 2. Configure DevTools
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -35,25 +35,25 @@ Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalh
 │  │ Elements │ Console  │► Network │ Sources  │ ...        │ │
 │  └──────────┴──────────┴──────────┴──────────┴────────────┘ │
 │                                                             │
-│  ☑️ Preserve log  [MARCAR ESTA CAIXA]                       │
-│  ☑️ Disable cache [MARCAR ESTA CAIXA]                       │
+│  ☑️ Preserve log  [CHECK THIS BOX]                          │
+│  ☑️ Disable cache [CHECK THIS BOX]                          │
 │                                                             │
 │  Filter: [ All  XHR  JS  CSS  Img  Media  Font  Doc  WS ]  │
 │                    ▲                                        │
 │                    │                                        │
-│            CLICAR EM "XHR" (mostra só chamadas API)        │
+│            CLICK ON "XHR" (shows only API calls)            │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-1. Clique na aba **Network**
-2. Marque a caixa **"Preserve log"** (circular no topo)
-3. Marque a caixa **"Disable cache"**
-4. Clique no filtro **"XHR"** ou **"Fetch/XHR"** (isola só chamadas de API)
+**Actions:**
+1. Click on the **Network** tab
+2. Check the **"Preserve log"** box (circle at the top)
+3. Check the **"Disable cache"** box
+4. Click on the **"XHR"** or **"Fetch/XHR"** filter (isolates only API calls)
 
 ---
 
-### 3. Limpar Logs Anteriores
+### 3. Clear Previous Logs
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -62,41 +62,41 @@ Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalh
 │  [ 🚫 Clear ]  [ ⏯️ ]  [ 🔴 Recording ]                │
 │     ▲                                                   │
 │     │                                                   │
-│  CLIQUE NO "🚫" PARA LIMPAR LOGS ANTIGOS               │
+│  CLICK THE "🚫" TO CLEAR OLD LOGS                      │
 │                                                         │
 │  Name          Status    Type      Size    Time         │
 │  ────────────────────────────────────────────────       │
-│  (lista vazia ou com chamadas antigas)                  │
+│  (empty list or with old calls)                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-- Clique no botão **🚫 Clear** (círculo com risco) para limpar logs antigos
+**Actions:**
+- Click the **🚫 Clear** button (circle with a line) to clear old logs
 
 ---
 
-### 4. Navegar até Order Management
+### 4. Navigate to Order Management
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  Gattaran                                               │
 │                                                         │
-│  [Menu Lateral]          [Conteúdo Principal]          │
+│  [Side Menu]          [Main Content]                   │
 │                                                         │
-│  ▶ City Services          (área de trabalho)           │
+│  ▶ City Services          (work area)                  │
 │    ▶ Transaction Management                             │
-│      ▶ Order Management  ← CLIQUE AQUI                 │
+│      ▶ Order Management  ← CLICK HERE                  │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-- Navegue: **City Services → Transaction Management → Order Management**
-- Aguarde a página carregar completamente
+**Actions:**
+- Navigate: **City Services → Transaction Management → Order Management**
+- Wait for the page to load completely
 
 ---
 
-### 5. Buscar a Order
+### 5. Search for the Order
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -110,22 +110,22 @@ Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalh
 │                  ▲                                      │
 │                  São Paulo                              │
 │                                                         │
-│           [ 🔍 Search ]  ← CLIQUE                       │
+│           [ 🔍 Search ]  ← CLICK                        │
 │                 ▲                                       │
-│    (ANTES DE CLICAR, CERTIFIQUE-SE QUE O DEVTOOLS       │
-│     ESTÁ ABERTO E VENDO A ABA NETWORK)                  │
+│    (BEFORE CLICKING, MAKE SURE DEVTOOLS                 │
+│     IS OPEN AND ON THE NETWORK TAB)                     │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-1. Preencha **Order ID**: `5764678584400678506`
-2. Preencha **Current City**: `São Paulo`
-3. **PARE!** Certifique-se que DevTools está aberto na aba Network
-4. Clique em **Search**
+**Actions:**
+1. Fill in **Order ID**: `5764678584400678506`
+2. Fill in **Current City**: `São Paulo`
+3. **STOP!** Make sure DevTools is open on the Network tab
+4. Click **Search**
 
 ---
 
-### 6. Capturar Endpoint de Busca
+### 6. Capture Search Endpoint
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -133,46 +133,46 @@ Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalh
 │                                                         │
 │  Name              Status   Type     Size    Time       │
 │  ─────────────────────────────────────────────────      │
-│  ▶ searchOrders    200      xhr      2.3KB   450ms    │
-│  ▶ getCityList     200      xhr      890B    120ms    │
+│  ▶ searchOrders    200      xhr      2.3KB   450ms     │
+│  ▶ getCityList     200      xhr      890B    120ms     │
 │  ▶ ...                                         ▲        │
 │                                                │        │
-│         PROCURE POR ALGO COMO:                 │        │
+│         LOOK FOR SOMETHING LIKE:               │        │
 │         - "searchOrders"                       │        │
 │         - "orderSearch"                        │        │
 │         - "queryOrder"                         │        │
-│         - URL com "order" no caminho           │        │
+│         - URL with "order" in the path         │        │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-- Olhe na lista de chamadas
-- Procure por uma chamada relacionada a busca (provavelmente com "search", "query", "list" no nome)
-- Clique na chamada para ver detalhes
+**Actions:**
+- Look at the call list
+- Look for a call related to search (likely with "search", "query", "list" in the name)
+- Click on the call to see details
 
 ---
 
-### 7. Ver Detalhes do Endpoint de Busca
+### 7. View Search Endpoint Details
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  Detalhes da Chamada (abaixo da lista)                      │
+│  Call Details (below the list)                              │
 │  ┌──────────┬──────────┬──────────┬──────────┐              │
 │  │ Headers  │ Payload  │ Preview  │ Response │              │
 │  └──────────┴──────────┴──────────┴──────────┘              │
 │                                                             │
-│  ## Aba Headers:                                            │
+│  ## Headers Tab:                                            │
 │  Request URL: https://gattaran.didi-food.com/api/...        │
-│  Request Method: POST (ou GET)                              │
+│  Request Method: POST (or GET)                              │
 │                                                             │
-│  ## Aba Payload (se for POST):                              │
+│  ## Payload Tab (if POST):                                  │
 │  {                                                          │
 │    "orderId": "5764678584400678506",                        │
 │    "city": "São Paulo"                                      │
 │    ...                                                      │
 │  }                                                          │
 │                                                             │
-│  ## Aba Response:                                           │
+│  ## Response Tab:                                           │
 │  {                                                          │
 │    "code": 0,                                               │
 │    "data": {                                                │
@@ -182,57 +182,57 @@ Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalh
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-1. Clique na chamada de busca
-2. Vá para aba **Headers** - copie:
+**Actions:**
+1. Click on the search call
+2. Go to **Headers** tab - copy:
    - `Request URL`
    - `Request Method` (GET/POST)
-3. Vá para aba **Payload** (se POST) ou **Query String Parameters** (se GET)
-4. Vá para aba **Response** - veja o formato do retorno
+3. Go to **Payload** tab (if POST) or **Query String Parameters** (if GET)
+4. Go to **Response** tab - see the return format
 
 ---
 
-### 8. Clicar no Link da Order
+### 8. Click on the Order Link
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  Resultado da Busca                                     │
+│  Search Result                                          │
 │                                                         │
 │  ┌─────────────────────────────────────────────────┐    │
 │  │ Order ID          │ Status  │ ...               │    │
 │  ├───────────────────┼─────────┼───────────────────┤    │
 │  │ 57646785844006... │ Active  │ ...               │    │
 │  │       ▲           │         │                   │    │
-│  │   [LINK CLICÁVEL] │         │                   │    │
+│  │   [CLICKABLE LINK]│         │                   │    │
 │  │       │           │         │                   │    │
-│  │   CLIQUE AQUI     │         │                   │    │
+│  │   CLICK HERE      │         │                   │    │
 │  └───────┼───────────────────────────────────────────┘    │
-│          │                                              │
-│          ▼                                              │
-│  (vai abrir detalhes em nova guia ou modal)            │
+│          │                                                │
+│          ▼                                                │
+│  (will open details in new tab or modal)                  │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-1. Clique no **hiperlink do Order ID** na tabela de resultados
-2. Aguarde abrir a guia/modal de detalhes
+**Actions:**
+1. Click on the **Order ID hyperlink** in the results table
+2. Wait for the details tab/modal to open
 
 ---
 
-### 9. Capturar Endpoint de Detalhes
+### 9. Capture Details Endpoint
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  DevTools - Network (novas chamadas aparecerão)         │
+│  DevTools - Network (new calls will appear)             │
 │                                                         │
 │  Name              Status   Type     Size    Time       │
 │  ─────────────────────────────────────────────────      │
 │  ▶ searchOrders    200      xhr      2.3KB   450ms     │
-│  ▶ getOrderDetail  200      xhr      5.1KB   320ms  ◄── NOVO!
-│  ▶ getMerchantInfo 200      xhr      1.2KB   180ms  ◄── NOVO!
+│  ▶ getOrderDetail  200      xhr      5.1KB   320ms  ◄── NEW!
+│  ▶ getMerchantInfo 200      xhr      1.2KB   180ms  ◄── NEW!
 │  ▶ ...                                                  │
 │                                                         │
-│  PROCURE POR:                                           │
+│  LOOK FOR:                                              │
 │  - "detail"                                             │
 │  - "getOrder"                                           │
 │  - "orderInfo"                                          │
@@ -240,68 +240,68 @@ Capturar os endpoints REST que o Gattaran usa para buscar orders e exibir detalh
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Ações:**
-- Novas chamadas aparecerão na lista
-- Procure por chamadas relacionadas a detalhes
-- Clique para ver os detalhes de cada uma
+**Actions:**
+- New calls will appear in the list
+- Look for calls related to details
+- Click to see the details of each one
 
 ---
 
-### 10. Exportar para Mim
+### 10. Export to Me
 
-**Opção A: Screenshot das chamadas**
-- Tire screenshots das abas Headers + Payload + Response das chamadas principais
+**Option A: Screenshots of calls**
+- Take screenshots of the Headers + Payload + Response tabs of the main calls
 
-**Opção B: Exportar como HAR**
+**Option B: Export as HAR**
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  DevTools                                               │
 │                                                         │
-│  Botão direito na lista de chamadas →                   │
+│  Right-click on the call list →                         │
 │  "Save all as HAR with content"                         │
 │                                                         │
-│  Salve como: gattaran-api-capture.har                   │
+│  Save as: gattaran-api-capture.har                      │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Checklist - O que eu preciso
+## Checklist - What I need
 
-Me envie informações sobre estas chamadas:
+Send me information about these calls:
 
-### Chamada 1: Busca de Orders
-- [ ] URL completa
-- [ ] Método (GET/POST)
-- [ ] Headers (especialmente `Authorization` se tiver)
-- [ ] Payload/Parâmetros
-- [ ] Exemplo de Response
+### Call 1: Order Search
+- [ ] Complete URL
+- [ ] Method (GET/POST)
+- [ ] Headers (especially `Authorization` if present)
+- [ ] Payload/Parameters
+- [ ] Response example
 
-### Chamada 2: Detalhes da Order
-- [ ] URL completa
-- [ ] Método (GET/POST)
+### Call 2: Order Details
+- [ ] Complete URL
+- [ ] Method (GET/POST)
 - [ ] Headers
-- [ ] Payload/Parâmetros
-- [ ] Exemplo de Response
+- [ ] Payload/Parameters
+- [ ] Response example
 
 ---
 
-## Formato para Enviar
+## Format to Send
 
-Você pode enviar:
-1. **Screenshots** das abas Headers/Payload/Response
-2. **Arquivo HAR** (exportado do DevTools)
-3. **Curl** (botão direito na chamada → Copy → Copy as cURL)
+You can send:
+1. **Screenshots** of the Headers/Payload/Response tabs
+2. **HAR file** (exported from DevTools)
+3. **Curl** (right-click on call → Copy → Copy as cURL)
 
-**Exemplo de como copiar como cURL:**
+**Example of how to copy as cURL:**
 ```
-Botão direito na chamada → Copy → Copy as cURL (bash)
+Right-click on call → Copy → Copy as cURL (bash)
 ```
 
-Isso me dá tudo que preciso em um comando só!
+This gives me everything I need in a single command!
 
 ---
 
-## Dúvidas?
+## Questions?
 
-Se tiver qualquer dúvida durante o processo, me chame!
+If you have any questions during the process, call me!

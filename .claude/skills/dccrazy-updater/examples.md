@@ -1,99 +1,99 @@
-# DCCrazy Updater - Exemplos
+# DCCrazy Updater - Examples
 
-## Exemplo 1: Verificar Atualizações
+## Example 1: Check for Updates
 
 ```
-Usuário: "Tem atualização pro DCCrazy?"
+User: "Is there an update for DCCrazy?"
 
-Claude: Vou verificar se há atualizações disponíveis.
+Claude: I'll check if there are updates available.
 
-🔍 Buscando atualizações...
+🔍 Searching for updates...
 
-📦 Atualização disponível no DCCrazy!
-   Sua versão: a1b2c3d4
-   Versão mais recente: e5f6g7h8
-   Commits atrás: 3
+📦 Update available for DCCrazy!
+   Your version: a1b2c3d4
+   Latest version: e5f6g7h8
+   Commits behind: 3
 
-📝 Commits novos:
-   • feat: novo workflow de relatórios
-   • fix: corrige skill cooper
-   • docs: atualiza README
+📝 New commits:
+   • feat: new reports workflow
+   • fix: fix cooper skill
+   • docs: update README
 
-📁 Arquivos que serão alterados:
+📁 Files that will be changed:
    • .claude/workflows/agents/report-agent.yaml
    • .claude/skills/cooper/SKILL.md
    • README.md
 
-Deseja atualizar o DCCrazy? (s/n):
+Do you want to update DCCrazy? (y/n):
 ```
 
-## Exemplo 2: Atualização Completa
+## Example 2: Complete Update
 
 ```
-Usuário: "Atualiza o DCCrazy"
+User: "Update DCCrazy"
 
-Claude: Vou verificar e atualizar o DCCrazy para você.
+Claude: I'll check and update DCCrazy for you.
 
-🔍 Buscando atualizações...
+🔍 Searching for updates...
 
-📦 Atualização disponível!
-   Commits atrás: 5
+📦 Update available!
+   Commits behind: 5
 
-Deseja atualizar o DCCrazy? (s/n): s
+Do you want to update DCCrazy? (y/n): y
 
-💾 Criando backup em: .backup/update_20250727_143022
+💾 Creating backup at: .backup/update_20250727_143022
   ✅ Backup: .env
   ✅ Backup: .mcp.json
   ✅ Backup: settings.local.json
-   3 arquivo(s) salvos
+   3 file(s) saved
 
-⬇️  Atualizando repositório...
-  ✅ Repositório atualizado
+⬇️  Updating repository...
+  ✅ Repository updated
 
-📦 Detectadas mudanças em dependências!
-Deseja instalar as dependências atualizadas? (s/n): s
-📦 Instalando dependências Node.js...
+📦 Dependency changes detected!
+Do you want to install updated dependencies? (y/n): y
+📦 Installing Node.js dependencies...
   ✅ Node.js OK
 
-🔄 Restaurando configurações locais...
-  ✅ Restaurado: .env
-  ✅ Restaurado: .mcp.json
-  ✅ Restaurado: settings.local.json
+🔄 Restoring local configurations...
+  ✅ Restored: .env
+  ✅ Restored: .mcp.json
+  ✅ Restored: settings.local.json
 
 ============================================================
-✅ DCC atualizado com sucesso!
+✅ DCC updated successfully!
 ============================================================
 
-Próximos passos:
-  • Verifique se tudo funciona: node scripts/verify-setup.js
-  • Leia as novidades: git log --oneline -10
-  • Backup salvo em: .backup/update_20250727_143022
+Next steps:
+  • Verify everything works: node scripts/verify-setup.js
+  • Read what's new: git log --oneline -10
+  • Backup saved at: .backup/update_20250727_143022
 ```
 
-## Exemplo 3: Já Está Atualizado
+## Example 3: Already Updated
 
 ```
-Usuário: "Verifica se tem update"
+User: "Check if there's an update"
 
-Claude: Vou verificar atualizações do DCCrazy.
+Claude: I'll check for DCCrazy updates.
 
-🔍 Buscando atualizações...
+🔍 Searching for updates...
 
-✅ Seu DCCrazy está atualizado!
-   Versão: e5f6g7h8
+✅ Your DCCrazy is up to date!
+   Version: e5f6g7h8
 ```
 
-## Exemplo 4: Sem Remote Configurado
+## Example 4: No Remote Configured
 
 ```
-Usuário: "Atualizar dccrazy"
+User: "Update dccrazy"
 
-Claude: Vou tentar atualizar o DCCrazy.
+Claude: I'll try to update DCCrazy.
 
-🔍 Buscando atualizações...
+🔍 Searching for updates...
 
-❌ Nenhum remote configurado.
-   Configure o remote com: git remote add origin <url>
+❌ No remote configured.
+   Configure remote with: git remote add origin <url>
 
-Posso ajudar a configurar o remote agora?
+Can I help you configure the remote now?
 ```

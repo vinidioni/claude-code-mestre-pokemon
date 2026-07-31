@@ -596,3 +596,101 @@ claude history
 - Use `cache` when available (same context between calls)
 - Break large tasks into smaller sessions
 - Use smaller models for simple tasks (haiku vs sonnet)
+
+---
+
+## 📚 Guia de Primeiros Passos Detalhado
+
+### Etapa 1: Download no GitHub
+
+1. Abra seu navegador
+2. Acesse: https://github.com/vinidioni/claude-code-mestre-pokemon
+3. Clique no botão verde "<> Code"
+4. Selecione "Download ZIP"
+5. Salve o arquivo (geralmente vai para Downloads)
+
+### Etapa 2: Preparação da Pasta
+
+**Windows:**
+```
+1. Abra pasta Downloads
+2. Clique com botão direito em "dccrazy-main.zip"
+3. Selecione "Extrair Tudo..."
+4. Renomeie a pasta extraída de "dccrazy-main" para "dcc"
+5. Mova a pasta "dcc" para sua Área de Trabalho (Desktop)
+```
+
+**Mac:**
+```
+1. Abra pasta Downloads
+2. Clique duplo no arquivo ZIP (extrai automaticamente)
+3. Renomeie de "dccrazy-main" para "dcc"
+4. Mova para Desktop
+```
+
+**Linux:**
+```bash
+cd ~/Downloads
+unzip dccrazy-main.zip
+mv dccrazy-main dcc
+mv dcc ~/Desktop/
+```
+
+**Resultado esperado:**
+```
+Desktop/
+└── dcc/                    ← Pasta do DCCrazy aqui
+    ├── .claude/
+    ├── agents/
+    ├── docs/
+    └── ...
+```
+
+### Etapa 3: Abrir no VS Code
+
+**Windows:**
+```
+Desktop → dcc → Botão direito → "Abrir com Code"
+```
+
+**Mac:**
+```bash
+code ~/Desktop/dcc
+```
+
+**Linux:**
+```bash
+code ~/Desktop/dcc
+```
+
+### Etapa 4: Executar Instalação
+
+No Terminal do VS Code (Ctrl + `):
+```bash
+python scripts/install/dccrazy-install.py
+```
+
+**O instalador faz:**
+1. Detecta Sistema Operacional
+2. Explica como Fixar a Pasta
+3. Verifica Pré-requisitos (Node.js, Python, Git, Claude)
+4. Coleta 5 Credenciais Obrigatórias (GitHub, Cooper, D-Chat, Gattaran, Google)
+5. Configura tudo automaticamente
+
+**⏱️ Tempo estimado:** 10-15 minutos
+
+### Etapa 5: Fixar a Pasta
+
+```
+VS Code → File → Save Workspace As... → Desktop → "DCCrazy"
+```
+
+Da próxima vez, abra pelo arquivo `DCCrazy.code-workspace` na Desktop.
+
+### Etapa 6: Testar
+
+```
+/skill list
+```
+
+Funcionou? ✅ **Pronto!**

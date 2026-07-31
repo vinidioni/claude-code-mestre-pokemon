@@ -38,6 +38,108 @@
 
 ---
 
+## 🚀 Getting Started (Complete Guide)
+
+### For Beginners
+
+Follow these steps in order:
+
+#### 1. Download
+1. Go to: https://github.com/viniciuscastanho/dccrazy
+2. Click the green "<> Code" button
+3. Select "Download ZIP"
+4. Save to your computer
+
+#### 2. Preparation
+**Windows:**
+```
+1. Go to Downloads folder
+2. Right-click on ZIP → "Extract All"
+3. Rename folder from "dccrazy-main" to "dcc"
+4. Move to Desktop
+```
+
+**Mac/Linux:**
+```bash
+cd ~/Downloads
+unzip dccrazy-main.zip
+mv dccrazy-main dcc
+mv dcc ~/Desktop/
+```
+
+#### 3. Open in VS Code
+**Windows:**
+```
+Desktop → dcc → Right-click → "Open with Code"
+```
+
+**Mac/Linux:**
+```bash
+code ~/Desktop/dcc
+```
+
+#### 4. Start Configuration
+In Claude Code chat, type exactly:
+```
+Analyze the DCC folder on my desktop and trigger dcc-first-run
+```
+
+Claude will:
+- Detect your operating system
+- Check prerequisites (Node.js, Python, Git, Claude Code)
+- Collect 5 required credentials (GitHub, Cooper, D-Chat, Gattaran, Google)
+- Configure everything automatically
+
+**⏱️ Takes about 10-15 minutes**
+
+**Note:** No need to run terminal commands. All configuration is done via chat with Claude.
+
+#### 5. Pin the Folder (IMPORTANT!)
+```
+VS Code → File → Save Workspace As... → Desktop → "DCCrazy"
+```
+
+Next time, open through the `DCCrazy.code-workspace` file on Desktop.
+
+#### 6. Test
+Write in chat:
+```
+/skill list
+```
+
+The list of available skills should appear.
+
+---
+
+## ⚡ Quick Setup (For Experienced Users)
+
+If you already have experience:
+
+```bash
+# 1. Download (GitHub → Code → Download ZIP)
+#    URL: https://github.com/viniciuscastanho/dccrazy
+
+# 2. Extract and prepare
+cd ~/Downloads && unzip dccrazy-main.zip
+mv dccrazy-main dcc && mv dcc ~/Desktop/
+
+# 3. Open in VS Code
+code ~/Desktop/dcc
+
+# 4. In Claude chat, type:
+# "Analyze the DCC folder on my desktop and trigger dcc-first-run"
+
+# 5. Pin folder
+# VS Code → File → Save Workspace As... → Desktop → "DCCrazy"
+
+# 6. Test
+# /skill list
+```
+
+⏱️ **Total estimated time:** 15-20 minutes
+
+---
+
 ## 🎯 Table of Contents
 
 1. [What is DCC](#-what-is-dcc)

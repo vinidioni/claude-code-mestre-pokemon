@@ -1,124 +1,124 @@
-# Backup DCCrazy - Exemplos
+# Backup DCCrazy - Examples
 
-## Exemplo 1: Backup Simples
-
-```
-Usuário: "fazer backup do dccrazy"
-
-Claude: Vou criar um backup completo do seu DCCrazy.
-
-📋 Gerando manifesto do backup...
-📁 Diretórios: 48
-📄 Arquivos: 342
-📊 Tamanho total: 18.5 MB
-
-✅ Manifesto salvo: .backup/manifest.json
-
-📦 Criando backup local: DCCrazy_Backup_20250727_143022.zip
-✅ Backup criado: C:\Users\name\Desktop\DCCrazy_Backup_20250727_143022.zip
-📊 Tamanho: 12.3 MB (compactado)
-
-⚠️  MCP Google Workspace não configurado
-
-📤 Upload Manual:
-   1. Abra drive.google.com
-   2. Crie pasta "DCCrazy_Backup" (se não existir)
-   3. Arraste o ZIP para a pasta
-   4. Aguarde o upload completar
-
-💡 Dica: Configure o MCP para backup automático futuro.
-   Veja: docs/guides/google-workspace.md
-```
-
-## Exemplo 2: Verificar Último Backup
+## Example 1: Simple Backup
 
 ```
-Usuário: "quando foi o último backup"
+User: "backup dccrazy"
 
-Claude: Vou verificar o histórico de backups.
+Claude: I'll create a complete backup of your DCCrazy.
 
-📦 Backups encontrados:
+📋 Generating backup manifest...
+📁 Directories: 48
+📄 Files: 342
+📊 Total size: 18.5 MB
+
+✅ Manifest saved: .backup/manifest.json
+
+📦 Creating local backup: DCCrazy_Backup_20250727_143022.zip
+✅ Backup created: C:\Users\name\Desktop\DCCrazy_Backup_20250727_143022.zip
+📊 Size: 12.3 MB (compressed)
+
+⚠️  Google Workspace MCP not configured
+
+📤 Manual Upload:
+   1. Open drive.google.com
+   2. Create "DCCrazy_Backup" folder (if doesn't exist)
+   3. Drag the ZIP to the folder
+   4. Wait for upload to complete
+
+💡 Tip: Configure MCP for automatic future backup.
+   See: docs/guides/google-workspace.md
+```
+
+## Example 2: Check Last Backup
+
+```
+User: "when was the last backup"
+
+Claude: I'll check the backup history.
+
+📦 Backups found:
 
 Local (.backup/):
-├── 20250727_143022/     → Há 3 dias
+├── 20250727_143022/     → 3 days ago
 │   └── manifest.json
-└── 20250720_090000/     → Há 10 dias
+└── 20250720_090000/     → 10 days ago
 
-ZIPs disponíveis:
+ZIPs available:
 ├── DCCrazy_Backup_20250727_143022.zip (12.3 MB)
 └── DCCrazy_Backup_20250720_090000.zip (11.8 MB)
 
-💡 Recomendação: Um backup semanal é ideal.
-   Último backup há 3 dias.
+💡 Recommendation: A weekly backup is ideal.
+   Last backup was 3 days ago.
 ```
 
-## Exemplo 3: Com MCP Configurado
+## Example 3: With MCP Configured
 
 ```
-Usuário: "backup no google drive"
+User: "backup to google drive"
 
-Claude: Vou fazer o backup e enviar para o seu Drive.
+Claude: I'll backup and send to your Drive.
 
-📋 Gerando manifesto...
-✅ Manifesto: 342 arquivos, 18.5 MB
+📋 Generating manifest...
+✅ Manifest: 342 files, 18.5 MB
 
-📦 Compactando...
-✅ ZIP criado: 12.3 MB
+📦 Compressing...
+✅ ZIP created: 12.3 MB
 
-🔄 Enviando para Google Drive...
-📁 Destino: DCCrazy_Backup/
-⬆️  Enviando: DCCrazy_Backup_20250727_143022.zip
-✅ Upload concluído!
+🔄 Sending to Google Drive...
+📁 Destination: DCCrazy_Backup/
+⬆️  Uploading: DCCrazy_Backup_20250727_143022.zip
+✅ Upload completed!
 
-📋 Resumo:
-- Arquivo: DCCrazy_Backup_20250727_143022.zip
-- Tamanho: 12.3 MB
-- Local: Meu Drive/DCCrazy_Backup/
+📋 Summary:
+- File: DCCrazy_Backup_20250727_143022.zip
+- Size: 12.3 MB
+- Location: My Drive/DCCrazy_Backup/
 
-🔗 Ver no Drive: drive.google.com/drive/u/0/my-drive
+🔗 View in Drive: drive.google.com/drive/u/0/my-drive
 ```
 
-## Exemplo 4: Backup Antes de Atualização
+## Example 4: Backup Before Update
 
 ```
-Usuário: "backup antes de atualizar"
+User: "backup before updating"
 
-Claude: Excelente prática! Vou fazer o backup antes da atualização.
+Claude: Excellent practice! I'll backup before the update.
 
-💾 Criando backup de segurança...
-📋 Manifesto: 342 arquivos
+💾 Creating security backup...
+📋 Manifest: 342 files
 📦 ZIP: 12.3 MB
-✅ Backup criado com sucesso!
+✅ Backup created successfully!
 
-📝 Nota: Backup salvo em .backup/update_20250727_backup/
-   Este backup será mantido durante a atualização.
+📝 Note: Backup saved in .backup/update_20250727_backup/
+   This backup will be kept during the update.
 
-Agora posso prosseguir com a atualização?
-"sim"
+Can I proceed with the update now?
+"yes"
 
-[Prossegue com check-updates.py]
+[Proceeds with check-updates.py]
 ```
 
-## Exemplo 5: Erro - Sem Espaço
+## Example 5: Error - No Space
 
 ```
-Usuário: "fazer backup"
+User: "backup"
 
-Claude: Tentando criar backup...
+Claude: Trying to create backup...
 
-❌ Erro: Espaço insuficiente em disco
-   Necessário: ~20 MB
-   Disponível: 5 MB
+❌ Error: Insufficient disk space
+   Required: ~20 MB
+   Available: 5 MB
 
-💡 Soluções:
-1. Limpe arquivos temporários:
+💡 Solutions:
+1. Clean temporary files:
    python scripts/maintenance/cleanup-temp.py --execute
 
-2. Remova backups antigos locais:
+2. Remove old local backups:
    ls -la .backup/
    rm -rf .backup/backup_2025*/
 
-3. Libere espaço no disco
+3. Free up disk space
 
-Deseja tentar limpar arquivos temporários primeiro?
+Want to try cleaning temporary files first?
 ```

@@ -1,19 +1,19 @@
-# Guia Detalhado - DevTools Network Tab
+# Detailed Guide - DevTools Network Tab
 
-## Onde está o "Preserve Log"
+## Where is "Preserve Log"
 
-O DevTools pode aparecer em diferentes posições. Veja como encontrar em cada caso:
+DevTools can appear in different positions. See how to find it in each case:
 
 ---
 
-## Layout 1: DevTools na Parte Inferior (padrão)
+## Layout 1: DevTools at the Bottom (default)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │  Chrome - Gattaran                                                      │
 │  ┌─────────────────────────────────────────────────────────────────┐   │
 │  │                                                                 │   │
-│  │                    CONTEÚDO DO SITE                             │   │
+│  │                    SITE CONTENT                                 │   │
 │  │                                                                 │   │
 │  │                                                                 │   │
 │  ├─────────────────────────────────────────────────────────────────┤   │
@@ -21,14 +21,14 @@ O DevTools pode aparecer em diferentes posições. Veja como encontrar em cada c
 │  │  ┌──────────────────────────────────────────────────────────┐ │   │
 │  │  │ Elements Console Sources Network ► Performance ...       │ │   │
 │  │  │                               ▲                          │ │   │
-│  │  │                     CLIQUE AQUI (aba Network)            │ │   │
+│  │  │                     CLICK HERE (Network tab)             │ │   │
 │  │  └──────────────────────────────────────────────────────────┘ │   │
 │  │                                                                │   │
 │  │  [🔴 Recording] [🚫 Clear] [Filter] [Preserve log ☐] [Disable │   │
 │  │                                               ▲                │   │
-│  │                     CHECKBOX "Preserve log" ESTÁ AQUI         │   │
-│  │                     (pode estar escrito por extenso ou ser     │   │
-│  │                      apenas um ícone de círculo)              │   │
+│  │                     CHECKBOX "Preserve log" IS HERE           │   │
+│  │                     (may be written in full or be             │   │
+│  │                      just a circle icon)                      │   │
 │  │                                                                │   │
 │  │  Name          Status    Type      Size    Time               │   │
 │  │  ────────────────────────────────────────────────              │   │
@@ -39,11 +39,11 @@ O DevTools pode aparecer em diferentes posições. Veja como encontrar em cada c
 
 ---
 
-## Layout 2: Barra de Ferramentas do Network
+## Layout 2: Network Toolbar
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  BARRA DE FERRAMENTAS SUPERIOR DO NETWORK TAB                           │
+│  NETWORK TAB TOP TOOLBAR                                                │
 │                                                                          │
 │  ┌─────┬─────┬─────────────────┬──────────────────┬─────────────────┐   │
 │  │ 🔴  │ 🚫  │ Filter: [ All ▼ ]│ [ Preserve log ] │ [ Disable cache]│   │
@@ -51,69 +51,69 @@ O DevTools pode aparecer em diferentes posições. Veja como encontrar em cada c
 │  └─────┴─────┴─────────────────┴──────────────────┴─────────────────┘   │
 │     ▲    ▲                              ▲                   ▲          │
 │     │    │                              │                   │          │
-│     │    │                              │                   └── MARCAR │
+│     │    │                              │                   └── CHECK  │
 │     │    │                              │                              │
-│     │    │                              └── MARCAR ESTA CAIXA          │
+│     │    │                              └── CHECK THIS BOX             │
 │     │    │                                                              │
-│     │    └── Limpa logs antigos                                         │
+│     │    └── Clears old logs                                            │
 │     │                                                                    │
-│     └── Indica que está gravando (vermelho = gravando)                  │
+│     └── Indicates recording (red = recording)                            │
 │                                                                          │
-│  ☑️ = Checkbox marcada                                                   │
-│  ☐ = Checkbox desmarcada ← (clique para marcar)                         │
+│  ☑️ = Checkbox checked                                                   │
+│  ☐ = Checkbox unchecked ← (click to check)                              │
 │                                                                          │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Localização Exata dos Elementos
+## Exact Location of Elements
 
-### Passo 1: Abrir DevTools e ir em Network
+### Step 1: Open DevTools and go to Network
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  Teclas de atalho:                                       │
+│  Shortcut keys:                                          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
 │  │    F12      │  │ Ctrl+Shift+I│  │  Cmd+Option+I   │  │
 │  │  (Windows)  │  │  (Windows)  │  │     (Mac)       │  │
 │  └─────────────┘  └─────────────┘  └─────────────────┘  │
 │                                                          │
-│  Depois de abrir, clique na aba: "Network"              │
+│  After opening, click on the tab: "Network"             │
 │                                                          │
 │  ┌────────┬────────┬──────────┬────────┬─────────┐      │
 │  │Elements│Console │► Network │ Sources│ ...     │      │
 │  └────────┴────────┴──────────┴────────┴─────────┘      │
 │                           ▲                              │
-│                     CLIQUE AQUI                          │
+│                     CLICK HERE                           │
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Passo 2: Encontrar "Preserve log"
+### Step 2: Find "Preserve log"
 
-**Opção A - Texto completo:**
+**Option A - Full text:**
 ```
-Na barra de ferramentas do Network, procure por:
+In the Network toolbar, look for:
 
 ☐ Preserve log
 
-Clique na caixinha para ficar: ☑️ Preserve log
+Click the box to make it: ☑️ Preserve log
 ```
 
-**Opção B - Ícone apenas (se a tela estiver pequena):**
+**Option B - Icon only (if screen is small):**
 ```
-Passe o mouse sobre os ícones da barra até achar um que mostre
-o tooltip "Preserve log" ao passar o mouse.
+Hover over the icons in the toolbar until you find one that shows
+the tooltip "Preserve log" when hovering.
 
-Pode ser um ícone de círculo ou de página com um símbolo.
+It can be a circle icon or a page with a symbol.
 ```
 
-**Opção C - Menu de 3 pontos (⋮):**
+**Option C - 3 dots menu (⋮):**
 ```
-Se não achar na barra principal:
+If you can't find it in the main toolbar:
 
 ┌────────────────────────────────────────┐
-│  Network                           [⋮] │  ← CLIQUE NOS 3 PONTOS
+│  Network                           [⋮] │  ← CLICK THE 3 DOTS
 │  ┌──────────────────────────────────┐  │
 │  │  ☐ Preserve log                  │  │
 │  │  ☐ Disable cache                 │  │
@@ -124,27 +124,27 @@ Se não achar na barra principal:
 
 ---
 
-## Versões Diferentes do Chrome
+## Different Chrome Versions
 
-### Chrome Antigo (antes de 2020):
+### Old Chrome (before 2020):
 ```
-A barra de ferramentas fica assim:
+The toolbar looks like this:
 
 [🔴] [🚫] [Filter] [☐ Preserve Log] [☐ Disable Cache] [Offline ▼]
                                         ▲
-                                   ESTÁ AQUI
+                                   IT'S HERE
 ```
 
-### Chrome Novo (2021+):
+### New Chrome (2021+):
 ```
-Pode estar em um menu suspenso:
+It may be in a dropdown menu:
 
 ┌───────────────────────────────────────┐
-│  [🔴] [🚫] [Filter ▼] [Mais ▼]       │
+│  [🔴] [🚫] [Filter ▼] [More ▼]       │
 │                            ▲          │
-│                     CLIQUE AQUI       │
+│                     CLICK HERE        │
 │                                       │
-│  Menu que abre:                       │
+│  Menu that opens:                     │
 │  ├── ☐ Preserve log                   │
 │  ├── ☐ Disable cache                  │
 │  └── ...                              │
@@ -153,9 +153,9 @@ Pode estar em um menu suspenso:
 
 ---
 
-## Checklist Visual
+## Visual Checklist
 
-Depois de configurar, deve estar assim:
+After configuring, it should look like this:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -166,69 +166,69 @@ Depois de configurar, deve estar assim:
 │  └────────────────────────────────────────────────────┘  │
 │                         ▲        ▲                       │
 │                         │        │                       │
-│                    MARCADO    MARCADO                    │
+│                    CHECKED    CHECKED                    │
 │                                                          │
 │  [ All  XHR  JS  CSS  Img  Media  Font  Doc  WS  Other] │
 │         ▲                                                │
-│   CLIQUE EM "XHR" (ou "Fetch/XHR")                       │
+│   CLICK ON "XHR" (or "Fetch/XHR")                        │
 │                                                          │
 │  Name              Status   Type     Size    Time        │
 │  ─────────────────────────────────────────────────       │
-│  (lista de chamadas aparecerá aqui)                      │
+│  (call list will appear here)                            │
 └──────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Solução de Problemas
+## Troubleshooting
 
-### "Não consigo ver a barra de ferramentas"
+### "I can't see the toolbar"
 ```
-Aperte Ctrl + + (zoom in) no DevTools para aumentar o tamanho,
-ou arraste a borda do DevTools para cima para aumentar a altura.
+Press Ctrl + + (zoom in) in DevTools to increase the size,
+or drag the DevTools border up to increase the height.
 ```
 
-### "Não tem checkbox, só ícones"
+### "There are no checkboxes, only icons"
 ```
-Passe o mouse sobre cada ícone e espere aparecer o tooltip (texto explicativo).
-Procure por:
+Hover over each icon and wait for the tooltip (explanatory text) to appear.
+Look for:
 - "Preserve log"
 - "Persist logs"
 - "Do not clear log on page reload"
 ```
 
-### "Ainda não acho"
+### "I still can't find it"
 ```
-Alternativa: NÃO PRECISA marcar Preserve log se você fizer tudo
-em uma sequência rápida sem recarregar a página:
+Alternative: YOU DON'T NEED to check Preserve log if you do everything
+in a quick sequence without reloading the page:
 
-1. Abra DevTools → Network
-2. LIMPE o log (clique no 🚫)
-3. FAÇA a busca da order
-4. CLIQUE no link da order
-5. Os logs estarão lá (não feche o DevTools)
+1. Open DevTools → Network
+2. CLEAR the log (click on 🚫)
+3. DO the order search
+4. CLICK on the order link
+5. The logs will be there (don't close DevTools)
 ```
 
 ---
 
-## Resumo das Ações
+## Action Summary
 
-| Ordem | Ação | Onde |
-|-------|------|------|
-| 1 | Abrir DevTools | `F12` ou `Ctrl+Shift+I` |
-| 2 | Ir em Network | Aba "Network" no topo |
-| 3 | Limpar logs | Botão 🚫 (círculo com risco) |
-| 4 | Filtrar XHR | Clique em "XHR" ou "Fetch/XHR" |
-| 5 | Preservar logs | ☑️ "Preserve log" (se achar) |
-| 6 | Fazer a busca | No Gattaran normalmente |
-| 7 | Capturar chamadas | Veja a lista que aparece |
+| Order | Action | Where |
+|-------|--------|-------|
+| 1 | Open DevTools | `F12` or `Ctrl+Shift+I` |
+| 2 | Go to Network | "Network" tab at the top |
+| 3 | Clear logs | 🚫 button (circle with a line) |
+| 4 | Filter XHR | Click on "XHR" or "Fetch/XHR" |
+| 5 | Preserve logs | ☑️ "Preserve log" (if you find it) |
+| 6 | Do the search | In Gattaran normally |
+| 7 | Capture calls | See the list that appears |
 
 ---
 
-## Me envie isso
+## Send me this
 
-Se ainda tiver dificuldade, me envie:
-1. Uma **screenshot** do seu DevTools na aba Network (posso identificar onde está)
+If you still have difficulty, send me:
+1. A **screenshot** of your DevTools on the Network tab (I can identify where it is)
 
-Ou simplesmente:
-2. **Não use Preserve log** - só limpe o log antes de buscar e não feche o DevTools até copiar as chamadas.
+Or simply:
+2. **Don't use Preserve log** - just clear the log before searching and don't close DevTools until you copy the calls.

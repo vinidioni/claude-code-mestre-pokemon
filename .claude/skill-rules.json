@@ -1,0 +1,146 @@
+{
+  "skills": [
+    {
+      "name": "conventional-commits",
+      "triggers": ["commit", "conventional commits", "mensagem de commit", "padrao de commit"]
+    },
+    {
+      "name": "engineering-skills",
+      "triggers": ["data engineering", "arquitetura", "backend", "devops", "ai/ml", "machine learning"]
+    },
+    {
+      "name": "business-growth-skills",
+      "triggers": ["customer success", "churn", "retencao", "rfp", "vendas", "revenue"]
+    },
+    {
+      "name": "finance-skills",
+      "triggers": ["analise financeira", "saas metrics", "arr", "mrr", "ltv", "cac", "forecasting"]
+    },
+    {
+      "name": "data-quality-auditor",
+      "triggers": ["data quality", "missing values", "dqs", "qualidade de dados", "valores ausentes"]
+    },
+    {
+      "name": "statistical-analyst",
+      "triggers": ["a/b test", "statistical significance", "p-value", "significancia estatistica", "teste de hipotese"]
+    },
+    {
+      "name": "business-investment-advisor",
+      "triggers": ["roi", "npv", "investment", "capex", "analise de investimento", "retorno"]
+    },
+    {
+      "name": "cooper-search",
+      "triggers": ["search cooper", "find document", "buscar documento", "procurar no cooper"]
+    },
+    {
+      "name": "cooper-read",
+      "triggers": ["read cooper document", "ler documento cooper", "cooper content", "conteudo cooper"]
+    },
+    {
+      "name": "cooper-write",
+      "triggers": ["create cooper document", "criar documento cooper", "save to cooper", "salvar no cooper"]
+    },
+    {
+      "name": "gattaran-viewer",
+      "triggers": ["gattaran", "order management", "pedidos", "gerenciar pedidos"]
+    },
+    {
+      "name": "intranet-fetcher",
+      "triggers": ["intranet", "buscar intranet", "docs2", "shimo", "documentacao interna"]
+    },
+    {
+      "name": "backup-dccrazy",
+      "triggers": ["backup dccrazy", "fazer backup", "salvar configuracoes"]
+    },
+    {
+      "name": "browser-automation",
+      "triggers": ["browser", "playwright", "automation", "web scraping", "navegador"]
+    },
+    {
+      "name": "cooper-image-read",
+      "triggers": ["imagem cooper", "ler imagem", "image cooper", "screenshot cooper"]
+    },
+    {
+      "name": "cooper-link-parser",
+      "triggers": ["links cooper", "extrair links", "parse cooper", "analisar links"]
+    },
+    {
+      "name": "cooper",
+      "triggers": ["cooper", "didi document", "docs2", "documentacao didi"]
+    },
+    {
+      "name": "dchat-notify",
+      "triggers": ["dchat notify", "notificar dchat", "mensagem dchat", "enviar dchat"]
+    },
+    {
+      "name": "dchat-search",
+      "triggers": ["dchat search", "buscar dchat", "procurar mensagens", "historico dchat"]
+    },
+    {
+      "name": "dchat-send",
+      "triggers": ["dchat send", "enviar mensagem", "mandar dchat", "mensagem didi"]
+    },
+    {
+      "name": "deskbee-book-room",
+      "triggers": ["deskbee", "reservar sala", "book room", "agendar sala", "meeting room"]
+    },
+    {
+      "name": "everything-search",
+      "triggers": ["everything", "buscar arquivo", "search file", "encontrar arquivo"]
+    },
+    {
+      "name": "github",
+      "triggers": ["github", "repositorio", "pull request", "pr", "issue", "commit github"]
+    },
+    {
+      "name": "gitlab",
+      "triggers": ["gitlab", "merge request", "mr", "gl"]
+    },
+    {
+      "name": "google-drive",
+      "triggers": ["google drive", "drive", "upload drive", "baixar drive", "arquivo drive"]
+    },
+    {
+      "name": "google-maps",
+      "triggers": ["google maps", "maps", "localizacao", "endereco", "distancia"]
+    },
+    {
+      "name": "sql-encyclopedia",
+      "triggers": ["sql encyclopedia", "tabelas", "dicionario de dados", "schema", "banco de dados"]
+    },
+    {
+      "name": "example-doc",
+      "triggers": ["example", "template", "skill example", "exemplo"]
+    },
+    {
+      "name": "dccrazy-updater",
+      "triggers": [
+        "atualizar dccrazy",
+        "update dccrazy",
+        "verificar atualizacoes",
+        "check updates",
+        "dccrazy update",
+        "tem atualizacao",
+        "precisa atualizar"
+      ]
+    },
+    {
+      "name": "dccrazy-onboarding",
+      "triggers": [
+        "analise a pasta dcc da minha area de trabalho e acione dcc-first-run",
+        "analise a pasta dcc",
+        "analise a pasta",
+        "acione dcc-first-run",
+        "acione dccrazy-first-run",
+        "dccrazy-first-run",
+        "primeira configuracao",
+        "configurar dccrazy",
+        "instalacao dccrazy",
+        "setup dccrazy"
+      ],
+      "requiredFiles": [
+        ".dccrazy-first-run"
+      ]
+    }
+  ]
+}

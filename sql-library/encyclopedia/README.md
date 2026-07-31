@@ -1,51 +1,51 @@
-# 📚 Enciclopédia de Tabelas - DCCrazy
+# 📚 Table Encyclopedia - DCCrazy
 
-> Sistema auto-gerado de documentação de tabelas do banco de dados.
-
----
-
-## O Que É
-
-A Enciclopédia é um arquivo JSON (`analytics/encyclopedia/tables.json`) que mapeia automaticamente as tabelas que você consulta em queries. Serve como referência rápida para:
-
-- Saber quais tabelas já usou
-- Documentar o schema (colunas e tipos)
-- Descrever o propósito de cada tabela
-- Evitar consultar `DESCRIBE` repetidamente
+> Auto-generated database table documentation system.
 
 ---
 
-## Como Funciona
+## What It Is
 
-### Detecção Automática
+The Encyclopedia is a JSON file (`sql-library/encyclopedia/tables.json`) that automatically maps the tables you query. It serves as a quick reference for:
 
-Quando você executa uma query no DCCrazy:
+- Knowing which tables you've already used
+- Documenting the schema (columns and types)
+- Describing the purpose of each table
+- Avoiding repeated `DESCRIBE` queries
 
-1. DCC analisa a query SQL
-2. Extrai nomes de tabelas (FROM, JOIN, INTO)
-3. Verifica se a tabela já está na enciclopédia
-4. Se for NOVA: adiciona automaticamente
-5. Se já existir: atualiza a data de última consulta
+---
 
-### Uso
+## How It Works
+
+### Automatic Detection
+
+When you execute a query in DCCrazy:
+
+1. DCC analyzes the SQL query
+2. Extracts table names (FROM, JOIN, INTO)
+3. Checks if the table is already in the encyclopedia
+4. If NEW: adds automatically
+5. If already exists: updates the last query date
+
+### Usage
 
 ```bash
-# Analisar uma query específica
+# Analyze a specific query
 python scripts/update-encyclopedia.py --query "SELECT * FROM users"
 
-# Escanear TODAS as queries do diretório
+# Scan ALL queries in the directory
 python scripts/update-encyclopedia.py --scan-all
 
-# Listar todas as tabelas documentadas
+# List all documented tables
 python scripts/update-encyclopedia.py --list
 
-# Adicionar descrição manual
-python scripts/update-encyclopedia.py --table users --describe "Tabela de usuários do app"
+# Add manual description
+python scripts/update-encyclopedia.py --table users --describe "App users table"
 ```
 
 ---
 
-## Estrutura do Arquivo
+## File Structure
 
 ```json
 {
@@ -53,18 +53,18 @@ python scripts/update-encyclopedia.py --table users --describe "Tabela de usuár
     "version": "1.0",
     "created_at": "2024-07-22",
     "updated_at": "2024-07-22",
-    "description": "Enciclopédia auto-gerada de tabelas"
+    "description": "Auto-generated table encyclopedia"
   },
-  "tabelas": {
+  "tables": {
     "analytics.users_activity": {
-      "descricao": "Log de atividades dos usuários no app",
-      "colunas": {
-        "user_id": "bigint - ID do usuário",
-        "event_time": "timestamp - Data/hora do evento",
-        "event_type": "string - Tipo de ação realizada"
+      "description": "User activity log in the app",
+      "columns": {
+        "user_id": "bigint - User ID",
+        "event_time": "timestamp - Event date/time",
+        "event_type": "string - Type of action performed"
       },
-      "primeira_consulta": "2024-07-22T10:00:00",
-      "ultima_consulta": "2024-07-22T15:30:00"
+      "first_query": "2024-07-22T10:00:00",
+      "last_query": "2024-07-22T15:30:00"
     }
   }
 }
@@ -72,34 +72,34 @@ python scripts/update-encyclopedia.py --table users --describe "Tabela de usuár
 
 ---
 
-## Integração com Workflows
+## Integration with Workflows
 
-Use o workflow dedicado:
+Use the dedicated workflow:
 
 ```bash
 claude workflow run update-table-encyclopedia --query="SELECT * FROM orders"
 ```
 
-Ou deixe o DCC perguntar:
+Or let DCC ask:
 
 ```
-Você: "Crie uma query que junte usuários com pedidos"
-DCC: [cria query]
-DCC: "Detectei tabelas novas: users, orders. Adicionar à enciclopédia?"
-Você: "Sim"
-DCC: [atualiza tables.json]
+You: "Create a query that joins users with orders"
+DCC: [creates query]
+DCC: "Detected new tables: users, orders. Add to encyclopedia?"
+You: "Yes"
+DCC: [updates tables.json]
 ```
 
 ---
 
-## Boas Práticas
+## Best Practices
 
-1. **Sempre adicione descrições** quando uma tabela nova for detectada
-2. **Mantenha colunas atualizadas** se o schema mudar
-3. **Use como referência** antes de consultar tabelas desconhecidas
-4. **Não edite manualmente** o `_metadata` - é gerado automaticamente
+1. **Always add descriptions** when a new table is detected
+2. **Keep columns updated** if the schema changes
+3. **Use as reference** before querying unknown tables
+4. **Don't manually edit** the `_metadata` - it's auto-generated
 
 ---
 
-**Arquivo:** `analytics/encyclopedia/tables.json`  
-**Script:** `scripts/update-encyclopedia.py`
+**File:** `sql-library/encyclopedia/tables.json`  
+**Script:** `scripts/maintenance/update-encyclopedia.py`

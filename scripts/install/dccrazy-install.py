@@ -14,6 +14,7 @@ import subprocess
 import shutil
 import json
 import platform
+import getpass
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Tuple, List
@@ -36,8 +37,50 @@ class Installer:
         self.desktop = Path.home() / "Desktop"
         self.dcc_root = self.desktop / "dcc"
         self.user_name = ""
+        self.os_type = ""
         self.install_log = []
         self.errors = []
+
+    def detect_os(self) -> str:
+        """Detecta o sistema operacional"""
+        system = platform.system()
+        if system == "Windows":
+            return "windows"
+        elif system == "Darwin":
+            return "mac"
+        else:
+            return "linux"
+
+    def ask_os(self):
+        """Pergunta ou confirma o sistema operacional"""
+        detected = self.detect_os()
+
+        print(f"\n{Colors.CYAN}Detectei que voce esta usando: {detected.upper()}{Colors.END}")
+
+        if detected == "windows":
+            options = ["Windows", "Estou usando Mac", "Estou usando Linux"]
+        elif detected == "mac":
+            options = ["Mac (macOS)", "Estou usando Windows", "Estou usando Linux"]
+        else:
+            options = ["Linux", "Estou usando Windows", "Estou usando Mac"]
+
+        print(f"{Colors.CYAN}Confirme seu sistema operacional:{Colors.END}")
+        for i, opt in enumerate(options, 1):
+            print(f"  {i}. {opt}")
+
+        choice = input(f"{Colors.CYAN}Opcao [1]: {Colors.END}").strip() or "1"
+
+        if choice == "1":
+            self.os_type = detected
+        elif choice == "2":
+            self.os_type = "mac" if detected == "windows" else ("windows" if detected == "linux" else "linux")
+        elif choice == "3":
+            self.os_type = "linux" if detected in ["windows", "mac"] else ("mac" if detected == "windows" else "windows")
+        else:
+            self.os_type = detected
+
+        self.log(f"Sistema operacional confirmado: {self.os_type.upper()}", Colors.GREEN)
+        return self.os_type
 
     def log(self, message: str, color: str = Colors.END, level: str = "INFO"):
         """Loga mensagem na tela e no arquivo de log"""
@@ -127,18 +170,17 @@ class Installer:
         if self.ask_yes_no(f"Posso tentar instalar {name} automaticamente?", default=True):
             self.log(f"🔄 Tentando instalar {name}...", Colors.BLUE)
 
-            # Tenta instalação baseada no SO
-            os_type = platform.system()
-
             if name == "Node.js":
-                if os_type == "Windows":
+                if self.os_type == "windows":
                     self.log("Baixe em: https://nodejs.org (versão LTS)", Colors.CYAN)
-                    self.log("Execute o instalador e siga as instruções.", Colors.CYAN)
-                elif os_type == "Darwin":  # macOS
+                    self.log("Execute o instalador .msi e siga as instruções.", Colors.CYAN)
+                    self.log("IMPORTANTE: Marque a opção 'Add to PATH'", Colors.WARNING)
+                elif self.os_type == "mac":
                     success, _, _ = self.run_command(["brew", "install", "node"])
                     if success:
                         return True
-                else:  # Linux
+                    self.log("Homebrew não encontrado. Instale em https://brew.sh", Colors.WARNING)
+                else:  # linux
                     success, _, _ = self.run_command([
                         "curl", "-fsSL", "https://deb.nodesource.com/setup_20.x", "|", "sudo", "-E", "bash", "-"
                     ])
@@ -148,34 +190,78 @@ class Installer:
                             return True
 
             elif name == "Python":
-                if os_type == "Windows":
-                    self.log("Baixe em: https://python.org (versão 3.10+)", Colors.CYAN)
-                elif os_type == "Darwin":
+                if self.os_type == "windows":
+                    self.log("Baixe em: https://python.org/downloads", Colors.CYAN)
+                    self.log("Baixe o instalador Windows x86-64 executable", Colors.CYAN)
+                    self.log("IMPORTANTE: Marque 'Add Python to PATH' na instalação", Colors.WARNING)
+                elif self.os_type == "mac":
                     success, _, _ = self.run_command(["brew", "install", "python@3.11"])
                     if success:
                         return True
-                else:
+                    self.log("Ou baixe em: https://python.org/downloads (macOS)", Colors.CYAN)
+                else:  # linux
                     success, _, _ = self.run_command(["sudo", "apt-get", "install", "-y", "python3", "python3-pip"])
                     if success:
                         return True
 
             elif name == "Git":
-                if os_type == "Windows":
+                if self.os_type == "windows":
                     self.log("Baixe em: https://git-scm.com/download/win", Colors.CYAN)
-                elif os_type == "Darwin":
+                    self.log("Execute o instalador .exe", Colors.CYAN)
+                elif self.os_type == "mac":
                     success, _, _ = self.run_command(["brew", "install", "git"])
                     if success:
                         return True
-                else:
+                    self.log("Ou baixe em: https://git-scm.com/download/mac", Colors.CYAN)
+                else:  # linux
                     success, _, _ = self.run_command(["sudo", "apt-get", "install", "-y", "git"])
                     if success:
                         return True
 
             self.log("⚠️  Instalação automática falhou ou não disponível.", Colors.WARNING)
 
-        # Mostra instruções manuais
-        self.log(f"\n📋 Para instalar {name} manualmente:", Colors.CYAN)
-        print(install_instructions)
+        # Mostra instruções manuais específicas por OS
+        self.log(f"\n📋 Para instalar {name} manualmente no {self.os_type.upper()}:", Colors.CYAN)
+
+        if name == "Node.js":
+            if self.os_type == "windows":
+                print("  1. Acesse: https://nodejs.org")
+                print("  2. Baixe a versão LTS (botão verde)")
+                print("  3. Execute o instalador .msi")
+                print("  4. Siga o wizard (aceite os defaults)")
+                print("  5. REINICIE o terminal/VS Code após instalar")
+            elif self.os_type == "mac":
+                print("  1. Se tiver Homebrew: brew install node")
+                print("  2. Ou acesse: https://nodejs.org e baixe o .pkg")
+                print("  3. Siga o instalador")
+            else:  # linux
+                print("  sudo apt update")
+                print("  sudo apt install -y nodejs npm")
+
+        elif name == "Python":
+            if self.os_type == "windows":
+                print("  1. Acesse: https://python.org/downloads")
+                print("  2. Baixe 'Windows installer (64-bit)'")
+                print("  3. Execute e MARQUE 'Add Python to PATH'")
+                print("  4. REINICIE o terminal/VS Code")
+            elif self.os_type == "mac":
+                print("  1. Se tiver Homebrew: brew install python")
+                print("  2. Ou baixe em https://python.org/downloads")
+            else:  # linux
+                print("  sudo apt update")
+                print("  sudo apt install -y python3 python3-pip")
+
+        elif name == "Git":
+            if self.os_type == "windows":
+                print("  1. Acesse: https://git-scm.com/download/win")
+                print("  2. Baixe o instalador automaticamente")
+                print("  3. Execute e siga o wizard (aceite os defaults)")
+            elif self.os_type == "mac":
+                print("  1. Se tiver Homebrew: brew install git")
+                print("  2. Ou baixe em https://git-scm.com/download/mac")
+            else:  # linux
+                print("  sudo apt update")
+                print("  sudo apt install -y git")
 
         if self.ask_yes_no("Instalou? Podemos continuar?"):
             # Verifica novamente
@@ -201,6 +287,9 @@ class Installer:
         """Passo 1: Boas-vindas"""
         self.header("🚀 Bem-vindo ao DCCrazy!")
 
+        # Detecta/Confirma sistema operacional
+        self.ask_os()
+
         # Verifica localização
         if not self.check_location():
             print(f"{Colors.WARNING}⚠️  Atenção!{Colors.END}")
@@ -221,15 +310,32 @@ class Installer:
                 self.log("Instalação pausada. Mova a pasta e execute novamente.", Colors.WARNING)
                 sys.exit(0)
 
-        print(f"{Colors.CYAN}Olá! Vou instalar o DCCrazy para você.{Colors.END}")
+        self.explain_vscode_workspace()
+
+        print(f"\n{Colors.CYAN}Olá! Vou instalar o DCCrazy para você.{Colors.END}")
         print(f"{Colors.CYAN}Este processo é interativo e vou guiar você em cada etapa.{Colors.END}\n")
 
         print(f"{Colors.WARNING}O que vou fazer:{Colors.END}")
         print("  1. Verificar pré-requisitos (Node.js, Python, Git)")
         print("  2. Instalar dependências")
-        print("  3. Configurar credenciais (com sua ajuda)")
+        print("  3. Configurar credenciais OBRIGATÓRIAS (com sua ajuda)")
         print("  4. Testar a instalação")
         print("  5. Personalizar para você\n")
+
+        print(f"{Colors.FAIL}⚠️  IMPORTANTE:{Colors.END}")
+        print(f"{Colors.FAIL}   Serão necessárias 5 credenciais obrigatórias.{Colors.END}")
+        print(f"{Colors.FAIL}   Sem elas, a instalação não pode continuar.{Colors.END}\n")
+
+        if not self.ask_yes_no("Possui todas as credenciais ou sabe como obtê-las?", default=True):
+            print(f"\n{Colors.CYAN}As 5 credenciais necessárias são:{Colors.END}")
+            print("  1. GitHub Token (github.com/settings/tokens)")
+            print("  2. Cooper Token (mcphub.intra.xiaojukeji.com)")
+            print("  3. D-Chat Token (mcphub.intra.xiaojukeji.com)")
+            print("  4. Gattaran Token (mcphub.intra.xiaojukeji.com)")
+            print("  5. Google Client Secret (console.cloud.google.com)")
+            print()
+            print(f"{Colors.WARNING}Volte quando tiver acesso a todas.{Colors.END}")
+            sys.exit(0)
 
     def move_to_desktop(self):
         """Move a pasta atual para Desktop/dcc"""
@@ -262,10 +368,102 @@ class Installer:
             self.log("Mova manualmente e tente novamente.", Colors.WARNING)
             sys.exit(1)
 
-        if not self.ask_yes_no("Pronto para começar?", default=True):
-            self.log("Instalação cancelada. Quando quiser, execute:", Colors.WARNING)
-            self.log("  python scripts/dccrazy-install.py", Colors.CYAN)
-            sys.exit(0)
+    def get_vscode_paths(self) -> dict:
+        """Retorna paths especificos por OS"""
+        paths = {
+            "windows": {
+                "desktop_path": fr"C:\Users\{os.getlogin()}\Desktop",
+                "dcc_path": fr"C:\Users\{os.getlogin()}\Desktop\dcc",
+                "workspace_file": fr"C:\Users\{os.getlogin()}\Desktop\DCCrazy.code-workspace",
+                "settings_path": fr"C:\Users\{os.getlogin()}\.claude\settings.local.json",
+            },
+            "mac": {
+                "desktop_path": "~/Desktop",
+                "dcc_path": "~/Desktop/dcc",
+                "workspace_file": "~/Desktop/DCCrazy.code-workspace",
+                "settings_path": "~/.claude/settings.local.json",
+            },
+            "linux": {
+                "desktop_path": "~/Desktop",
+                "dcc_path": "~/Desktop/dcc",
+                "workspace_file": "~/Desktop/DCCrazy.code-workspace",
+                "settings_path": "~/.claude/settings.local.json",
+            }
+        }
+        return paths.get(self.os_type, paths["linux"])
+
+    def explain_vscode_workspace(self):
+        """Explica como fixar pasta no VS Code baseado no OS"""
+        paths = self.get_vscode_paths()
+
+        print(f"\n{Colors.CYAN}{Colors.BOLD}📌 Como Fixar a Pasta no VS Code:{Colors.END}\n")
+
+        print("Para que o DCCrazy funcione corretamente sempre que voce abrir o VS Code:")
+        print()
+
+        if self.os_type == "windows":
+            print("1️⃣  Abra o VS Code")
+            print("2️⃣  Clique em File → Open Folder")
+            print(f"3️⃣  Navegue ate: {paths['dcc_path']}")
+            print("4️⃣  Clique em 'Selecionar Pasta'")
+            print("5️⃣  Depois: File → Save Workspace As...")
+            print(f"6️⃣  Salve como 'DCCrazy' na Desktop")
+            print()
+            print(f"{Colors.CYAN}Da proxima vez, abra o VS Code pelo arquivo{Colors.END}")
+            print(f"{Colors.CYAN}'DCCrazy.code-workspace' na sua Area de Trabalho.{Colors.END}")
+
+        elif self.os_type == "mac":
+            print("1️⃣  Abra o VS Code")
+            print("2️⃣  Clique em File → Open Folder (Cmd+K Cmd+O)")
+            print(f"3️⃣  Navegue ate: ~/Desktop/dcc")
+            print("4️⃣  Clique em 'Open'")
+            print("5️⃣  Depois: File → Save Workspace As... (Cmd+S)")
+            print("6️⃣  Salve como 'DCCrazy' na Desktop")
+            print()
+            print(f"{Colors.CYAN}Da proxima vez, abra o VS Code pelo arquivo{Colors.END}")
+            print(f"{Colors.CYAN}'DCCrazy.code-workspace' na sua Desktop.{Colors.END}")
+
+        else:  # Linux
+            print("1️⃣  Abra o VS Code")
+            print("2️⃣  Clique em File → Open Folder (Ctrl+K Ctrl+O)")
+            print("3️⃣  Navegue ate: ~/Desktop/dcc")
+            print("4️⃣  Clique em 'Open'")
+            print("5️⃣  Depois: File → Save Workspace As... (Ctrl+S)")
+            print("6️⃣  Salve como 'DCCrazy' na Desktop")
+            print()
+            print(f"{Colors.CYAN}Da proxima vez, abra o VS Code pelo arquivo{Colors.END}")
+            print(f"{Colors.CYAN}'DCCrazy.code-workspace' na sua Desktop.{Colors.END}")
+
+        print()
+        print(f"{Colors.CYAN}Assim, todas as operacoes do DCC serao{Colors.END}")
+        print(f"{Colors.CYAN}associadas a esta pasta automaticamente.{Colors.END}")
+        print()
+
+        if not self.ask_yes_no("Entendeu como fixar a pasta?", default=True):
+            print(f"\n{Colors.CYAN}Vou explicar novamente de outra forma...{Colors.END}")
+            print()
+            print("A ideia e criar um 'atalho' que sempre abre o VS Code")
+            print("ja na pasta correta do DCCrazy.")
+            print()
+
+            if self.os_type == "windows":
+                print("Maneira alternativa (Windows):")
+                print(f"  • Navegue ate: {paths['dcc_path']}")
+                print("  • Clique com botao direito → 'Abrir com Code'")
+                print("  • Depois: File → Save Workspace As... → Desktop")
+            elif self.os_type == "mac":
+                print("Maneira alternativa (Mac):")
+                print("  • Abra o Terminal")
+                print("  • Digite: code ~/Desktop/dcc")
+                print("  • Depois no VS Code: File → Save Workspace As...")
+            else:
+                print("Maneira alternativa (Linux):")
+                print("  • Abra o Terminal")
+                print("  • Digite: code ~/Desktop/dcc")
+                print("  • Depois no VS Code: File → Save Workspace As...")
+
+            print()
+            input(f"{Colors.CYAN}Pressione Enter quando entender...{Colors.END}")
 
     def step_prerequisites(self):
         """Passo 2: Verificar e instalar pré-requisitos"""
@@ -356,50 +554,120 @@ class Installer:
         """Passo 5: Configuração de credenciais"""
         self.header("🔐 Configuração de Credenciais")
 
-        print(f"{Colors.CYAN}Agora vou configurar as integrações.{Colors.END}")
-        print(f"{Colors.WARNING}Todas as credenciais são armazenadas localmente em arquivos .env (não são enviadas para o GitHub).{Colors.END}\n")
+        print(f"{Colors.CYAN}Agora vou configurar as integrações OBRIGATÓRIAS.{Colors.END}")
+        print(f"{Colors.WARNING}Todas as credenciais são armazenadas localmente em arquivos .env (não são enviadas para o GitHub).{Colors.END}")
+        print(f"{Colors.FAIL}⚠️  NENHUMA credencial é opcional. Todas são necessárias.{Colors.END}\n")
 
         env_content = "# Credenciais do DCCrazy - Gerado automaticamente\n"
         env_content += f"# Usuário: {self.user_name}\n"
         env_content += f"# Data: {datetime.now().strftime('%Y-%m-%d')}\n\n"
 
-        # GitHub
-        print(f"{Colors.BOLD}1. GitHub (opcional){Colors.END}")
-        print("   Permite criar issues, ver PRs, analisar repositórios")
-        print("   Obtenha em: https://github.com/settings/tokens")
+        tokens_configurados = 0
+        tokens_necessarios = 5
 
-        if self.ask_yes_no("Deseja configurar GitHub?"):
-            github_token = self.ask("Token do GitHub (cole aqui)")
-            if github_token:
+        # 1. GitHub
+        print(f"{Colors.BOLD}1/5: GitHub{Colors.END}")
+        print("   O que é: Acesso ao GitHub (repositórios, issues, PRs)")
+        print("   Como obter: https://github.com/settings/tokens")
+        print("   Formato: ghp_xxxxxxxxxxxx ou github_pat_xxx")
+
+        while True:
+            github_token = self.ask("Token do GitHub (cole aqui)", required=True)
+            if github_token.startswith(("ghp_", "github_pat_")):
                 env_content += f"GITHUB_TOKEN={github_token}\n"
                 self.log("✅ GitHub configurado", Colors.GREEN)
-        else:
-            env_content += "# GITHUB_TOKEN=\n"
+                tokens_configurados += 1
+                break
+            else:
+                self.log("❌ Token inválido! Deve começar com 'ghp_' ou 'github_pat_'")
+                if not self.ask_yes_no("Tentar novamente?"):
+                    self.log("A instalação não pode continuar sem a credencial do GitHub.", Colors.FAIL)
+                    sys.exit(1)
 
-        # DiDi serviços (se aplicável)
-        print(f"\n{Colors.BOLD}2. Serviços DiDi (opcional - apenas funcionários){Colors.END}")
-        print("   Cooper (documentação), D-Chat (mensagens), Gattaran")
-        print("   Obtenha em: https://mcphub.intra.xiaojukeji.com/")
-        print("   ⚠️  Clique em '访问令牌' (token de acesso)")
+        # 2. Cooper
+        print(f"\n{Colors.BOLD}2/5: Cooper (DiDi Docs){Colors.END}")
+        print("   O que é: Acesso à documentação interna DiDi")
+        print("   Como obter: https://mcphub.intra.xiaojukeji.com/")
+        print("   Clique em '访问令牌' no servidor Cooper")
 
-        if self.ask_yes_no("Tem acesso aos serviços DiDi?"):
-            didi_token = self.ask("Token do mcphub")
-            if didi_token:
-                env_content += f"DIDI_TOKEN={didi_token}\n"
-                self.log("✅ DiDi configurado", Colors.GREEN)
-        else:
-            env_content += "# DIDI_TOKEN=\n"
+        while True:
+            cooper_token = self.ask("Token do Cooper (cole aqui)", required=True)
+            if cooper_token and len(cooper_token) > 10:
+                env_content += f"COOPER_TOKEN={cooper_token}\n"
+                self.log("✅ Cooper configurado", Colors.GREEN)
+                tokens_configurados += 1
+                break
+            else:
+                self.log("❌ Token inválido! O token parece muito curto.")
+                if not self.ask_yes_no("Tentar novamente?"):
+                    self.log("A instalação não pode continuar sem a credencial do Cooper.", Colors.FAIL)
+                    sys.exit(1)
 
-        # Google Workspace
-        print(f"\n{Colors.BOLD}3. Google Workspace (opcional){Colors.END}")
-        print("   Permite ler emails, criar eventos, acessar Drive")
-        print("   Requer configuração OAuth no Google Cloud")
+        # 3. D-Chat
+        print(f"\n{Colors.BOLD}3/5: D-Chat{Colors.END}")
+        print("   O que é: Acesso ao sistema de mensagens interno DiDi")
+        print("   Como obter: https://mcphub.intra.xiaojukeji.com/")
+        print("   Clique em '访问令牌' no servidor D-Chat")
 
-        if self.ask_yes_no("Deseja configurar Google Workspace?"):
-            self.log("Veja o guia: docs/google-workspace-setup.md", Colors.CYAN)
-            env_content += "# GOOGLE_CLIENT_SECRETS_PATH=\n"
-        else:
-            env_content += "# GOOGLE_CLIENT_SECRETS_PATH=\n"
+        while True:
+            dchat_token = self.ask("Token do D-Chat (cole aqui)", required=True)
+            if dchat_token and len(dchat_token) > 10:
+                env_content += f"DCHAT_TOKEN={dchat_token}\n"
+                self.log("✅ D-Chat configurado", Colors.GREEN)
+                tokens_configurados += 1
+                break
+            else:
+                self.log("❌ Token inválido! O token parece muito curto.")
+                if not self.ask_yes_no("Tentar novamente?"):
+                    self.log("A instalação não pode continuar sem a credencial do D-Chat.", Colors.FAIL)
+                    sys.exit(1)
+
+        # 4. Gattaran
+        print(f"\n{Colors.BOLD}4/5: Gattaran{Colors.END}")
+        print("   O que é: Acesso ao sistema de gerenciamento de pedidos")
+        print("   Como obter: https://mcphub.intra.xiaojukeji.com/")
+        print("   Clique em '访问令牌' no servidor Gattaran")
+
+        while True:
+            gattaran_token = self.ask("Token do Gattaran (cole aqui)", required=True)
+            if gattaran_token and len(gattaran_token) > 10:
+                env_content += f"GATTARAN_TOKEN={gattaran_token}\n"
+                self.log("✅ Gattaran configurado", Colors.GREEN)
+                tokens_configurados += 1
+                break
+            else:
+                self.log("❌ Token inválido! O token parece muito curto.")
+                if not self.ask_yes_no("Tentar novamente?"):
+                    self.log("A instalação não pode continuar sem a credencial do Gattaran.", Colors.FAIL)
+                    sys.exit(1)
+
+        # 5. Google Workspace
+        print(f"\n{Colors.BOLD}5/5: Google Workspace{Colors.END}")
+        print("   O que é: Acesso a Gmail, Calendar e Drive")
+        print("   Como obter: console.cloud.google.com")
+        print("   Crie um projeto → Ative APIs → Credentials → OAuth client ID")
+
+        while True:
+            print(f"{Colors.CYAN}Cole o conteúdo completo do arquivo client_secret.json:{Colors.END}")
+            google_secret = self.ask("Client Secret JSON (cole aqui)", required=True)
+
+            # Tenta validar como JSON
+            try:
+                import json as json_parser
+                google_json = json_parser.loads(google_secret)
+                if "installed" in google_json or "web" in google_json:
+                    env_content += f'GOOGLE_CLIENT_SECRET={google_secret}\n'
+                    self.log("✅ Google Workspace configurado", Colors.GREEN)
+                    tokens_configurados += 1
+                    break
+                else:
+                    self.log("❌ JSON inválido! Não encontrou 'installed' ou 'web' na estrutura.")
+            except json_parser.JSONDecodeError as e:
+                self.log(f"❌ JSON inválido: {e}")
+
+            if not self.ask_yes_no("Tentar novamente?"):
+                self.log("A instalação não pode continuar sem a credencial do Google.", Colors.FAIL)
+                sys.exit(1)
 
         # Salva .env
         env_file = self.dcc_root / ".env"
@@ -413,59 +681,97 @@ class Installer:
         """Passo 6: Configuração MCP"""
         self.header("🔌 Configuração de Integrações (MCP)")
 
-        print(f"{Colors.CYAN}Vou configurar os servidores MCP (integrações).{Colors.END}\n")
+        print(f"{Colors.CYAN}Vou configurar os servidores MCP automaticamente...{Colors.END}\n")
 
         mcp_config = {
             "mcpServers": {}
         }
 
-        # Verifica quais tokens foram configurados
+        # Lê o arquivo .env gerado
         env_file = self.dcc_root / ".env"
         env_content = env_file.read_text() if env_file.exists() else ""
 
-        # GitHub MCP
-        if "GITHUB_TOKEN" in env_content and not env_content.split("GITHUB_TOKEN=")[1].startswith("\n"):
-            if self.ask_yes_no("Ativar integração GitHub?"):
-                mcp_config["mcpServers"]["github"] = {
-                    "command": "npx",
-                    "args": ["-y", "@modelcontextprotocol/server-github"],
-                    "env": {
-                        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+        # 1. GitHub MCP (sempre configura se token existe)
+        if "GITHUB_TOKEN=" in env_content and "GITHUB_TOKEN=\n" not in env_content:
+            try:
+                token_line = [line for line in env_content.split('\n') if line.startswith('GITHUB_TOKEN=')][0]
+                if token_line.replace('GITHUB_TOKEN=', ''):
+                    mcp_config["mcpServers"]["github"] = {
+                        "command": "npx",
+                        "args": ["-y", "@modelcontextprotocol/server-github"],
+                        "env": {
+                            "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+                        }
                     }
-                }
-                self.log("✅ GitHub MCP ativado", Colors.GREEN)
+                    self.log("✅ GitHub MCP configurado", Colors.GREEN)
+            except IndexError:
+                pass
 
-        # DiDi MCPs
-        if "DIDI_TOKEN" in env_content:
-            print(f"\n{Colors.CYAN}Serviços DiDi detectados:{Colors.END}")
+        # 2. Cooper MCP
+        if "COOPER_TOKEN=" in env_content and "COOPER_TOKEN=\n" not in env_content:
+            try:
+                token_line = [line for line in env_content.split('\n') if line.startswith('COOPER_TOKEN=')][0]
+                if token_line.replace('COOPER_TOKEN=', ''):
+                    mcp_config["mcpServers"]["cooper"] = {
+                        "command": "node",
+                        "args": [str(self.dcc_root / "mcp-servers" / "cooper" / "index.js")],
+                        "env": {"COOPER_TOKEN": "${COOPER_TOKEN}"}
+                    }
+                    self.log("✅ Cooper MCP configurado", Colors.GREEN)
+            except IndexError:
+                pass
 
-            services = [
-                ("Cooper (documentação)", "cooper"),
-                ("D-Chat (mensagens)", "dchat"),
-                ("Gattaran (ordens)", "gattaran")
-            ]
+        # 3. D-Chat MCP
+        if "DCHAT_TOKEN=" in env_content and "DCHAT_TOKEN=\n" not in env_content:
+            try:
+                token_line = [line for line in env_content.split('\n') if line.startswith('DCHAT_TOKEN=')][0]
+                if token_line.replace('DCHAT_TOKEN=', ''):
+                    # Path para DWS adequado ao OS
+                    if self.os_type == 'windows':
+                        import getpass
+                        username = getpass.getuser()
+                        dws_path = rf"C:\Users\{username}\.local\bin\dws.ps1"
+                    else:
+                        dws_path = "/usr/local/bin/dws"
 
-            for service_name, service_id in services:
-                if self.ask_yes_no(f"Ativar {service_name}?"):
-                    # Configuração específica de cada serviço
-                    if service_id == "cooper":
-                        mcp_config["mcpServers"]["cooper"] = {
-                            "command": "node",
-                            "args": [str(self.dcc_root / "mcp-servers" / "cooper" / "index.js")],
-                            "env": {"DIDI_TOKEN": "${DIDI_TOKEN}"}
+                    mcp_config["mcpServers"]["dchat"] = {
+                        "command": "node",
+                        "args": [str(self.dcc_root / "mcp-servers" / "dchat" / "v2" / "index.js")],
+                        "env": {
+                            "DIDI_TOKEN": "${DCHAT_TOKEN}",
+                            "DWS_SCRIPT_PATH": dws_path
                         }
-                    elif service_id == "dchat":
-                        mcp_config["mcpServers"]["dchat"] = {
-                            "command": "node",
-                            "args": [str(self.dcc_root / "mcp-servers" / "dchat" / "index.js")],
-                            "env": {
-                                "DIDI_TOKEN": "${DIDI_TOKEN}",
-                                "DWS_SCRIPT_PATH": "${DWS_SCRIPT_PATH}"
-                            }
-                        }
-                    # Adicionar outros conforme necessário
+                    }
+                    self.log("✅ D-Chat MCP configurado", Colors.GREEN)
+            except IndexError:
+                pass
 
-                    self.log(f"✅ {service_name} ativado", Colors.GREEN)
+        # 4. Gattaran MCP
+        if "GATTARAN_TOKEN=" in env_content and "GATTARAN_TOKEN=\n" not in env_content:
+            try:
+                token_line = [line for line in env_content.split('\n') if line.startswith('GATTARAN_TOKEN=')][0]
+                if token_line.replace('GATTARAN_TOKEN=', ''):
+                    mcp_config["mcpServers"]["gattaran"] = {
+                        "command": "node",
+                        "args": [str(self.dcc_root / "mcp-servers" / "gattaran" / "index.js")],
+                        "env": {"GATTARAN_TOKEN": "${GATTARAN_TOKEN}"}
+                    }
+                    self.log("✅ Gattaran MCP configurado", Colors.GREEN)
+            except IndexError:
+                pass
+
+        # 5. Google Workspace MCP
+        if "GOOGLE_CLIENT_SECRET=" in env_content and "GOOGLE_CLIENT_SECRET=\n" not in env_content:
+            try:
+                token_line = [line for line in env_content.split('\n') if line.startswith('GOOGLE_CLIENT_SECRET=')][0]
+                if token_line.replace('GOOGLE_CLIENT_SECRET=', ''):
+                    mcp_config["mcpServers"]["google-workspace"] = {
+                        "command": "npx",
+                        "args": ["-y", "@gongrzhe"]
+                    }
+                    self.log("✅ Google Workspace MCP configurado", Colors.GREEN)
+            except IndexError:
+                pass
 
         # Salva .mcp.json
         mcp_file = self.dcc_root / ".mcp.json"
@@ -473,6 +779,22 @@ class Installer:
             json.dump(mcp_config, f, indent=2)
 
         self.log(f"\n✅ Arquivo .mcp.json criado em: {mcp_file}", Colors.GREEN)
+
+        # Cria flag de instalação completa
+        flag_file = self.dcc_root / ".dcc-installed"
+        with open(flag_file, 'w', encoding='utf-8') as f:
+            f.write(f"DCCrazy installed at: {datetime.now().isoformat()}\n")
+            f.write(f"User: {self.user_name}\n")
+            f.write(f"OS: {self.os_type}\n")
+            f.write(f"MCPs: {', '.join(mcp_config['mcpServers'].keys())}\n")
+
+        self.log(f"✅ Instalação registrada em: {flag_file}", Colors.GREEN)
+
+        # Remove flag de primeira execução (se existir)
+        first_run_file = self.dcc_root / ".dccrazy-first-run"
+        if first_run_file.exists():
+            first_run_file.unlink()
+            self.log("✅ Onboarding concluído - flag de primeira execução removida", Colors.GREEN)
 
     def step_verification(self):
         """Passo 7: Verificação"""
@@ -501,12 +823,6 @@ class Installer:
     def step_finalize(self):
         """Passo 8: Finalização"""
         self.header("🎉 Instalação Concluída!")
-
-        # Marca como instalado
-        flag_file = self.dcc_root / ".dcc-installed"
-        with open(flag_file, 'w', encoding='utf-8') as f:
-            f.write(f"DCCrazy installed at: {datetime.now().isoformat()}\n")
-            f.write(f"User: {self.user_name}\n")
 
         print(f"\n{Colors.GREEN}{Colors.BOLD}Parabéns, {self.user_name}!{Colors.END}")
         print(f"{Colors.GREEN}O DCCrazy foi instalado com sucesso!{Colors.END}\n")

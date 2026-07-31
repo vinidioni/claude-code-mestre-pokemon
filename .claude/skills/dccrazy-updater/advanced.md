@@ -1,160 +1,152 @@
-# DCCrazy Updater - Avançado
+# DCCrazy Updater - Advanced
 
-## Execução Manual do Script
+## Understanding the Preservation System
 
-Para maior controle, execute o script Python diretamente:
+### How Modification Detection Works
 
+The updater compares the MD5 hash of each file with the version from the last official release:
+
+```
+File: skills/cooper/SKILL.md
+├── Hash in official release: a1b2c3d4...
+├── Local user hash:          e5f6g7h8...
+└── Result: DIFFERENT → Preserve (don't update)
+```
+
+### Decision Flow
+
+```
+Does file exist in official repo?
+├── NO → Keeps local (warns it was removed from official)
+└── YES → Did user modify it?
+    ├── YES → Preserves (warns it wasn't updated)
+    └── NO → Updates normally
+```
+
+## Protected Files (Never Changed)
+
+The updater NEVER touches:
+
+```
+sql-library/queries/     # User queries
+incubator/               # Personal projects
+reports/                 # Generated reports
+temp-storage/            # Temporary files
+.env                     # User credentials
+.claude/memory/          # Personal memories (except templates)
+```
+
+## Merge Strategies
+
+### When You Want to Apply an Update to a Modified File
+
+#### Option 1: Overwrite (loses your modifications)
 ```bash
-# Verificar atualizações (modo interativo)
-python scripts/maintenance/check-updates.py
-
-# Desde o diretório raiz do DCC
-python scripts/maintenance/check-updates.py
+# After update, overwrite with official version
+cp .backup/update_20250731_143022/skills/cooper/SKILL.md .claude/skills/cooper/SKILL.md
 ```
 
-## Entendendo o Backup
-
-### O que é backupado automaticamente:
-| Arquivo | Conteúdo | Por que é importante |
-|---------|----------|---------------------|
-| `.env` | Credenciais (tokens, chaves) | Não commitado no git |
-| `.mcp.json` | Configurações de MCP servers | Integrações personalizadas |
-| `.claude/settings.local.json` | Preferências locais | Configurações do usuário |
-
-### Estrutura do backup:
-```
-.backup/
-└── update_20250727_143022/
-    ├── .env
-    ├── .mcp.json
-    └── settings.local.json
-```
-
-### Restauração manual (se necessário):
+#### Option 2: Manual Merge (preserves your modifications)
 ```bash
-# Lista backups disponíveis
-ls -la .backup/
+# Compare versions
+diff .backup/update_20250731_143022/skills/cooper/SKILL.md .claude/skills/cooper/SKILL.md
 
-# Restaurar configurações específicas
-cp .backup/update_20250727_143022/.env .
-cp .backup/update_20250727_143022/.mcp.json .
+# Manually edit merging the changes
+# Then mark as "official" for future updates:
+# (copy official hash to a .dcc-hash file)
 ```
 
-## Automação com Cron/Agendador
+#### Option 3: Create Personal Copy
+```bash
+# Rename your modified version
+mv .claude/skills/cooper/SKILL.md .claude/skills/cooper/SKILL.md.mine
+
+# Copy the official one
+mv .backup/update_20250731_143022/skills/cooper/SKILL.md .claude/skills/cooper/SKILL.md
+
+# Now you have both versions
+```
+
+## Automation with Cron/Scheduler
 
 ### Linux/macOS (cron):
 ```bash
-# Editar crontab
-crontab -e
-
-# Verificar atualizações toda segunda às 9h
+# Check for updates every Monday at 9am (check only, no apply)
 0 9 * * 1 cd ~/Desktop/dcc && python scripts/maintenance/check-updates.py --check-only
 ```
 
 ### Windows (Task Scheduler):
-1. Abrir `Task Scheduler`
-2. Criar nova tarefa básica
-3. Trigger: Semanalmente (segunda-feira, 9:00)
-4. Action: Iniciar programa
-5. Programa: `python`
-6. Argumentos: `scripts/maintenance/check-updates.py --check-only`
-7. Iniciar em: `C:\Users\%USERNAME%\Desktop\dcc`
-
-## Resolução de Conflitos Avançada
-
-### Quando ocorrem conflitos:
-O script aborta automaticamente e restaura o backup. Para resolver:
-
-```bash
-# 1. Verifique o status
-git status
-
-# 2. Veja os conflitos
-git diff --name-only --diff-filter=U
-
-# 3. Para cada arquivo em conflito, escolha:
-#    - Manter sua versão local:
-git checkout --ours arquivo.txt
-git add arquivo.txt
-
-#    - Aceitar a versão do remote:
-git checkout --theirs arquivo.txt
-git add arquivo.txt
-
-#    - Editar manualmente e depois:
-git add arquivo.txt
-
-# 4. Complete o merge
-git commit -m "resolve: merge conflicts na atualização"
+```
+Program: python
+Arguments: scripts/maintenance/check-updates.py --check-only
+Start in: C:\Users\%USERNAME%\Desktop\dcc
 ```
 
-## Rollback de Atualização
+## Update Rollback
 
-Se algo der errado após atualização:
+If something goes wrong after an update:
 
 ```bash
-# 1. Identifique o commit anterior
-git log --oneline -5
+# 1. Identify the most recent backup
+ls -la .backup/ | head -10
 
-# 2. Faça reset para versão anterior
-# (⚠️ CUIDADO: perde alterações não commitadas)
-git reset --hard HEAD~1
+# 2. Restore specific files from backup
+cp .backup/update_20250731_143022/.claude/skills/cooper/SKILL.md .claude/skills/cooper/
 
-# 3. Ou reverta commits específicos
-git revert <commit-hash>
+# 3. Or restore everything (CAUTION: loses recent modifications!)
+# Backup current state first!
+cp -r . .backup/emergency-backup-$(date +%Y%m%d-%H%M%S)
 
-# 4. Restaure configurações do backup
-cp .backup/update_20250727_143022/.env .
+# 4. Restore from update backup
+cp -r .backup/update_20250731_143022/* .
 ```
 
-## Customização do Script
+## Script Customization
 
-### Parâmetros adicionais (opcional):
-
-Editar `check-updates.py` para adicionar flags:
+### Additional Parameters (for future implementation):
 
 ```python
-# Linha ~242, função main()
+# Around line 300, main() function
 import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--check-only', action='store_true',
-                   help='Apenas verifica, não atualiza')
+                   help='Only check, do not update')
 parser.add_argument('--force', action='store_true',
-                   help='Atualiza sem perguntar')
-parser.add_argument('--skip-deps', action='store_true',
-                   help='Pula instalação de dependências')
+                   help='Update without asking (use with caution)')
+parser.add_argument('--preserve-all', action='store_true',
+                   help='Never overwrite, even if not modified')
 args = parser.parse_args()
 ```
 
-## Dicas para Mantenedores
+## Tips for Official Repository Maintainers
 
-### Antes de fazer push de atualizações:
-1. Teste em instalação limpa
-2. Verifique se não quebrou workflows existentes
-3. Documente breaking changes no commit message
-4. Atualize a versão no `package.json` se aplicável
+### Before pushing updates:
+1. Test on clean installation
+2. Check if existing workflows weren't broken
+3. Document breaking changes in `CHANGELOG.md`
+4. Update version at the beginning of CHANGELOG
 
-### Comunicando breaking changes:
+### Communicating breaking changes:
 ```bash
-# Commit com tag de breaking change
-git commit -m "feat!: novo formato de configuração
+# Commit with breaking change tag
+git commit -m "feat!: new configuration format
 
-BREAKING CHANGE: .mcp.json agora usa formato v2.
-Execute 'python scripts/migrate-mcp.py' após atualizar."
+BREAKING CHANGE: .mcp.json now uses v2 format.
+Run 'python scripts/migrate-mcp.py' after updating."
 ```
 
-## Integração com CI/CD
+## CI/CD Integration
 
-Para repositórios que usam o DCCrazy como template:
+For repositories using DCCrazy as a template:
 
 ```yaml
-# .github/workflows/update-dccrazy.yml
+# .github/workflows/check-dccrazy-updates.yml
 name: Check DCCrazy Updates
 
 on:
   schedule:
-    - cron: '0 9 * * 1'  # Segunda 9h
+    - cron: '0 9 * * 1'  # Monday 9am
 
 jobs:
   check:
@@ -167,3 +159,34 @@ jobs:
           git fetch upstream
           git log HEAD..upstream/main --oneline
 ```
+
+## Advanced Troubleshooting
+
+### Problem: File should have been updated but wasn't
+```bash
+# Check if file is in .gitignore
+cat .gitignore | grep file-name
+
+# Check current hash
+md5sum .claude/skills/cooper/SKILL.md
+
+# Compare with hash from last update backup
+md5sum .backup/update_*/.claude/skills/cooper/SKILL.md
+```
+
+### Problem: Backup is corrupted
+```bash
+# List all available backups
+ls -lt .backup/
+
+# Use a previous backup
+cp -r .backup/update_20250730_120000/.claude/skills/cooper .
+```
+
+### Problem: Want to ignore updates for a specific file
+```bash
+# Create a .dcc-ignore file at root
+echo ".claude/skills/my-personal-skill/" >> .dcc-ignore
+```
+
+**Note:** The `.dcc-ignore` file is not natively supported yet, but can be implemented in the future.

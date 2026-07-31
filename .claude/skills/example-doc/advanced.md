@@ -1,35 +1,35 @@
-# Casos Avançados: Skill de Exemplo
+# Advanced Cases: Example Skill
 
-Este arquivo cobre edge cases e padrões avançados para skills modulares.
+This file covers edge cases and advanced patterns for modular skills.
 
-## Prioridade de Skills
+## Skill Priority
 
-Quando múltiplas skills podem ativar, use `priority` para ordenar:
+When multiple skills can activate, use `priority` to order them:
 
 ```json
 {
   "skills": [
     {
       "name": "criticalSecurity",
-      "triggers": ["security", "vulnerabilidade"],
+      "triggers": ["security", "vulnerability"],
       "priority": "critical"
     },
     {
       "name": "generalCoding",
-      "triggers": ["código", "programar"],
+      "triggers": ["code", "programming"],
       "priority": "low"
     }
   ]
 }
 ```
 
-**Níveis de prioridade:** `critical` > `high` > `medium` > `low`
+**Priority levels:** `critical` > `high` > `medium` > `low`
 
-## Condições Complexas
+## Complex Conditions
 
-### Múltiplos Triggers
+### Multiple Triggers
 
-Uma skill pode ter múltiplos triggers que funcionam em OR:
+A skill can have multiple triggers that work in OR:
 
 ```json
 {
@@ -45,40 +45,40 @@ Uma skill pode ter múltiplos triggers que funcionam em OR:
 }
 ```
 
-### Combinação de Triggers e FilePatterns
+### Combining Triggers and FilePatterns
 
-Triggers e filePatterns funcionam em AND quando ambos presentes:
+Triggers and filePatterns work in AND when both are present:
 
 ```json
 {
   "name": "reactTesting",
-  "triggers": ["testar", "testing"],
+  "triggers": ["test", "testing"],
   "filePatterns": ["**/*.test.tsx", "**/*.spec.tsx"]
 }
 ```
 
-Esta skill só ativa se:
-1. Uma das palavras-chave for mencionada, E
-2. O arquivo aberto for um teste React
+This skill only activates if:
+1. One of the keywords is mentioned, AND
+2. The open file is a React test
 
-## Skills Condicionais
+## Conditional Skills
 
-Para skills que não devem carregar automaticamente:
+For skills that should not load automatically:
 
 ```json
 {
   "name": "expensiveAnalysis",
-  "triggers": ["análise profunda"],
+  "triggers": ["deep analysis"],
   "filePatterns": [],
-  "description": "Análise que consome muitos tokens",
+  "description": "Analysis that consumes many tokens",
   "priority": "low",
   "requireExplicitTrigger": true
 }
 ```
 
-Com `requireExplicitTrigger: true`, a skill só ativa quando explicitamente mencionada.
+With `requireExplicitTrigger: true`, the skill only activates when explicitly mentioned.
 
-## Organização de Skills por Domínio
+## Skill Organization by Domain
 
 ```
 .claude/skills/
@@ -95,18 +95,18 @@ Com `requireExplicitTrigger: true`, a skill só ativa quando explicitamente menc
     └── docker/SKILL.md
 ```
 
-## Debugging de Ativação
+## Activation Debugging
 
-Se uma skill não estiver ativando:
+If a skill is not activating:
 
-1. Verifique `skill-rules.json` - nome da skill corresponde?
-2. Teste triggers - são específicos o suficiente?
-3. Verifique filePatterns - padrão glob está correto?
-4. Verifique prioridade - outra skill está sobrescrevendo?
+1. Check `skill-rules.json` - does the skill name match?
+2. Test triggers - are they specific enough?
+3. Check filePatterns - is the glob pattern correct?
+4. Check priority - is another skill overwriting it?
 
-## Schema de Validação
+## Validation Schema
 
-Opcional: crie `skill-rules-schema.json` para validação:
+Optional: create `skill-rules-schema.json` for validation:
 
 ```json
 {

@@ -1,35 +1,68 @@
 #!/usr/bin/env python3
 """
-DCCrazy Update Checker
+DCCrazy Update Checker v2.0
 
-Verifica atualizações no repositório DCCrazy (kit de ferramentas para DCC)
-e atualiza a instalação local preservando configurações personalizadas.
+Sistema de atualizacao seletiva que:
+- Preserva modificacoes do usuario
+- Nunca altera estrutura de pastas
+- Mostra CHANGELOG antes de aplicar
+- Adiciona novos arquivos do oficial
+- Avisa sobre remocoes do oficial
 
 Autor: Vinicius Castanho (viniciuscastanho@didiglobal.com)
 """
-
-# DCC = Repositório base (estrutura, convenções)
-# DCCrazy = Kit de ferramentas (workflows, skills, scripts)
 
 import os
 import sys
 import json
 import shutil
+import hashlib
 import subprocess
+import platform
+import zipfile
+import tempfile
+import urllib.request
 from pathlib import Path
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Dict, Tuple, Optional, Set
 
 
 class Colors:
+    """Cores para terminal (cross-platform)"""
     HEADER = '\033[95m'
     BLUE = '\033[94m'
     CYAN = '\033[96m'
     GREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
-    END = '\033[0m'
     BOLD = '\033[1m'
+    END = '\033[0m'
+
+    @classmethod
+    def disable(cls):
+        """Desabilita cores (para Windows sem suporte)"""
+        cls.HEADER = ''
+        cls.BLUE = ''
+        cls.CYAN = ''
+        cls.GREEN = ''
+        cls.WARNING = ''
+        cls.FAIL = ''
+        cls.BOLD = ''
+        cls.END = ''
+
+
+# Detecta se eh Windows e ajusta comportamento
+IS_WINDOWS = platform.system() == 'Windows'
+IS_MAC = platform.system() == 'Darwin'
+IS_LINUX = platform.system() == 'Linux'
+
+if IS_WINDOWS:
+    try:
+        import ctypes
+        kernel32 = ctypes.windll.kernel32
+        kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
+    except:
+        Colors.disable()
 
 
 def log(message: str, color: str = Colors.END):
@@ -37,419 +70,382 @@ def log(message: str, color: str = Colors.END):
     print(f"{color}{message}{Colors.END}")
 
 
-def run_command(cmd: List[str], cwd: Optional[Path] = None, capture: bool = True) -> tuple:
-    """Executa comando shell e retorna (sucesso, stdout, stderr)"""
-    try:
-        result = subprocess.run(
-            cmd,
-            cwd=cwd,
-            capture_output=capture,
-            text=True,
-            check=False
-        )
-        return result.returncode == 0, result.stdout, result.stderr
-    except Exception as e:
-        return False, "", str(e)
-
-
-def get_dcc_root() -> Path:
-    """Retorna diretório raiz do DCC"""
-    return Path(__file__).parent.parent
-
-
-def check_git_remote() -> bool:
-    """Verifica se há remote configurado"""
-    success, stdout, _ = run_command(['git', 'remote', '-v'])
-    return success and stdout.strip()
-
-
-def fetch_updates() -> bool:
-    """Busca atualizações do remote"""
-    log("🔍 Buscando atualizações...", Colors.BLUE)
-    success, _, stderr = run_command(['git', 'fetch', 'origin'])
-    if not success:
-        log(f"❌ Erro ao buscar atualizações: {stderr}", Colors.FAIL)
-        return False
-    return True
-
-
-def get_local_commit() -> str:
-    """Retorna hash do commit local atual"""
-    success, stdout, _ = run_command(['git', 'rev-parse', 'HEAD'])
-    return stdout.strip() if success else ""
-
-
-def get_remote_commit() -> str:
-    """Retorna hash do commit remoto"""
-    success, stdout, _ = run_command(['git', 'rev-parse', 'origin/main'])
-    if not success:
-        # Tenta origin/master se main não existir
-        success, stdout, _ = run_command(['git', 'rev-parse', 'origin/master'])
-    return stdout.strip() if success else ""
-
-
-def get_commits_behind() -> List[str]:
-    """Retorna lista de commits que estão no remote mas não no local"""
-    success, stdout, _ = run_command(['git', 'log', 'HEAD..origin/main', '--oneline'])
-    if not success or not stdout.strip():
-        success, stdout, _ = run_command(['git', 'log', 'HEAD..origin/master', '--oneline'])
-
-    if success and stdout.strip():
-        return [line.strip() for line in stdout.strip().split('\n') if line.strip()]
-    return []
-
-
-def get_changed_files() -> List[str]:
-    """Retorna lista de arquivos que serão alterados na atualização"""
-    success, stdout, _ = run_command(['git', 'diff', '--name-only', 'HEAD..origin/main'])
-    if not success or not stdout.strip():
-        success, stdout, _ = run_command(['git', 'diff', '--name-only', 'HEAD..origin/master'])
-
-    if success and stdout.strip():
-        return [line.strip() for line in stdout.strip().split('\n') if line.strip()]
-    return []
-
-
-def backup_configs(backup_dir: Path) -> List[Path]:
-    """Faz backup dos arquivos de configuração locais"""
-    dcc_root = get_dcc_root()
-    configs_to_backup = [
-        dcc_root / '.env',
-        dcc_root / '.mcp.json',
-        dcc_root / '.claude' / 'settings.local.json',
-    ]
-
-    backed_up = []
-    backup_dir.mkdir(parents=True, exist_ok=True)
-
-    for config_file in configs_to_backup:
-        if config_file.exists():
-            backup_path = backup_dir / config_file.name
-            shutil.copy2(config_file, backup_path)
-            backed_up.append(config_file)
-            log(f"  ✅ Backup: {config_file.name}", Colors.GREEN)
-        else:
-            log(f"  ⚠️  Não encontrado: {config_file.name}", Colors.WARNING)
-
-    return backed_up
-
-
-def restore_configs(backup_dir: Path) -> None:
-    """Restaura arquivos de configuração do backup"""
-    dcc_root = get_dcc_root()
-
-    for backup_file in backup_dir.iterdir():
-        if backup_file.is_file():
-            if backup_file.name == 'settings.local.json':
-                target = dcc_root / '.claude' / 'settings.local.json'
-            else:
-                target = dcc_root / backup_file.name
-
-            shutil.copy2(backup_file, target)
-            log(f"  ✅ Restaurado: {backup_file.name}", Colors.GREEN)
-
-
-def has_local_changes() -> bool:
-    """Verifica se há mudanças locais em arquivos rastreados pelo git (excluindo queries)"""
-    # Verifica arquivos modificados (staged ou unstaged)
-    success, stdout, _ = run_command(['git', 'status', '--porcelain'])
-    if not success or not stdout.strip():
-        return False
-
-    # Pastas que não precisam de stash (arquivos locais/pessoais)
-    ignored_prefixes = (
-        'sql-library/queries/',  # Todas as queries locais
-        'sql-library/repository/',  # Repositório de queries
-        'reports/draft/',  # Rascunhos de relatórios
-        'mcp-servers/cooper/kb-extracts/',  # Extrações de KB
-        'temp-storage/',  # Arquivos temporários
-        'incubator/',  # Projetos em desenvolvimento
-    )
-
-    # Filtra apenas arquivos rastreados (M, A, D, R, C - não ?? que são untracked)
-    # E exclui os que estão em pastas ignoradas
-    tracked_changes = []
-    for line in stdout.strip().split('\n'):
-        if not line:
-            continue
-        # ?? = untracked (não precisa de stash)
-        if line.startswith('??'):
-            continue
-        # Extrai o caminho do arquivo (remove os 3 primeiros caracteres de status)
-        file_path = line[3:].strip()
-        # Ignora se estiver em pasta de queries ou outras pastas locais
-        if file_path.startswith(ignored_prefixes):
-            continue
-        tracked_changes.append(line)
-
-    return len(tracked_changes) > 0
-
-
-def stash_changes() -> str:
-    """Guarda mudanças locais no stash com timestamp"""
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    stash_name = f"pre-update-{timestamp}"
-
-    log(f"\n📦 Guardando mudanças locais...", Colors.BLUE)
-
-    # Stash apenas de arquivos rastreados (inclui arquivos novos que estão staged)
-    success, _, stderr = run_command(['git', 'stash', 'push', '-m', stash_name])
-
-    if not success:
-        log(f"❌ Erro ao guardar mudanças: {stderr}", Colors.FAIL)
-        return ""
-
-    log(f"  ✅ Mudanças guardadas em: {stash_name}", Colors.GREEN)
-    return stash_name
-
-
-def pop_stash(stash_name: str) -> bool:
-    """Restaura mudanças do stash, com tratamento de conflitos"""
-    log(f"\n🔄 Restaurando suas mudanças locais...", Colors.BLUE)
-
-    # Tenta fazer pop do stash mais recente (que deve ser o nosso)
-    success, stdout, stderr = run_command(['git', 'stash', 'pop'])
-
-    if success:
-        log(f"  ✅ Mudanças locais restauradas com sucesso!", Colors.GREEN)
-        return True
-
-    # Se falhou, pode ser por conflito
-    if 'conflict' in stderr.lower() or 'CONFLICT' in stdout:
-        log(f"\n⚠️  Há conflitos entre suas mudanças locais e as atualizações do GitHub.", Colors.WARNING)
-        log(f"\nIsso acontece quando você e o repositório modificaram o mesmo arquivo.", Colors.END)
-        log(f"\nPara resolver:", Colors.CYAN)
-        log(f"  1. Abortar e manter versão do GitHub: git reset --hard HEAD", Colors.END)
-        log(f"  2. Resolver conflitos manualmente: git status (veja arquivos em conflito)", Colors.END)
-        log(f"  3. Seus arquivos originais estão salvos em: git stash list", Colors.END)
-        log(f"     Para recuperar depois: git stash pop", Colors.END)
-        return False
-
-    # Outro erro
-    log(f"⚠️  Erro ao restaurar mudanças: {stderr}", Colors.WARNING)
-    return False
-
-
-def check_dependencies_changed() -> bool:
-    """Verifica se package.json ou requirements.txt mudaram"""
-    changed_files = get_changed_files()
-    dep_files = ['package.json', 'package-lock.json', 'requirements.txt', 'Pipfile', 'Pipfile.lock']
-    return any(f in changed_files for f in dep_files)
-
-
-def install_dependencies() -> bool:
-    """Instala dependências atualizadas"""
-    dcc_root = get_dcc_root()
-    success = True
-
-    # Node dependencies
-    if (dcc_root / 'package.json').exists():
-        log("📦 Instalando dependências Node.js...", Colors.BLUE)
-        ok, _, stderr = run_command(['npm', 'install'], cwd=dcc_root)
-        if not ok:
-            log(f"⚠️  Erro npm install: {stderr}", Colors.WARNING)
-            success = False
-        else:
-            log("  ✅ Node.js OK", Colors.GREEN)
-
-    # MCP servers dependencies
-    mcp_servers = dcc_root / 'mcp-servers'
-    if mcp_servers.exists():
-        for server_dir in mcp_servers.iterdir():
-            if server_dir.is_dir() and (server_dir / 'package.json').exists():
-                log(f"📦 Atualizando {server_dir.name}...", Colors.BLUE)
-                ok, _, _ = run_command(['npm', 'install'], cwd=server_dir)
-                if ok:
-                    log(f"  ✅ {server_dir.name} OK", Colors.GREEN)
-
-    return success
-
-
-def update_repository() -> bool:
-    """Executa git pull"""
-    log("⬇️  Atualizando repositório...", Colors.BLUE)
-    success, _, stderr = run_command(['git', 'pull'])
-    if not success:
-        log(f"❌ Erro no git pull: {stderr}", Colors.FAIL)
-        return False
-    log("  ✅ Repositório atualizado", Colors.GREEN)
-    return True
-
-
-def ask_yes_no(question: str) -> bool:
-    """Pergunta sim/não ao usuário"""
+def ask(question: str, required: bool = True) -> str:
+    """Pergunta ao usuario"""
     while True:
-        response = input(f"{Colors.CYAN}{question} (s/n): {Colors.END}").strip().lower()
+        response = input(f"{Colors.CYAN}{question}: {Colors.END}").strip()
+        if response:
+            return response
+        if not required:
+            return ""
+        log("Esta informacao eh obrigatoria.", Colors.WARNING)
+
+
+def ask_yes_no(question: str, default: bool = True) -> bool:
+    """Pergunta sim/nao"""
+    default_str = "S/n" if default else "s/N"
+    while True:
+        response = input(f"{Colors.CYAN}{question} [{default_str}]: {Colors.END}").strip().lower()
+        if not response:
+            return default
         if response in ['s', 'sim', 'y', 'yes']:
             return True
-        if response in ['n', 'nao', 'não', 'no']:
+        if response in ['n', 'nao', 'no']:
             return False
-        log("Responda 's' para sim ou 'n' para não.", Colors.WARNING)
+        log("Responda 's' para sim ou 'n' para nao.", Colors.WARNING)
 
 
-def show_changelog(commits: List[str]) -> None:
-    """Mostra o que mudou"""
-    if not commits:
-        return
+class DCCrazyUpdater:
+    """Sistema de atualizacao do DCCrazy com preservacao de modificacoes"""
 
-    log("\n📝 Commits novos:", Colors.HEADER)
-    for commit in commits[:10]:  # Mostra até 10
-        log(f"   • {commit}", Colors.END)
+    PROTECTED_PATHS = {
+        '.env',
+        '.claude/memory/',
+        'sql-library/queries/',
+        'sql-library/repository/',
+        'incubator/',
+        'reports/draft/',
+        'reports/weekly/',
+        'reports/monthly/',
+        'temp-storage/',
+        '.dcc-installed',
+        '.dcc-first-run',
+        '.git/',
+        '.backup/',
+        'node_modules/',
+    }
 
-    if len(commits) > 10:
-        log(f"   ... e mais {len(commits) - 10} commits", Colors.END)
+    UPDATEABLE_CATEGORIES = [
+        '.claude/skills/',
+        '.claude/workflows/',
+        '.claude/agents/',
+        '.claude/commands/',
+        '.claude/hooks/',
+        '.claude/output-styles/',
+        'agents/',
+        'scripts/',
+        'mcp-servers/',
+        'docs/',
+        'templates/',
+        'sql-library/encyclopedia/',
+    ]
 
+    def __init__(self):
+        self.dcc_root = Path(__file__).parent.parent.parent.resolve()
+        self.temp_dir = None
+        self.official_dir = None
+        self.current_hashes: Dict[str, str] = {}
+        self.official_hashes: Dict[str, str] = {}
+        self.user_modifications: Set[str] = set()
+        self.new_files: Set[str] = set()
+        self.removed_files: Set[str] = set()
+        self.updatable_files: Set[str] = set()
 
-def show_changed_files(files: List[str]) -> None:
-    """Mostra arquivos que serão alterados"""
-    if not files:
-        return
+    def get_file_hash(self, filepath: Path) -> str:
+        """Calcula hash MD5 de um arquivo"""
+        if not filepath.exists():
+            return ""
+        try:
+            with open(filepath, 'rb') as f:
+                return hashlib.md5(f.read()).hexdigest()
+        except:
+            return ""
 
-    log("\n📁 Arquivos que serão alterados:", Colors.HEADER)
+    def scan_directory(self, directory: Path, prefix: str = "") -> Dict[str, str]:
+        """Escaneia diretorio e retorna dict de {caminho_relativo: hash}"""
+        hashes = {}
+        if not directory.exists():
+            return hashes
 
-    important_files = [f for f in files if not f.startswith('.') or f in ['.env.example', '.mcp.json.example']]
-    hidden_files = [f for f in files if f.startswith('.') and f not in ['.env.example', '.mcp.json.example']]
+        for item in directory.rglob('*'):
+            if item.is_file():
+                rel_path = str(item.relative_to(directory)).replace('\\', '/')
+                if prefix:
+                    rel_path = f"{prefix}/{rel_path}"
 
-    for f in important_files[:15]:
-        log(f"   • {f}", Colors.END)
+                # Ignora arquivos protegidos
+                if any(rel_path.startswith(p) or p in rel_path for p in self.PROTECTED_PATHS):
+                    continue
 
-    if hidden_files:
-        log(f"   • ... e {len(hidden_files)} arquivos de configuração", Colors.END)
+                hashes[rel_path] = self.get_file_hash(item)
 
-    if len(important_files) > 15:
-        log(f"   ... e mais {len(important_files) - 15} arquivos", Colors.END)
+        return hashes
+
+    def download_official_release(self) -> bool:
+        """Baixa release oficial do GitHub"""
+        log("\n📥 Baixando versao oficial do DCCrazy...", Colors.BLUE)
+
+        # Cria diretorio temporario
+        self.temp_dir = Path(tempfile.mkdtemp(prefix="dccrazy_update_"))
+        self.official_dir = self.temp_dir / "official"
+        self.official_dir.mkdir()
+
+        try:
+            # URL do ZIP do repositorio (branch main)
+            url = "https://github.com/viniciuscastanho/dccrazy/archive/refs/heads/main.zip"
+            zip_path = self.temp_dir / "dccrazy.zip"
+
+            log(f"   Baixando de: {url}", Colors.CYAN)
+
+            # Download com timeout
+            urllib.request.urlretrieve(url, zip_path)
+
+            # Extrai ZIP
+            log("   Extraindo arquivos...", Colors.CYAN)
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(self.temp_dir)
+
+            # Move conteudo para official_dir
+            extracted = self.temp_dir / "dccrazy-main"
+            if extracted.exists():
+                for item in extracted.iterdir():
+                    shutil.move(str(item), str(self.official_dir / item.name))
+
+            log("✅ Download concluido!", Colors.GREEN)
+            return True
+
+        except Exception as e:
+            log(f"❌ Erro ao baixar: {e}", Colors.FAIL)
+            return False
+
+    def analyze_changes(self) -> None:
+        """Analisa diferencas entre versao local e oficial"""
+        log("\n🔍 Analisando diferencas...", Colors.BLUE)
+
+        # Escaneia diretorios
+        self.current_hashes = self.scan_directory(self.dcc_root)
+        self.official_hashes = self.scan_directory(self.official_dir)
+
+        # Classifica arquivos
+        all_files = set(self.current_hashes.keys()) | set(self.official_hashes.keys())
+
+        for file_path in all_files:
+            current_hash = self.current_hashes.get(file_path, "")
+            official_hash = self.official_hashes.get(file_path, "")
+
+            if not current_hash and official_hash:
+                # Arquivo novo no oficial
+                self.new_files.add(file_path)
+            elif current_hash and not official_hash:
+                # Arquivo removido do oficial
+                if not any(file_path.startswith(p) for p in self.PROTECTED_PATHS):
+                    self.removed_files.add(file_path)
+            elif current_hash != official_hash:
+                # Arquivo modificado - verifica se eh do usuario ou do oficial
+                # Se o arquivo local eh diferente do oficial, usuario modificou
+                self.user_modifications.add(file_path)
+            else:
+                # Arquivo igual - pode atualizar (mas nao precisa)
+                pass
+
+        # Determina quais arquivos podem ser atualizados
+        # (iguais ao oficial, nao modificados pelo usuario)
+        for file_path in self.current_hashes:
+            if (file_path in self.official_hashes and
+                self.current_hashes[file_path] == self.official_hashes[file_path]):
+                if file_path not in self.user_modifications:
+                    self.updatable_files.add(file_path)
+
+    def get_changelog(self) -> str:
+        """Le CHANGELOG.md do oficial"""
+        changelog_path = self.official_dir / "CHANGELOG.md"
+        if changelog_path.exists():
+            try:
+                return changelog_path.read_text(encoding='utf-8')
+            except:
+                pass
+        return "CHANGELOG nao disponivel"
+
+    def show_report(self) -> None:
+        """Mostra relatorio de atualizacao"""
+        log("\n" + "="*60, Colors.HEADER)
+        log("📊 RELATORIO DE ATUALIZACAO", Colors.HEADER)
+        log("="*60, Colors.HEADER)
+
+        # Novos arquivos
+        if self.new_files:
+            log(f"\n✨ NOVOS arquivos (serao adicionados): {len(self.new_files)}", Colors.GREEN)
+            for f in sorted(self.new_files)[:10]:
+                log(f"   + {f}", Colors.END)
+            if len(self.new_files) > 10:
+                log(f"   ... e mais {len(self.new_files) - 10}", Colors.END)
+
+        # Arquivos preservados (usuario modificou)
+        if self.user_modifications:
+            log(f"\n⚠️  ARQUIVOS MODIFICADOS POR VOCE (NAO serao atualizados): {len(self.user_modifications)}", Colors.WARNING)
+            for f in sorted(self.user_modifications)[:10]:
+                log(f"   • {f}", Colors.END)
+            if len(self.user_modifications) > 10:
+                log(f"   ... e mais {len(self.user_modifications) - 10}", Colors.END)
+            log("   Dica: Para atualizar estes arquivos, faca backup das suas", Colors.CYAN)
+            log("   modificacoes e aplique manualmente.", Colors.CYAN)
+
+        # Arquivos removidos do oficial
+        if self.removed_files:
+            log(f"\n🗑️  REMOVIDOS do oficial (mantidos localmente): {len(self.removed_files)}", Colors.WARNING)
+            for f in sorted(self.removed_files)[:5]:
+                log(f"   • {f}", Colors.END)
+
+        # Total que sera atualizado
+        total_changes = len(self.new_files) + len(self.updatable_files)
+        log(f"\n📦 Total de alteracoes a aplicar: {total_changes}", Colors.BOLD)
+
+    def create_backup(self) -> Path:
+        """Cria backup antes da atualizacao"""
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_dir = self.dcc_root / '.backup' / f'update_{timestamp}'
+        backup_dir.mkdir(parents=True, exist_ok=True)
+
+        log(f"\n💾 Criando backup em: {backup_dir}", Colors.BLUE)
+
+        # Copia configs importantes
+        configs = ['.env', '.mcp.json', '.claude/settings.local.json']
+        for config in configs:
+            src = self.dcc_root / config
+            if src.exists():
+                dst = backup_dir / config
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+                log(f"   ✅ {config}", Colors.GREEN)
+
+        return backup_dir
+
+    def apply_update(self, backup_dir: Path) -> bool:
+        """Aplica atualizacao seletiva"""
+        log("\n⬇️  Aplicando atualizacao...", Colors.BLUE)
+
+        success_count = 0
+        error_count = 0
+
+        # 1. Adiciona novos arquivos
+        for file_path in sorted(self.new_files):
+            src = self.official_dir / file_path
+            dst = self.dcc_root / file_path
+
+            try:
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+                log(f"   ✅ Novo: {file_path}", Colors.GREEN)
+                success_count += 1
+            except Exception as e:
+                log(f"   ❌ Erro em {file_path}: {e}", Colors.FAIL)
+                error_count += 1
+
+        # 2. Atualiza arquivos nao modificados pelo usuario
+        for file_path in sorted(self.updatable_files):
+            src = self.official_dir / file_path
+            dst = self.dcc_root / file_path
+
+            try:
+                # Backup do arquivo atual
+                backup_file = backup_dir / file_path
+                backup_file.parent.mkdir(parents=True, exist_ok=True)
+                if dst.exists():
+                    shutil.copy2(dst, backup_file)
+
+                # Copia novo arquivo
+                shutil.copy2(src, dst)
+                log(f"   ✅ Atualizado: {file_path}", Colors.GREEN)
+                success_count += 1
+            except Exception as e:
+                log(f"   ❌ Erro em {file_path}: {e}", Colors.FAIL)
+                error_count += 1
+
+        log(f"\n📊 Resumo: {success_count} sucesso(s), {error_count} erro(s)",
+            Colors.GREEN if error_count == 0 else Colors.WARNING)
+
+        return error_count == 0
+
+    def cleanup(self):
+        """Limpa arquivos temporarios"""
+        if self.temp_dir and self.temp_dir.exists():
+            try:
+                shutil.rmtree(self.temp_dir)
+            except:
+                pass
+
+    def run(self):
+        """Executa fluxo completo de atualizacao"""
+        log("\n" + "="*60, Colors.HEADER)
+        log("🔄 DCCrazy Update Checker v2.0", Colors.HEADER)
+        log("   Atualizacao seletiva com preservacao", Colors.CYAN)
+        log("="*60 + "\n", Colors.HEADER)
+
+        try:
+            # 1. Baixa versao oficial
+            if not self.download_official_release():
+                log("\n❌ Nao foi possivel baixar a versao oficial.", Colors.FAIL)
+                log("   Verifique sua conexao com a internet.", Colors.WARNING)
+                return False
+
+            # 2. Analisa mudancas
+            self.analyze_changes()
+
+            # 3. Mostra CHANGELOG
+            changelog = self.get_changelog()
+            log("\n📝 CHANGELOG:", Colors.HEADER)
+            # Mostra apenas as primeiras 50 linhas do changelog
+            changelog_lines = changelog.split('\n')[:50]
+            for line in changelog_lines:
+                if line.strip():
+                    log(f"   {line}", Colors.END)
+            if len(changelog.split('\n')) > 50:
+                log("   ... (ver CHANGELOG.md completo apos atualizacao)", Colors.CYAN)
+
+            # 4. Mostra relatorio
+            self.show_report()
+
+            # 5. Pergunta confirmacao
+            if not ask_yes_no("\nDeseja prosseguir com a atualizacao?"):
+                log("\n⏹️  Atualizacao cancelada.", Colors.WARNING)
+                return False
+
+            # 6. Cria backup
+            backup_dir = self.create_backup()
+
+            # 7. Aplica atualizacao
+            if self.apply_update(backup_dir):
+                log("\n" + "="*60, Colors.GREEN)
+                log("✅ DCCrazy atualizado com sucesso!", Colors.GREEN)
+                log("="*60 + "\n", Colors.GREEN)
+
+                log("📋 Resumo final:", Colors.CYAN)
+                log(f"   • Novos arquivos: {len(self.new_files)}", Colors.END)
+                log(f"   • Arquivos atualizados: {len(self.updatable_files)}", Colors.END)
+                log(f"   • Arquivos preservados (seus): {len(self.user_modifications)}", Colors.END)
+                log(f"   • Backup salvo em: {backup_dir}", Colors.END)
+
+                log("\n💡 Proximos passos:", Colors.CYAN)
+                log("   1. Teste as novas funcionalidades", Colors.END)
+                log("   2. Leia o CHANGELOG completo: docs/CHANGELOG.md", Colors.END)
+                if self.user_modifications:
+                    log("   3. Revise seus arquivos modificados para aplicar", Colors.END)
+                    log("      atualizacoes manualmente se desejar", Colors.END)
+
+                return True
+            else:
+                log("\n⚠️  Atualizacao concluida com erros.", Colors.WARNING)
+                log(f"   Backup disponivel em: {backup_dir}", Colors.CYAN)
+                return False
+
+        except KeyboardInterrupt:
+            log("\n\n⏹️  Operacao cancelada pelo usuario.", Colors.WARNING)
+            return False
+        except Exception as e:
+            log(f"\n❌ Erro inesperado: {e}", Colors.FAIL)
+            import traceback
+            traceback.print_exc()
+            return False
+        finally:
+            self.cleanup()
 
 
 def main():
-    """Função principal"""
-    log("\n" + "="*60, Colors.HEADER)
-    log("🔄 DCCrazy Update Checker", Colors.HEADER)
-    log("   Atualiza o kit de ferramentas (workflows, skills, scripts)", Colors.CYAN)
-    log("="*60 + "\n", Colors.HEADER)
-
-    dcc_root = get_dcc_root()
-    os.chdir(dcc_root)
-
-    # Verifica se é um repositório git
-    if not (dcc_root / '.git').exists():
-        log("❌ Este diretório não é um repositório git.", Colors.FAIL)
-        log("   O DCCrazy precisa ter sido clonado do GitHub para verificar atualizações.", Colors.WARNING)
-        sys.exit(1)
-
-    # Verifica remote
-    if not check_git_remote():
-        log("❌ Nenhum remote configurado.", Colors.FAIL)
-        log("   Configure o remote com: git remote add origin <url>", Colors.WARNING)
-        sys.exit(1)
-
-    # Busca atualizações
-    if not fetch_updates():
-        sys.exit(1)
-
-    # Verifica se há atualizações
-    local = get_local_commit()
-    remote = get_remote_commit()
-
-    if not remote:
-        log("❌ Não foi possível determinar o estado do repositório remoto.", Colors.FAIL)
-        sys.exit(1)
-
-    if local == remote:
-        log("✅ Seu DCCrazy está atualizado!", Colors.GREEN)
-        log(f"   Versão: {local[:8]}", Colors.END)
-        sys.exit(0)
-
-    # Há atualizações disponíveis
-    commits_behind = get_commits_behind()
-    changed_files = get_changed_files()
-
-    log(f"📦 Atualização disponível no DCCrazy!", Colors.WARNING)
-    log(f"   Sua versão: {local[:8]}", Colors.END)
-    log(f"   Versão mais recente: {remote[:8]}", Colors.END)
-    log(f"   Commits atrás: {len(commits_behind)}", Colors.END)
-
-    show_changelog(commits_behind)
-    show_changed_files(changed_files)
-
-    # Pergunta se quer atualizar
-    if not ask_yes_no("\nDeseja atualizar o DCCrazy?"):
-        log("⏹️  Atualização cancelada.", Colors.WARNING)
-        sys.exit(0)
-
-    # Prepara backup das configs
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    backup_dir = dcc_root / '.backup' / f'update_{timestamp}'
-
-    log(f"\n💾 Criando backup de configurações em: {backup_dir}", Colors.BLUE)
-    backed_up = backup_configs(backup_dir)
-
-    if not backed_up:
-        log("  ⚠️  Nenhum arquivo de configuração encontrado para backup.", Colors.WARNING)
-    else:
-        log(f"  ✅ {len(backed_up)} arquivo(s) de configuração salvos", Colors.GREEN)
-
-    # Verifica e guarda mudanças locais em arquivos rastreados
-    stash_name = ""
-    if has_local_changes():
-        stash_name = stash_changes()
-        if not stash_name:
-            log("\n❌ Não foi possível guardar suas mudanças locais.", Colors.FAIL)
-            log("   Resolva os conflitos manualmente ou faça commit das suas alterações.", Colors.WARNING)
-            sys.exit(1)
-    else:
-        log("\n✓ Nenhuma mudança local em arquivos rastreados.", Colors.GREEN)
-
-    # Atualiza
-    if not update_repository():
-        log("\n⚠️  Tentando restaurar backup...", Colors.WARNING)
-        restore_configs(backup_dir)
-        sys.exit(1)
-
-    # Verifica se há dependências novas
-    if check_dependencies_changed():
-        log("\n📦 Detectadas mudanças em dependências!", Colors.WARNING)
-        if ask_yes_no("Deseja instalar as dependências atualizadas?"):
-            install_dependencies()
-
-    # Restaura configurações
-    if backed_up:
-        log("\n🔄 Restaurando configurações locais...", Colors.BLUE)
-        restore_configs(backup_dir)
-
-    # Restaura mudanças locais (se houver stash)
-    if stash_name:
-        stash_success = pop_stash(stash_name)
-        if not stash_success:
-            # Mantém o stash disponível para recuperação manual
-            log(f"\n💡 Seus arquivos estão guardados. Para recuperar depois:", Colors.CYAN)
-            log(f"   git stash pop", Colors.END)
-
-    # Finalização
-    log("\n" + "="*60, Colors.GREEN)
-    log("✅ DCC atualizado com sucesso!", Colors.GREEN)
-    log("="*60 + "\n", Colors.GREEN)
-
-    # Próximos passos
-    log("Próximos passos:", Colors.CYAN)
-    log("  • Verifique se tudo funciona: node scripts/verify-setup.js", Colors.END)
-    log("  • Leia as novidades: git log --oneline -10", Colors.END)
-    log(f"  • Backup salvo em: {backup_dir}", Colors.END)
-
-    # Limpa backup antigos (mantém últimos 5)
-    backup_parent = dcc_root / '.backup'
-    if backup_parent.exists():
-        backups = sorted(backup_parent.iterdir(), key=lambda x: x.stat().st_mtime)
-        for old_backup in backups[:-5]:
-            if old_backup.is_dir():
-                shutil.rmtree(old_backup)
+    """Funcao principal"""
+    updater = DCCrazyUpdater()
+    success = updater.run()
+    sys.exit(0 if success else 1)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        log("\n\n⏹️  Operação cancelada pelo usuário.", Colors.WARNING)
-        sys.exit(0)
-    except Exception as e:
-        log(f"\n❌ Erro inesperado: {e}", Colors.FAIL)
-        sys.exit(1)
+    main()

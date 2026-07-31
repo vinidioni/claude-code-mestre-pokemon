@@ -1,15 +1,15 @@
 {
   "$schema": "./skill-rules-schema.json",
   "version": "1.0.0",
-  "description": "Regras de ativação automática de skills baseadas em triggers e padrões de arquivo",
+  "description": "Automatic skill activation rules based on triggers and file patterns",
   "skills": [
     {
       "name": "conventionalCommits",
       "triggers": [
         "commit",
         "conventional commits",
-        "mensagem de commit",
-        "padrão de commit",
+        "commit message",
+        "commit pattern",
         "commit message"
       ],
       "filePatterns": [
@@ -17,14 +17,14 @@
         "**/CHANGELOG*",
         "**/.commitlintrc*"
       ],
-      "description": "Padrão Conventional Commits para mensagens de commit estruturadas",
+      "description": "Conventional Commits pattern for structured commit messages",
       "priority": "medium"
     },
     {
       "name": "reactPatterns",
       "triggers": [
         "react",
-        "componente",
+        "component",
         "hook",
         "useState",
         "useEffect",
@@ -36,7 +36,7 @@
         "**/*.jsx",
         "**/react/**"
       ],
-      "description": "Padrões e boas práticas para desenvolvimento React",
+      "description": "Patterns and best practices for React development",
       "priority": "medium"
     },
     {
@@ -46,7 +46,7 @@
         "endpoint",
         "rest",
         "graphql",
-        "rota",
+        "route",
         "controller"
       ],
       "filePatterns": [
@@ -56,7 +56,7 @@
         "**/openapi*.yaml",
         "**/swagger*.yaml"
       ],
-      "description": "Padrões de design de APIs RESTful e GraphQL",
+      "description": "RESTful and GraphQL API design patterns",
       "priority": "medium"
     },
     {
@@ -537,7 +537,7 @@
         "geocode",
         "coordenadas",
         "latitude longitude",
-        "rota",
+        "route",
         "distância",
         "direções",
         "elevação",

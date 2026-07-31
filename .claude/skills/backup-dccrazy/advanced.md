@@ -1,67 +1,67 @@
-# Backup DCCrazy - Avançado
+# Backup DCCrazy - Advanced
 
-## Execução Manual do Script
+## Manual Script Execution
 
-Para maior controle ou automação:
+For more control or automation:
 
 ```bash
-# Backup padrão
+# Standard backup
 python scripts/google/backup-to-drive.py
 
-# Desde o diretório raiz
+# From root directory
 python scripts/google/backup-to-drive.py
 ```
 
-## Automação de Backups
+## Backup Automation
 
-### Cron/Linux - Backup semanal
+### Cron/Linux - Weekly Backup
 
 ```bash
-# Editar crontab
+# Edit crontab
 crontab -e
 
-# Backup toda segunda-feira às 9h
+# Backup every Monday at 9am
 0 9 * * 1 cd ~/Desktop/dcc && python scripts/google/backup-to-drive.py > /tmp/dcc-backup.log 2>&1
 ```
 
 ### Windows Task Scheduler
 
-1. Abrir `Task Scheduler` (Agendador de Tarefas)
-2. Criar tarefa: `DCCrazy Weekly Backup`
-3. Trigger: Semanal, Segunda-feira, 09:00
-4. Action: Iniciar programa
-5. Configuração:
-   - Programa: `python`
-   - Argumentos: `scripts/google/backup-to-drive.py`
-   - Iniciar em: `C:\Users\%USERNAME%\Desktop\dcc`
+1. Open `Task Scheduler`
+2. Create task: `DCCrazy Weekly Backup`
+3. Trigger: Weekly, Monday, 09:00
+4. Action: Start program
+5. Configuration:
+   - Program: `python`
+   - Arguments: `scripts/google/backup-to-drive.py`
+   - Start in: `C:\Users\%USERNAME%\Desktop\dcc`
 
-### Script de Automação (Shell)
+### Automation Script (Shell)
 
 ```bash
 #!/bin/bash
-# dcc-backup.sh - Coloque no cron
+# dcc-backup.sh - Put in cron
 
 DCC_DIR="$HOME/Desktop/dcc"
 LOG_FILE="/tmp/dcc-backup.log"
 
-# Vai para diretório do DCC
+# Go to DCC directory
 cd "$DCC_DIR" || exit 1
 
-# Executa backup
+# Execute backup
 python scripts/google/backup-to-drive.py >> "$LOG_FILE" 2>&1
 
-# Envia notificação (se D-Chat MCP configurado)
+# Send notification (if D-Chat MCP configured)
 if [ $? -eq 0 ]; then
-    echo "✅ Backup do DCCrazy concluído com sucesso"
-    # Opcional: notificar via dchat
+    echo "✅ DCCrazy backup completed successfully"
+    # Optional: notify via dchat
 else
-    echo "❌ Falha no backup do DCCrazy"
+    echo "❌ DCCrazy backup failed"
 fi
 ```
 
-## Estrutura Avançada de Manifesto
+## Advanced Manifest Structure
 
-O manifesto pode ser estendido para incluir:
+The manifest can be extended to include:
 
 ```json
 {
@@ -90,35 +90,35 @@ O manifesto pode ser estendido para incluir:
 }
 ```
 
-## Restauração Seletiva
+## Selective Restoration
 
-Às vezes você não precisa restaurar tudo:
+Sometimes you don't need to restore everything:
 
-### Restaurar apenas skills:
+### Restore only skills:
 ```bash
-# Extrair apenas skills do ZIP
+# Extract only skills from ZIP
 unzip DCCrazy_Backup_*.zip "*/.claude/skills/*" -d ~/Desktop/dcc-temp/
 
-# Copiar para instalação atual
+# Copy to current installation
 cp -r ~/Desktop/dcc-temp/.claude/skills/* ~/.claude/skills/
 ```
 
-### Restaurar apenas queries:
+### Restore only queries:
 ```bash
 unzip DCCrazy_Backup_*.zip "*/sql-library/*" -d ~/Desktop/dcc-temp/
 cp -r ~/Desktop/dcc-temp/sql-library/* ~/Desktop/dcc/sql-library/
 ```
 
-### Restaurar apenas configurações:
+### Restore only configurations:
 ```bash
 unzip DCCrazy_Backup_*.zip "*/.env" "*/.mcp.json" -d ~/Desktop/dcc-temp/
 cp ~/Desktop/dcc-temp/.env ~/Desktop/dcc/
 cp ~/Desktop/dcc-temp/.mcp.json ~/Desktop/dcc/
 ```
 
-## Backup Incremental (Avançado)
+## Incremental Backup (Advanced)
 
-Para backups mais rápidos, pode-se implementar backup incremental:
+For faster backups, incremental backup can be implemented:
 
 ```python
 # scripts/advanced/incremental-backup.py
@@ -128,119 +128,119 @@ import json
 from pathlib import Path
 
 def get_file_hash(filepath):
-    """Calcula hash do arquivo para detectar mudanças"""
+    """Calculate file hash to detect changes"""
     return hashlib.md5(open(filepath, 'rb').read()).hexdigest()
 
 def incremental_backup():
-    # Carrega manifesto anterior
+    # Load previous manifest
     last_manifest = load_last_manifest()
     
-    # Compara hashes
+    # Compare hashes
     changed_files = []
     for file in find_all_files():
         if get_file_hash(file) != last_manifest.get(file, {}).get('hash'):
             changed_files.append(file)
     
-    # Backup apenas arquivos modificados
+    # Backup only modified files
     create_incremental_zip(changed_files)
 ```
 
-## Sincronização com Git
+## Sync with Git
 
-O backup é complementar ao Git, não substituto:
+Backup is complementary to Git, not a replacement:
 
-| Aspecto | Git | Backup ZIP |
+| Aspect | Git | ZIP Backup |
 |---------|-----|------------|
-| Propósito | Versionamento | Snapshot completo |
-| Histórico | Completo | Apenas últimos N |
-| Arquivos | Código fonte | Tudo (inclui .env) |
-| Recuperação | Granular | Completa |
+| Purpose | Versioning | Complete snapshot |
+| History | Complete | Only last N |
+| Files | Source code | Everything (includes .env) |
+| Recovery | Granular | Complete |
 
-**Recomendação:**
+**Recommendation:**
 ```bash
-# Commit no Git (código)
+# Git commit (code)
 git add .
-git commit -m "[backup] backup iniciado"
+git commit -m "[backup] backup started"
 
-# Backup local (tudo incluindo configs)
+# Local backup (everything including configs)
 python scripts/google/backup-to-drive.py
 
-# Commit após backup
+# Commit after backup
 git add .backup/
 git commit -m "[backup] manifest updated"
 ```
 
-## Gestão de Retenção
+## Retention Management
 
-Manter apenas os últimos N backups para economizar espaço:
+Keep only the last N backups to save space:
 
 ```bash
-# Manter apenas últimos 5 backups
+# Keep only last 5 backups
 ls -t DCCrazy_Backup_*.zip | tail -n +6 | xargs rm
 
-# Automatizado no backup-dccrazy
+# Automated in backup-dccrazy
 def cleanup_old_backups(backup_dir, keep=5):
     backups = sorted(backup_dir.glob("DCCrazy_Backup_*.zip"))
     for old_backup in backups[:-keep]:
         old_backup.unlink()
-        print(f"Removido: {old_backup.name}")
+        print(f"Removed: {old_backup.name}")
 ```
 
-## Integração com D-Chat
+## D-Chat Integration
 
-Notificar quando backup concluir:
+Notify when backup completes:
 
 ```python
-# No final do backup-to-drive.py
+# At the end of backup-to-drive.py
 from dchat_mcp_processor import send_message
 
 send_message(
     user_id="your_user_id",
-    message=f"✅ Backup do DCCrazy concluído!\n📦 {total_size_mb} MB\n📅 {backup_date}"
+    message=f"✅ DCCrazy backup completed!\n📦 {total_size_mb} MB\n📅 {backup_date}"
 )
 ```
 
-## Verificação de Integridade
+## Integrity Verification
 
-Verificar se o backup está íntegro:
+Verify if backup is intact:
 
 ```bash
-# Testar ZIP
+# Test ZIP
 unzip -t DCCrazy_Backup_*.zip
 
-# Verificar manifesto
+# Verify manifest
 python -c "import json; json.load(open('.backup/manifest.json'))"
 
-# Comparar contagens
+# Compare counts
 ls -R ~/Desktop/dcc | wc -l
 unzip -l DCCrazy_Backup_*.zip | wc -l
 ```
 
-## Troubleshooting Avançado
+## Advanced Troubleshooting
 
-### ZIP corrompido
+### Corrupted ZIP
 ```bash
-# Reparar
+# Repair
 cd ~/Desktop/dcc
 zip -FF DCCrazy_Backup_20250727_143022.zip --out fixed.zip
 
-# Ou recriar
+# Or recreate
 python scripts/google/backup-to-drive.py
 ```
 
-### Permissões no Windows
+### Windows Permissions
 ```powershell
-# Executar como Administrador se necessário
-# Ou ajustar permissões
+# Run as Administrator if necessary
+# Or adjust permissions
 icacls "C:\Users\name\Desktop\dcc" /grant %username%:F
 ```
 
-### Arquivos muito grandes
+### Very Large Files
 ```bash
-# Dividir em partes
+# Split into parts
 zip -s 100m DCCrazy_Backup.zip --out split.zip
 
-# Resultado:
+# Result:
 # DCCrazy_Backup.zip
 # DCCrazy_Backup.z01
 # DCCrazy_Backup.z02

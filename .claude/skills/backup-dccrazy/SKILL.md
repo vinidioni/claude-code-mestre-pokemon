@@ -1,93 +1,93 @@
 ---
 name: backupDccrazy
-description: Faz backup do DCCrazy no Google Drive com manifesto completo e preservação de estrutura
+description: Backup DCCrazy to Google Drive with complete manifest and structure preservation
 ---
 
 # Skill: Backup DCCrazy
 
-## Quando Usar
+## When to Use
 
-Quando você quiser:
-- **Fazer backup do DCCrazy** no Google Drive
-- **Criar cópia de segurança** da instalação local
-- **Sincronizar com a nuvem** para acesso de outros dispositivos
-- **Exportar dados** antes de uma atualização ou formatação
+When you want to:
+- **Backup DCCrazy** to Google Drive
+- **Create a security copy** of the local installation
+- **Sync with the cloud** for access from other devices
+- **Export data** before an update or reformatting
 
-## O que é Backupado
+## What is Backed Up
 
-O backup inclui **tudo**, preservando a estrutura exata:
+The backup includes **everything**, preserving the exact structure:
 
-| Conteúdo | Descrição |
-|----------|-----------|
-| **Workflows** | `.claude/workflows/` - Todos os agentes YAML |
-| **Skills** | `.claude/skills/` - Skills modulares e documentação |
-| **Hooks** | `.claude/hooks/` - Automação e segurança |
-| **Memory** | `.claude/memory/` - Memórias persistentes |
-| **Configurações** | `.env`, `.mcp.json`, `settings.local.json` |
-| **SQL Library** | `sql-library/` - Queries e enciclopédia |
-| **Reports** | `reports/` - Relatórios gerados |
-| **Dev Docs** | `incubator/` - Documentação de desenvolvimento |
-| **Scripts** | `scripts/` - Utilitários Python |
-| **Templates** | `templates/` - Templates de projeto |
+| Content | Description |
+|---------|-------------|
+| **Workflows** | `.claude/workflows/` - All YAML agents |
+| **Skills** | `.claude/skills/` - Modular skills and documentation |
+| **Hooks** | `.claude/hooks/` - Automation and security |
+| **Memory** | `.claude/memory/` - Persistent memories |
+| **Configurations** | `.env`, `.mcp.json`, `settings.local.json` |
+| **SQL Library** | `sql-library/` - Queries and encyclopedia |
+| **Reports** | `reports/` - Generated reports |
+| **Dev Docs** | `incubator/` - Development documentation |
+| **Scripts** | `scripts/` - Python utilities |
+| **Templates** | `templates/` - Project templates |
 
-**Ignorados automaticamente:**
-- `node_modules/` - Dependências (podem ser reinstaladas)
-- `.git/` - Histórico git (preserva no clone)
-- `__pycache__/` - Cache Python
-- `.backup/` - Backups anteriores locais
+**Automatically ignored:**
+- `node_modules/` - Dependencies (can be reinstalled)
+- `.git/` - Git history (preserved in clone)
+- `__pycache__/` - Python cache
+- `.backup/` - Previous local backups
 
-## Uso Básico
+## Basic Usage
 
-### Fazer backup completo
+### Full backup
 ```
-"fazer backup do dccrazy"
-"backup no google drive"
-"salvar dcc no drive"
-"exportar dados"
-```
-
-### Verificar último backup
-```
-"quando foi o último backup"
-"status do backup"
-"manifesto do backup"
+"backup dccrazy"
+"backup to google drive"
+"save dcc to drive"
+"export data"
 ```
 
-## Funcionalidades
+### Check last backup
+```
+"when was the last backup"
+"backup status"
+"backup manifest"
+```
 
-- ✅ **Gera manifesto completo** com data, versão e conteúdo
-- ✅ **Lista todos os diretórios e arquivos** com tamanhos
-- ✅ **Cria arquivo ZIP** para upload fácil
-- ✅ **Calcula espaço total** que será ocupado
-- ✅ **Instruções claras** para upload manual ou MCP
-- ✅ **Preserva estrutura** exata do DCCrazy
+## Features
 
-## Comando Equivalente
+- ✅ **Generates complete manifest** with date, version and content
+- ✅ **Lists all directories and files** with sizes
+- ✅ **Creates ZIP file** for easy upload
+- ✅ **Calculates total space** that will be used
+- ✅ **Clear instructions** for manual upload or MCP
+- ✅ **Preserves exact structure** of DCCrazy
+
+## Equivalent Command
 
 ```bash
 python scripts/google/backup-to-drive.py
 ```
 
-## Processo de Backup
+## Backup Process
 
-1. **Gera manifesto** com metadados:
-   - Data e hora do backup
-   - Versão do DCCrazy
-   - Caminho da instalação
-   - Lista de diretórios
-   - Lista de arquivos com tamanhos
-   - Espaço total calculado
+1. **Generates manifest** with metadata:
+   - Date and time of backup
+   - DCCrazy version
+   - Installation path
+   - Directory list
+   - File list with sizes
+   - Total calculated space
 
-2. **Cria arquivo ZIP**:
-   - Nome: `DCCrazy_Backup_YYYYMMDD_HHMMSS.zip`
-   - Compactação eficiente
-   - Exclui arquivos desnecessários
+2. **Creates ZIP file**:
+   - Name: `DCCrazy_Backup_YYYYMMDD_HHMMSS.zip`
+   - Efficient compression
+   - Excludes unnecessary files
 
-3. **Instruções de upload**:
-   - Se MCP Google Workspace estiver configurado: backup automático
-   - Se não: instruções passo a passo para upload manual
+3. **Upload instructions**:
+   - If Google Workspace MCP is configured: automatic backup
+   - If not: step-by-step manual upload instructions
 
-## Estrutura do Manifesto
+## Manifest Structure
 
 ```json
 {
@@ -102,94 +102,94 @@ python scripts/google/backup-to-drive.py
 }
 ```
 
-## Localização no Drive
+## Location in Drive
 
-O backup é salvo em:
+Backup is saved in:
 ```
-Meu Drive/
+My Drive/
 └── DCCrazy_Backup/
     └── DCCrazy_Backup_20250727_143022.zip
 ```
 
-## Restauração de Backup
+## Backup Restoration
 
-Para restaurar a partir de um backup:
+To restore from a backup:
 
-1. **Baixe o ZIP do Drive**
-2. **Extraia** para Desktop:
+1. **Download the ZIP from Drive**
+2. **Extract** to Desktop:
    ```bash
    # Windows
-   Extraia para C:\Users\%USERNAME%\Desktop\
+   Extract to C:\Users\%USERNAME%\Desktop\
    
    # macOS/Linux
    unzip DCCrazy_Backup_*.zip -d ~/Desktop/
    ```
-3. **Renomeie** a pasta extraída para `dcc`
-4. **Abra o Claude Code** na pasta
-5. **Verifique a instalação**:
+3. **Rename** the extracted folder to `dcc`
+4. **Open Claude Code** in the folder
+5. **Verify installation**:
    ```bash
    node scripts/verify-setup.js
    ```
 
-## Resolução de Problemas
+## Troubleshooting
 
-### "MCP Google Workspace não configurado"
-**Solução:** O backup cria o ZIP localmente e fornece instruções para upload manual.
+### "Google Workspace MCP not configured"
+**Solution:** The backup creates the ZIP locally and provides instructions for manual upload.
 
-Para configurar MCP automatizado:
-1. Veja `docs/guides/google-workspace.md`
-2. Configure OAuth no Google Cloud
-3. Atualize `.mcp.json`
+To configure automated MCP:
+1. See `docs/guides/google-workspace.md`
+2. Configure OAuth on Google Cloud
+3. Update `.mcp.json`
 
-### "Espaço insuficiente no Drive"
-**Verifique:**
-- Tamanho do backup no manifesto
-- Espaço disponível no Drive
-- Limpe backups antigos se necessário
+### "Insufficient space in Drive"
+**Check:**
+- Backup size in manifest
+- Available space in Drive
+- Clean old backups if necessary
 
-### "Erro ao criar ZIP"
-**Possíveis causas:**
-- Permissões de escrita no diretório
-- Arquivos muito grandes
-- Espaço em disco insuficiente
+### "Error creating ZIP"
+**Possible causes:**
+- Write permissions in directory
+- Very large files
+- Insufficient disk space
 
-**Solução:**
+**Solution:**
 ```bash
-# Verifique espaço disponível
+# Check available space
 df -h .  # macOS/Linux
 dir      # Windows
 
-# Limpe temp-storage/ se necessário
+# Clean temp-storage/ if necessary
 python scripts/maintenance/cleanup-temp.py --execute
 ```
 
-## Boas Práticas
+## Best Practices
 
-### Quando fazer backup:
-- **Semanalmente** - Rotina de segurança
-- **Antes de atualizações** - Relembre python scripts/maintenance/check-updates.py
-- **Após mudanças grandes** - Novos workflows, skills importantes
-- **Antes de formatar** - Preservar todo o trabalho
+### When to backup:
+- **Weekly** - Security routine
+- **Before updates** - Remember python scripts/maintenance/check-updates.py
+- **After big changes** - New workflows, important skills
+- **Before reformatting** - Preserve all work
 
-### Organização de backups no Drive:
+### Backup organization in Drive:
 ```
 DCCrazy_Backup/
-├── 2026-07-01/           # Backups do mês
+├── 2026-07-01/           # Month backups
 │   ├── DCCrazy_Backup_20260701_090000.zip
 │   └── DCCrazy_Backup_20260715_143022.zip
-├── 2026-06/              # Backups antigos
-└── latest -> symlink     # Link para o último (opcional)
+├── 2026-06/              # Old backups
+└── latest -> symlink     # Link to latest (optional)
 ```
 
-## Próximos Passos Após Backup
+## Next Steps After Backup
 
 ```bash
-# Verifique o backup criado
+# Check created backup
 ls -la .backup/
 
-# Veja o manifesto
+# View manifest
 cat .backup/manifest.json
 
-# Confirme no Google Drive (se MCP configurado)
-"liste arquivos no drive"
+# Confirm in Google Drive (if MCP configured)
+"list files in drive"
 ```

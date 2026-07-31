@@ -1,128 +1,191 @@
 ---
 name: dccrazyUpdater
-description: Atualização do DCCrazy a partir do repositório GitHub com backup automático de configurações
+description: Update DCCrazy from GitHub repository preserving user modifications
+triggers:
+  - update dccrazy
+  - dccrazy update
+  - check for updates
+  - check updates
+  - dccrazy update
 ---
 
 # Skill: DCCrazy Updater
 
-## Quando Usar
+## When to Use
 
-Quando você quiser:
-- **Verificar se há atualizações** do DCCrazy no GitHub
-- **Atualizar o kit de ferramentas** (workflows, skills, scripts)
-- **Sincronizar com a versão mais recente** preservando suas configurações locais
+When you want to:
+- **Check for updates** to DCCrazy on GitHub
+- **Update the toolkit** (workflows, skills, scripts, agents, MCPs)
+- **Sync with the latest version** preserving your local modifications
 
-## O que é o DCCrazy
+## What is DCCrazy
 
-O **DCCrazy** é o kit de ferramentas do DCC - workflows, skills, scripts e utilitários mantidos no repositório GitHub. Esta skill permite atualizar sua cópia local sem perder configurações pessoais (`.env`, `.mcp.json`, etc.).
+**DCCrazy** is the DCC toolkit - workflows, skills, scripts and utilities maintained in the GitHub repository. This skill allows you to update your local copy without losing your customizations.
 
-## Uso Básico
+## Update Flow
 
-### Verificar atualizações disponíveis
+### Step 1: Check for Updates
+
+The system:
+1. Fetches updates from remote (`git fetch`)
+2. Compares local version vs. remote version
+3. Reads the `CHANGELOG.md` from the official repository
+4. Shows the user:
+   - Current version vs. new version
+   - List of new commits
+   - Summary of changes
+
+### Step 2: User Approval
+
+**BEFORE any changes**, the system asks:
+
 ```
-"Verificar atualizações do DCCrazy"
-"Tem update pro DCC?"
-"Checa se o dccrazy tá atualizado"
+📦 Update Available
+
+Current version: 1.0.0
+New version: 1.1.0
+Commits behind: 5
+
+📝 Main changes:
+• feat: new documentation skill
+• fix: fix in code review workflow
+• feat: new reports agent
+
+📁 Files that will be affected:
+• skills/doc-generator/SKILL.md (new)
+• workflows/agents/code-review.yaml (updated)
+• scripts/backup.py (updated)
+
+⚠️  Your modified files will be preserved:
+• skills/cooper/SKILL.md (you edited - won't be updated)
+
+Do you want to proceed with the update? (y/n)
 ```
 
-### Executar atualização completa
+**Without explicit approval, NO changes are made.**
+
+### Step 3: Automatic Backup
+
+If approved:
+1. Creates backup in `.backup/update_YYYYMMDD_HHMMSS/`
+2. Copies all files that will be modified
+3. Preserves current state for rollback if necessary
+
+### Step 4: File Analysis
+
+The system classifies each file:
+
+| Situation | Action | Notification |
+|----------|--------|-------------|
+| Official file exists, user did NOT modify | ✅ Updates | Silent |
+| Official file exists, user modified | ⏸️ Doesn't update | "⚠️ [file]: you modified - not updated" |
+| File is NEW in official repo | ➕ Adds | "✅ New: [file] added" |
+| File was removed from official repo | 🚫 Keeps local | "⚠️ [file]: removed from official, kept local" |
+
+**How it detects modifications:**
+- Compares hash of local file with hash of file in last official release
+- If different → user modified
+- If equal → can update
+
+### Step 5: Apply Updates
+
+Executes changes:
+1. Updates non-modified files
+2. Adds new files
+3. NEVER removes files
+4. NEVER changes folder structure
+
+### Step 6: Final Report
+
 ```
-"Atualizar o DCCrazy"
-"Atualiza o kit de ferramentas"
-"Faz o update do DCC"
+✅ Update Complete!
+
+📊 Summary:
+• Files updated: 12
+• New files: 3
+• Files preserved (you modified): 2
+  - skills/cooper/SKILL.md
+  - workflows/agents/my-workflow.yaml
+• Files removed from official (kept local): 1
+  - skills/old-skill/SKILL.md
+
+⚠️  Recommended Actions:
+For the files you modified, consider reviewing the updates:
+  git diff HEAD .backup/update_20250731_143022/skills/cooper/SKILL.md
+
+🔄 Rollback available at:
+  .backup/update_20250731_143022/
+
+📚 New features:
+  Read the full CHANGELOG: docs/CHANGELOG.md
 ```
 
-## Funcionalidades
+## Important Rules
 
-- ✅ Verifica se há commits novos no GitHub
-- ✅ Mostra changelog (até 10 commits)
-- ✅ Lista arquivos que serão modificados
-- ✅ **Guarda mudanças locais automaticamente** (git stash) antes de atualizar
-- ✅ Faz backup automático de:
-  - `.env` (credenciais)
-  - `.mcp.json` (integrações)
-  - `.claude/settings.local.json` (preferências locais)
-- ✅ Executa `git pull` com segurança
-- ✅ **Restaura suas mudanças locais** após atualização
-- ✅ Detecta mudanças em dependências e pergunta se quer instalar
-- ✅ Limpa backups antigos (mantém últimos 5)
+### ✅ WHAT THE UPDATE DOES:
+- Updates official skills (that you didn't modify)
+- Updates official workflows
+- Updates agents
+- Updates scripts
+- Updates MCP servers
+- Adds new files from official repo
+- Makes backup before any changes
 
-## Comando Equivalente
+### ❌ WHAT THE UPDATE DOESN'T DO:
+- **NEVER** changes folder structure
+- **NEVER** deletes user files
+- **NEVER** overwrites user modifications
+- **NEVER** changes files in `sql-library/queries/`
+- **NEVER** changes files in `incubator/`
+- **NEVER** changes files in `reports/`
+- **NEVER** changes `temp-storage/`
+
+### 🔒 GUARANTEED PRESERVATION:
+If you modified any system file, it **won't be updated** automatically. You will be notified and can:
+1. Keep your version (default)
+2. View diff and apply manually
+3. Overwrite with official version (if desired)
+
+## Activation Commands
+
+```
+"Update DCCrazy"
+"Check for DCC updates"
+"Is there an update for DCCrazy?"
+"Check available updates"
+"Toolkit update"
+```
+
+## Equivalent Command
 
 ```bash
 python scripts/maintenance/check-updates.py
 ```
 
-## Fluxo de Atualização
+## Troubleshooting
 
-1. **Busca** atualizações no remote (`git fetch`)
-2. **Compara** versão local vs. remota
-3. **Mostra** o que vai mudar (commits e arquivos)
-4. **Pergunta** confirmação antes de prosseguir
-5. **Backup** das configurações locais (`.env`, `.mcp.json`)
-6. **Guarda** suas mudanças locais (`git stash push`) - **novo!**
-7. **Pull** das alterações (limpo, sem conflitos)
-8. **Restaura** configurações do backup
-9. **Recupera** suas mudanças locais (`git stash pop`) - **novo!**
-10. **Opcional**: instala dependências atualizadas
-
-### O que é guardado e recuperado?
-
-✅ **Guardado no stash automaticamente** (arquivos rastreados pelo git):
-- Skills modificados por você
-- Workflows editados
-- Arquivos de configuração alterados
-
-❌ **Não precisa de stash** (já ignorados ou tratados como locais):
-- **Todas as queries SQL**: `sql-library/queries/` (todos os subdiretórios)
-- **Repositório de queries**: `sql-library/repository/`
-- **Projetos em `incubator/`**
-- **Arquivos em `temp-storage/`**
-- **Relatórios em `reports/draft/`**
-- **Extrações de KB**: `mcp-servers/cooper/kb-extracts/`
-
-### Se houver conflito no pop
-
-Se você e o repositório modificaram o **mesmo arquivo**, ocorrerá um conflito ao restaurar suas mudanças. O script informará:
-- Quais arquivos estão em conflito
-- Comandos para resolver: `git reset --hard HEAD` (descartar suas mudanças) ou resolver manualmente
-- Seus arquivos originais continuam no stash: `git stash pop`
-
-## Resolução de Problemas
-
-### "Não é um repositório git"
+### "Not a git repository"
 ```
-❌ Este diretório não é um repositório git.
+❌ This directory is not a git repository.
 ```
-**Solução**: O DCCrazy precisa ter sido clonado do GitHub (`git clone`), não baixado como ZIP.
+**Solution:** DCCrazy needs to have been cloned from GitHub (`git clone`), not downloaded as ZIP.
 
-### "Nenhum remote configurado"
-```
-❌ Nenhum remote configurado.
-```
-**Solução**: Adicione o remote:
+### Conflicts in pull
+If there are conflicts, the script aborts and restores the backup.
+
+### Modified file not updated
+If you want to update a file you modified:
 ```bash
-git remote add origin https://github.com/seu-usuario/dccrazy.git
+# Compare versions
+git diff HEAD .backup/update_YYYYMMDD_HHMMSS/path/to/file
+
+# If you want to overwrite with official
+cp .backup/update_YYYYMMDD_HHMMSS/path/to/file path/to/file
 ```
 
-### Conflitos no pull
-Se houver conflitos, o script aborta e restaura o backup. Resolva manualmente:
-```bash
-git status
-# Resolva os conflitos
-git add .
-git commit -m "resolve merge"
-```
+## Notes
 
-## Próximos Passos Após Atualização
-
-Após atualizar com sucesso:
-1. Execute: `node scripts/verify-setup.js` para verificar instalação
-2. Execute: `python scripts/maintenance/check-updates.py` novamente para confirmar que está atualizado
-3. Leia o changelog: `git log --oneline -10`
-
-## Notas
-
-- Backups são salvos em `.backup/update_YYYYMMDD_HHMMSS/`
-- Apenas os últimos 5 backups são mantidos automaticamente
-- O arquivo `.dcc-installed` é criado na primeira instalação, não remova
+- Backups are saved in `.backup/update_YYYYMMDD_HHMMSS/`
+- Only the last 5 backups are kept automatically
+- Always read the CHANGELOG before updating
+- Updates are only applied with explicit user approval
