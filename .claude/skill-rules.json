@@ -165,6 +165,120 @@
         "especificacao do projeto",
         "documentar requisitos"
       ]
+    },
+    {
+      "name": "brainstorming",
+      "triggers": [
+        "brainstorming",
+        "explorar opcoes",
+        "quais as opcoes",
+        "como poderiamos",
+        "vamos pensar"
+      ]
+    },
+    {
+      "name": "writing-plans",
+      "triggers": [
+        "criar plano",
+        "escrever plano",
+        "plano de implementacao",
+        "quebrar em tasks",
+        "dividir trabalho"
+      ]
+    },
+    {
+      "name": "executing-plans",
+      "triggers": [
+        "executar plano",
+        "implementar plano",
+        "seguir plano",
+        "mao na massa",
+        "codar"
+      ]
+    },
+    {
+      "name": "test-driven-development",
+      "triggers": [
+        "tdd",
+        "test driven development",
+        "test first",
+        "red green refactor",
+        "escrever teste primeiro"
+      ]
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "triggers": [
+        "executar em paralelo",
+        "agentes paralelos",
+        "dispatch paralelo",
+        "dividir tarefas",
+        "paralelizar"
+      ]
+    },
+    {
+      "name": "subagent-driven-development",
+      "triggers": [
+        "subagente",
+        "delegar",
+        "agente especializado",
+        "fazer em paralelo"
+      ]
+    },
+    {
+      "name": "systematic-debugging",
+      "triggers": [
+        "debug",
+        "debugar",
+        "tem um bug",
+        "nao esta funcionando",
+        "depurar"
+      ]
+    },
+    {
+      "name": "requesting-code-review",
+      "triggers": [
+        "revisar codigo",
+        "code review",
+        "revisar",
+        "revisao de codigo"
+      ]
+    },
+    {
+      "name": "receiving-code-review",
+      "triggers": [
+        "receber revisao",
+        "responder revisao",
+        "feedback recebido",
+        "comentarios no pr"
+      ]
+    },
+    {
+      "name": "verification-before-completion",
+      "triggers": [
+        "verificar antes de completar",
+        "checklist final",
+        "pronto para entregar",
+        "completar tarefa"
+      ]
+    },
+    {
+      "name": "finishing-a-development-branch",
+      "triggers": [
+        "finalizar branch",
+        "mergear branch",
+        "completar desenvolvimento",
+        "fechar branch"
+      ]
+    },
+    {
+      "name": "writing-skills",
+      "triggers": [
+        "criar skill",
+        "escrever skill",
+        "nova skill",
+        "como fazer skill"
+      ]
     }
   ]
 }
