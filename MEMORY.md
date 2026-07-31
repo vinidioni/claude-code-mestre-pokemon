@@ -12,12 +12,13 @@ This file indexes all persistent memories of the project.
 ### 🖥️ MCP Servers
 | Memory | Description |
 |--------|-------------|
-| [dchat-mcp-v2](.claude/memory/mcp-servers/dchat-mcp-v2.md) | D-Chat MCP v2.0 upgrade details (10 tools, caching, rate limiting) |
-| [puppeteer-deprecated](.claude/memory/mcp-servers/puppeteer-deprecated.md) | Puppeteer MCP is deprecated - use Playwright instead |
+| [dchat-mcp](.claude/memory/mcp-servers/dchat-mcp.md) | D-Chat MCP v2.0 upgrade details (10 tools, caching, rate limiting) |
+| [puppeteer-mcp](.claude/memory/mcp-servers/puppeteer-mcp.md) | Puppeteer MCP is deprecated - use Playwright instead |
 
 ### 🛠️ Ways of Work
 | Memory | Description |
 |--------|-------------|
+| [feedback-system](.claude/memory/ways-of-work/feedback-system.md) | How the continuous learning system works |
 | [data-e-query-rules](.claude/memory/ways-of-work/data-e-query-rules.md) | Rules for Data-E queries (no CTEs, no variables, subqueries) |
 
 ---

@@ -9,7 +9,6 @@ Repository conventions and standards.
 | Document | Description |
 |----------|-------------|
 | [Query Template](../sql/query-template.md) | Template and rules for creating SQL queries |
-| [Feedback System](feedback-system.md) | Learning system preferences and patterns |
 
 ---
 
