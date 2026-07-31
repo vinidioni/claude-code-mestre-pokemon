@@ -34,6 +34,16 @@ reports/draft/*.md
 reports/draft/*.csv
 mcp-servers/cooper/kb-extracts/*.json
 
+# Incubadora - manter apenas estrutura vazia no GitHub
+# Arquivos .md locais são ignorados, mas mantidos localmente
+incubator/**/*.md
+
+# Temp-storage - apenas estrutura vazia no GitHub
+temp-storage/*
+temp-storage/*/*
+!temp-storage/.gitkeep
+!temp-storage/*/.gitkeep
+
 # Scripts de debug/análise específicos
 scripts/setup-shimo-auth.js
 
