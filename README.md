@@ -172,7 +172,7 @@ This gives you access to all workflows, skills, and tools:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-org/dcc-claude-infrastructure.git dcc
+git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git dcc
 cd dcc
 
 # 2. Run automatic setup
@@ -250,7 +250,7 @@ This toolkit is designed to work in a **local folder** (not Google Drive) becaus
 ### 1. Clone and Enter Directory
 
 ```bash
-git clone https://github.com/your-org/dcc-claude-infrastructure.git dcc
+git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git dcc
 cd dcc
 ```
 

@@ -447,7 +447,7 @@ To use this infrastructure in another project:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/dcc-claude-infrastructure.git
+git clone https://github.com/vinidioni/claude-code-mestre-pokemon.git
 cd dcc-claude-infrastructure
 
 # Run the installer
