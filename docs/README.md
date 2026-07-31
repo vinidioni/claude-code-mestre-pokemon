@@ -22,8 +22,8 @@ docs/
 │   └── query-template.md      # Query templates
 ├── data-e/                    # Data-E platform documentation
 │   ├── README.md
-│   ├── user-guide.md
-│   └── v3.12-manual.md
+│   ├── data-e-user-guide.md   # User guide, FAQ, and troubleshooting
+│   └── data-e-platform-manual.md  # Complete platform product manual
 └── reference/                 # Quick reference docs
     └── data-definitions.md    # Field definitions and status codes
 ```

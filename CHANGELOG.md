@@ -59,3 +59,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Maintainer:** Claude Code (assisted by Vinicius Castanho)
 **Updated on:** 2026-07-31
+
+### Added (Superpowers Integration)
+- Skill `superpowers` - Metodologia de desenvolvimento com subagentes
+- Skill `specification` - Criar especificações em chunks digeríveis  
+- Suporte a TDD, YAGNI, DRY
+- Documentação completa da metodologia Superpowers
+- Atualização do skill-rules.json com novos triggers

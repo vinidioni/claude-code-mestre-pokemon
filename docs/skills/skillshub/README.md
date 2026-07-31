@@ -1,61 +1,61 @@
-# SkillsHub DiDi - Documentação
+# SkillsHub DiDi - Documentation
 
-> **SkillsHub** é a plataforma interna da DiDi para descoberta e uso de skills de IA.
+> **SkillsHub** is DiDi's internal platform for AI skill discovery and usage.
 > URL: https://skillshub.intra.xiaojukeji.com
 
-## 📁 Estrutura
+## 📁 Structure
 
 ```
 docs/skillshub/
-├── README.md                      # Este arquivo
-├── reference/                     # Referências externas (SkillsHub DiDi)
-│   ├── skillshub-didi-skills.md  # Análise das skills do SkillsHub
-│   └── skillshub-data.json       # Dados brutos da análise
-└── [skill-name]/                  # Documentação específica por skill (se necessário)
+├── README.md                      # This file
+├── reference/                     # External references (DiDi SkillsHub)
+│   ├── skillshub-didi-skills.md  # Analysis of SkillsHub skills
+│   └── skillshub-data.json       # Raw analysis data
+└── [skill-name]/                  # Specific skill documentation (if needed)
 ```
 
-> **Nota:** As skills do SkillsHub DiDi são **referências externas**, não skills criadas no DCC.
-> Para nossas skills próprias, veja `.claude/skills/`.
+> **Note:** SkillsHub DiDi skills are **external references**, not skills created in DCC.
+> For our own skills, see `.claude/skills/`.
 
-## 🔍 Skills do SkillsHub DiDi (Referência)
+## 🔍 SkillsHub DiDi Skills (Reference)
 
-Documentação de skills internas da DiDi para referência:
+Documentation of internal DiDi skills for reference:
 
-| Skill | Descrição | Categoria |
-|-------|-----------|-----------|
-| `gattaran-coupon-batch-auto` | Automação de cupons em lote | Gattaran |
-| `gattaran-coupon-creator` | Criação de cupons | Gattaran |
-| `gattaran-coupon-activity-batch` | Atividades de cupons em lote | Gattaran |
-| `gattaran-exp-diff` | Comparação de experimentos | Gattaran |
-| `city-budget-rpo` | Orçamento por cidade | Financeiro |
-| `gtr-frontend-page-generator` | Geração de páginas frontend | Desenvolvimento |
-| `lowcode-material-creator` | Criação de materiais low-code | Low-Code |
-| `soda-ai-gattaran-workflow` | Workflow com IA SODA | Automação |
+| Skill | Description | Category |
+|-------|-------------|----------|
+| `gattaran-coupon-batch-auto` | Batch coupon automation | Gattaran |
+| `gattaran-coupon-creator` | Coupon creation | Gattaran |
+| `gattaran-coupon-activity-batch` | Batch coupon activities | Gattaran |
+| `gattaran-exp-diff` | Experiment comparison | Gattaran |
+| `city-budget-rpo` | City budget management | Financial |
+| `gtr-frontend-page-generator` | Frontend page generation | Development |
+| `lowcode-material-creator` | Low-code material creation | Low-Code |
+| `soda-ai-gattaran-workflow` | SODA AI workflow | Automation |
 
-📄 Veja detalhes em: [reference/skillshub-didi-skills.md](reference/skillshub-didi-skills.md)
+📄 See details at: [reference/skillshub-didi-skills.md](reference/skillshub-didi-skills.md)
 
-## 🏠 Nossas Skills (DCC)
+## 🏠 Our Skills (DCC)
 
-Skills criadas e mantidas no DCC:
+Skills created and maintained in DCC:
 
-| Skill | Localização | Descrição |
-|-------|-------------|-----------|
-| `cooper` | `.claude/skills/cooper/` | Integração com Cooper (DiDi Docs) |
-| `cooper-search` | `.claude/skills/cooper-search/` | Busca no Cooper |
-| `cooper-read` | `.claude/skills/cooper-read/` | Leitura de documentos Cooper |
-| `cooper-write` | `.claude/skills/cooper-write/` | Criação de documentos Cooper |
-| `gattaran-viewer` | `.claude/skills/gattaran-viewer/` | Visualização de orders Gattaran |
+| Skill | Location | Description |
+|-------|----------|-------------|
+| `cooper` | `.claude/skills/cooper/` | Cooper integration (DiDi Docs) |
+| `cooper-search` | `.claude/skills/cooper-search/` | Cooper search |
+| `cooper-read` | `.claude/skills/cooper-read/` | Cooper document reading |
+| `cooper-write` | `.claude/skills/cooper-write/` | Cooper document creation |
+| `gattaran-viewer` | `.claude/skills/gattaran-viewer/` | Gattaran order viewer |
 
-## 🛠️ Scripts de Análise
+## 🛠️ Analysis Scripts
 
 ```bash
-# Extrair dados de skills do SkillsHub
+# Extract skills data from SkillsHub
 python scripts/analysis/fetch-skillshub.py
 ```
 
-## 🔗 Referências
+## 🔗 References
 
-- [Nossas Skills](../../.claude/skills/)
-- [Memory: Gattaran Context](../../.claude/memory/gattaran-context.md)
+- [Our Skills](../../.claude/skills/)
+- [Memory: Gattaran Context](../../.claude/memory/projects/gattaran-automation.md)
 - [MCP Server Gattaran](../../mcp-servers/gattaran/)
 - [SkillsHub DiDi](https://skillshub.intra.xiaojukeji.com)

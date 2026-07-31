@@ -141,6 +141,30 @@
       "requiredFiles": [
         ".dccrazy-first-run"
       ]
+    },
+    {
+      "name": "superpowers",
+      "triggers": [
+        "vamos fazer",
+        "vamos criar",
+        "implementar",
+        "desenvolver",
+        "novo projeto",
+        "nova feature",
+        "brainstorming",
+        "superpowers",
+        "modo superpowers"
+      ]
+    },
+    {
+      "name": "specification",
+      "triggers": [
+        "especificar",
+        "vamos especificar",
+        "preciso de uma spec",
+        "especificacao do projeto",
+        "documentar requisitos"
+      ]
     }
   ]
 }

@@ -1,55 +1,80 @@
-# Memória do Repositório DCC
+# Repository Memory - DCC
 
-Este arquivo indexa todas as memórias persistentes do projeto.
+This file indexes all persistent memories of the project.
 
-> 📝 **Nota:** Memórias são armazenadas automaticamente em `.claude/memory/`
-> Este arquivo serve como índice para referência rápida.
+> 📝 **Note:** Memories are automatically stored in `.claude/memory/`
+> This file serves as an index for quick reference.
 
-## Índice de Memórias
+## Memory Index
 
-### Preferências do Usuário
-*Memórias do tipo `user` serão listadas aqui*
+### User Preferences
+| Memory | Description |
+|--------|-------------|
+| [dccastanho-preferences](.claude/memory/feedback/dccastanho-preferences.md) | User preferences and patterns for Vinicius Castanho |
 
-### Decisões do Projeto
-*Memórias do tipo `project` serão listadas aqui*
+### Project Decisions
+| Memory | Description |
+|--------|-------------|
+| [gattaran-automation](.claude/memory/projects/gattaran-automation.md) | Context for Gattaran Order Management automation |
+| [dchat-mcp-v2](.claude/memory/projects/dchat-mcp-v2.md) | D-Chat MCP v2.0 upgrade details |
 
-### Feedbacks
-*Memórias do tipo `feedback` serão listadas aqui*
+### Feedback
+*Feedback-type memories will be listed here*
 
-### Referências
-*Memórias do tipo `reference` serão listadas aqui*
+### Reference
+| Memory | Description |
+|--------|-------------|
+| [data-e-query-rules](.claude/memory/reference/data-e-query-rules.md) | Rules for Data-E queries (no CTEs, no variables) |
+| [puppeteer-deprecated](.claude/memory/reference/puppeteer-deprecated.md) | Puppeteer MCP is deprecated, use Playwright |
 
 ---
 
-## Como Criar Memórias
+## How to Create Memories
 
-Quando quiser que eu lembre de algo importante:
+When you want me to remember something important:
 
 ```
-Você: Lembre-se de sempre usar [alguma coisa]
+You: Remember to always use [something]
 ```
 
-O Claude criará automaticamente um arquivo em `.claude/memory/`.
+Claude will automatically create a file in `.claude/memory/`.
 
-## Estrutura de Memórias
+## Memory Structure
 
 ```markdown
 ---
-name: nome-curto
-description: Descrição em uma linha
+name: short-name
+description: One-line description
 metadata:
   type: user | project | feedback | reference
 ---
 
-Conteúdo detalhado.
+Detailed content.
 
-**Por que:** Explicação da importância
+**Why:** Explanation of importance
 
-**Como aplicar:** Instruções práticas
+**How to apply:** Practical instructions
 
-Relacionado: [[outra-memoria]]
+Related: [[another-memory]]
 ```
+
+## Memory Organization
+
+Memories are organized in subfolders by type:
+
+```
+.claude/memory/
+├── feedback/          # User preferences and learned patterns
+├── projects/          # Active project contexts and decisions
+└── reference/         # Quick reference guides and technical notes
+```
+
+| Folder | Use For | Example |
+|--------|---------|---------|
+| `feedback/` | Your preferences, patterns detected | Query style, naming preferences |
+| `projects/` | Context to resume later | Gattaran automation, D-Chat upgrade |
+| `reference/` | Quick technical lookup | Data-E rules, deprecated tools |
 
 ---
 
-*Última atualização: 2024-07-07*
+*Last updated: 2026-07-31*

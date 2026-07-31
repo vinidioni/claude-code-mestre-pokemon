@@ -1,224 +1,224 @@
-# Análise das Skills do SkillsHub - DiDi
+# SkillsHub Skills Analysis - DiDi
 
-> **Nota:** Este resumo foi compilado com base nos nomes das skills e no contexto do projeto DCC. Para informações completas, é necessário acessar as URLs diretamente com autenticação DiDi.
+> **Note:** This summary was compiled based on skill names and DCC project context. For complete information, URLs must be accessed directly with DiDi authentication.
 
 ---
 
-## Resumo por Categoria
+## Summary by Category
 
 ### 1. Gattaran (Order/Coupon Management)
 
-| Skill | URL | Categoria |
-|-------|-----|-----------|
-| `gattaran-coupon-batch-auto` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-batch-auto) | Automação de Cupons |
-| `gattaran-coupon-creator` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-creator) | Criação de Cupons |
-| `gattaran-coupon-activity-batch` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-activity-batch) | Atividades em Lote |
-| `gattaran-exp-diff` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-exp-diff) | Comparação de Experimentos |
+| Skill | URL | Category |
+|-------|-----|----------|
+| `gattaran-coupon-batch-auto` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-batch-auto) | Coupon Automation |
+| `gattaran-coupon-creator` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-creator) | Coupon Creation |
+| `gattaran-coupon-activity-batch` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-coupon-activity-batch) | Batch Activities |
+| `gattaran-exp-diff` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gattaran-exp-diff) | Experiment Comparison |
 
 ### 2. Budget & Analytics
 
-| Skill | URL | Categoria |
-|-------|-----|-----------|
-| `city-budget-rpo` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/city-budget-rpo) | Orçamento de Cidades |
+| Skill | URL | Category |
+|-------|-----|----------|
+| `city-budget-rpo` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/city-budget-rpo) | City Budget |
 
-### 3. Desenvolvimento & Low-Code
+### 3. Development & Low-Code
 
-| Skill | URL | Categoria |
-|-------|-----|-----------|
-| `gtr-frontend-page-generator` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gtr-frontend-page-generator) | Geração de Frontend |
-| `lowcode-material-creator` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/lowcode-material-creator) | Materiais Low-Code |
-| `soda-ai-gattaran-workflow` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/soda-ai-gattaran-workflow) | Workflow SODA AI |
+| Skill | URL | Category |
+|-------|-----|----------|
+| `gtr-frontend-page-generator` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/gtr-frontend-page-generator) | Frontend Generation |
+| `lowcode-material-creator` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/lowcode-material-creator) | Low-Code Materials |
+| `soda-ai-gattaran-workflow` | [skillshub](https://skillshub.intra.xiaojukeji.com/skill/soda-ai-gattaran-workflow) | SODA AI Workflow |
 
 ---
 
-## Detalhamento das Skills
+## Skill Details
 
 ### 1. `gattaran-coupon-batch-auto`
 
-**Funcionalidade Provável:**
-- Automação de criação de cupons em lote no sistema Gattaran
-- Processamento automatizado de batches de cupons
-- Integração com workflows de marketing/promoções
+**Likely Functionality:**
+- Automated batch coupon creation in Gattaran system
+- Automated processing of coupon batches
+- Integration with marketing/promotion workflows
 
-**Possíveis APIs/Endpoints:**
-- `POST /api/coupons/batch` - Criar cupons em lote
-- `GET /api/coupons/batch/{id}/status` - Verificar status
-- `POST /api/coupons/batch/{id}/execute` - Executar batch
+**Possible APIs/Endpoints:**
+- `POST /api/coupons/batch` - Create coupons in batch
+- `GET /api/coupons/batch/{id}/status` - Check status
+- `POST /api/coupons/batch/{id}/execute` - Execute batch
 
-**Insights para Aproveitar:**
-- Pode ser usada para automatizar campanhas promocionais
-- Útil para equipes de marketing que precisam criar múltiplos cupons
-- Possível integração com relatórios de performance
+**Insights to Leverage:**
+- Can be used to automate promotional campaigns
+- Useful for marketing teams needing to create multiple coupons
+- Possible integration with performance reports
 
 ---
 
 ### 2. `gattaran-coupon-creator`
 
-**Funcionalidade Provável:**
-- Criação individual ou em massa de cupons de desconto
-- Configuração de regras de cupom (valor mínimo, validade, etc.)
-- Validação e teste de cupons
+**Likely Functionality:**
+- Individual or bulk discount coupon creation
+- Coupon rule configuration (minimum value, validity, etc.)
+- Coupon validation and testing
 
-**Possíveis APIs/Endpoints:**
-- `POST /api/coupons` - Criar cupom
-- `PUT /api/coupons/{id}` - Atualizar cupom
-- `GET /api/coupons/{id}` - Consultar cupom
-- `POST /api/coupons/validate` - Validar cupom
+**Possible APIs/Endpoints:**
+- `POST /api/coupons` - Create coupon
+- `PUT /api/coupons/{id}` - Update coupon
+- `GET /api/coupons/{id}` - Query coupon
+- `POST /api/coupons/validate` - Validate coupon
 
-**Insights para Aproveitar:**
-- Referenciada no memory `gattaran-context.md` como solução oficial
-- Pode substituir automações manuais complexas
-- Integração possível com sistemas de relatório
+**Insights to Leverage:**
+- Referenced in memory `gattaran-context.md` as official solution
+- Can replace complex manual automations
+- Possible integration with reporting systems
 
 ---
 
 ### 3. `gattaran-coupon-activity-batch`
 
-**Funcionalidade Provável:**
-- Gerenciamento de atividades de cupons em lote
-- Associação de cupons a campanhas específicas
-- Tracking de performance de atividades
+**Likely Functionality:**
+- Batch coupon activity management
+- Association of coupons with specific campaigns
+- Campaign performance tracking
 
-**Possíveis APIs/Endpoints:**
-- `POST /api/activities/batch` - Criar atividade em lote
-- `GET /api/activities/{id}/coupons` - Listar cupons da atividade
-- `POST /api/activities/{id}/activate` - Ativar campanha
+**Possible APIs/Endpoints:**
+- `POST /api/activities/batch` - Create batch activity
+- `GET /api/activities/{id}/coupons` - List activity coupons
+- `POST /api/activities/{id}/activate` - Activate campaign
 
-**Insights para Aproveitar:**
-- Útil para campanhas sazonais (Black Friday, etc.)
-- Possível integração com dashboards de analytics
-- Automação de campanhas recorrentes
+**Insights to Leverage:**
+- Useful for seasonal campaigns (Black Friday, etc.)
+- Possible integration with analytics dashboards
+- Automation of recurring campaigns
 
 ---
 
 ### 4. `city-budget-rpo`
 
-**Funcionalidade Provável:**
-- Gestão de orçamento por cidade
-- RPO (Recovery Point Objective) de dados orçamentários
-- Análise e previsão de gastos por região
+**Likely Functionality:**
+- Budget management by city
+- RPO (Recovery Point Objective) of budget data
+- Spending analysis and forecasting by region
 
-**Possíveis APIs/Endpoints:**
-- `GET /api/budget/cities` - Listar orçamentos por cidade
-- `POST /api/budget/cities/{cityId}/allocate` - Alocar orçamento
-- `GET /api/budget/cities/{cityId}/report` - Relatório de gastos
+**Possible APIs/Endpoints:**
+- `GET /api/budget/cities` - List budgets by city
+- `POST /api/budget/cities/{cityId}/allocate` - Allocate budget
+- `GET /api/budget/cities/{cityId}/report` - Spending report
 
-**Insights para Aproveitar:**
-- Útil para gestão financeira regional
-- Possível integração com ferramentas de BI
-- Automação de alertas de estouro de orçamento
+**Insights to Leverage:**
+- Useful for regional financial management
+- Possible integration with BI tools
+- Automation of budget overrun alerts
 
 ---
 
 ### 5. `gattaran-exp-diff`
 
-**Funcionalidade Provável:**
-- Comparação de experimentos A/B no Gattaran
-- Análise de diferenças entre variantes de teste
-- Geração de relatórios estatísticos
+**Likely Functionality:**
+- A/B experiment comparison in Gattaran
+- Analysis of differences between test variants
+- Statistical report generation
 
-**Possíveis APIs/Endpoints:**
-- `GET /api/experiments/{id}/diff` - Comparar experimentos
-- `POST /api/experiments/analyze` - Analisar resultados
-- `GET /api/experiments/{id}/metrics` - Métricas do experimento
+**Possible APIs/Endpoints:**
+- `GET /api/experiments/{id}/diff` - Compare experiments
+- `POST /api/experiments/analyze` - Analyze results
+- `GET /api/experiments/{id}/metrics` - Experiment metrics
 
-**Insights para Aproveitar:**
-- Integração com práticas de data-driven decisions
-- Útil para equipes de product/growth
-- Automação de relatórios de experimentos
+**Insights to Leverage:**
+- Integration with data-driven decision practices
+- Useful for product/growth teams
+- Automation of experiment reports
 
 ---
 
 ### 6. `gtr-frontend-page-generator`
 
-**Funcionalidade Provável:**
-- Geração automática de páginas frontend
-- Criação de componentes UI baseados em templates
-- Integração com design systems internos
+**Likely Functionality:**
+- Automatic frontend page generation
+- UI component creation based on templates
+- Integration with internal design systems
 
-**Possíveis APIs/Endpoints:**
-- `POST /api/generate/page` - Gerar página
-- `GET /api/templates` - Listar templates disponíveis
-- `POST /api/components/generate` - Gerar componentes
+**Possible APIs/Endpoints:**
+- `POST /api/generate/page` - Generate page
+- `GET /api/templates` - List available templates
+- `POST /api/components/generate` - Generate components
 
-**Insights para Aproveitar:**
-- Aceleração de desenvolvimento frontend
-- Padronização de interfaces
-- Útil para protótipos rápidos e MVPs
+**Insights to Leverage:**
+- Frontend development acceleration
+- Interface standardization
+- Useful for quick prototypes and MVPs
 
 ---
 
 ### 7. `lowcode-material-creator`
 
-**Funcionalidade Provável:**
-- Criação de materiais para plataformas low-code
-- Geração de componentes reutilizáveis
-- Configuração de blocos visuais
+**Likely Functionality:**
+- Creation of materials for low-code platforms
+- Generation of reusable components
+- Visual blocks configuration
 
-**Possíveis APIs/Endpoints:**
-- `POST /api/materials` - Criar material
-- `GET /api/materials/library` - Biblioteca de materiais
-- `PUT /api/materials/{id}/publish` - Publicar material
+**Possible APIs/Endpoints:**
+- `POST /api/materials` - Create material
+- `GET /api/materials/library` - Materials library
+- `PUT /api/materials/{id}/publish` - Publish material
 
-**Insights para Aproveitar:**
-- Democratização de criação de ferramentas internas
-- Redução de dependência de desenvolvedores para tarefas simples
-- Integração com plataformas de automação
+**Insights to Leverage:**
+- Democratization of internal tool creation
+- Reduced developer dependency for simple tasks
+- Integration with automation platforms
 
 ---
 
 ### 8. `soda-ai-gattaran-workflow`
 
-**Funcionalidade Provável:**
-- Workflow de IA (SODA AI) integrado ao Gattaran
-- Automação inteligente de processos
-- Análise preditiva e recomendações
+**Likely Functionality:**
+- AI workflow (SODA AI) integrated with Gattaran
+- Intelligent process automation
+- Predictive analysis and recommendations
 
-**Possíveis APIs/Endpoints:**
-- `POST /api/soda/workflows` - Criar workflow de IA
-- `POST /api/soda/analyze` - Executar análise de IA
-- `GET /api/soda/models` - Listar modelos disponíveis
+**Possible APIs/Endpoints:**
+- `POST /api/soda/workflows` - Create AI workflow
+- `POST /api/soda/analyze` - Run AI analysis
+- `GET /api/soda/models` - List available models
 
-**Insights para Aproveitar:**
-- Combinação de IA com automação de negócios
-- Possível uso para otimização de cupons/promoções
-- Integração com análise de dados do Gattaran
+**Insights to Leverage:**
+- AI combination with business automation
+- Possible use for coupon/promotion optimization
+- Integration with Gattaran data analysis
 
 ---
 
-## Oportunidades de Integração
+## Integration Opportunities
 
-### Com o DCC (Nosso Repositório)
+### With DCC (Our Repository)
 
 1. **MCP Server Gattaran**
-   - Criar MCP server para integrar essas skills ao Claude Code
-   - Ferramentas: `create_coupon`, `batch_coupons`, `analyze_experiments`
+   - Create MCP server to integrate these skills into Claude Code
+   - Tools: `create_coupon`, `batch_coupons`, `analyze_experiments`
 
-2. **Skills Locais**
-   - Criar skill `gattaran-automation` que use essas ferramentas
-   - Integrar com o memory existente sobre Gattaran
+2. **Local Skills**
+   - Create `gattaran-automation` skill that uses these tools
+   - Integrate with existing memory about Gattaran
 
-3. **Relatórios Automáticos**
-   - Usar `gattaran-exp-diff` para gerar relatórios automáticos de experimentos
-   - Integrar com `city-budget-rpo` para relatórios financeiros
+3. **Automatic Reports**
+   - Use `gattaran-exp-diff` to generate automatic experiment reports
+   - Integrate with `city-budget-rpo` for financial reports
 
-4. **Workflows de Automação**
-   - Criar workflow que combine múltiplas skills (ex: criar cupom + ativar campanha)
-   - Usar SODA AI para otimização automática
-
----
-
-## Próximos Passos Sugeridos
-
-1. **Acessar o SkillsHub** com autenticação DiDi para obter documentação completa
-2. **Testar cada skill** em ambiente de staging
-3. **Documentar endpoints reais** usados por cada skill
-4. **Priorizar integrações** baseado em necessidade do time
+4. **Automation Workflows**
+   - Create workflow that combines multiple skills (e.g.: create coupon + activate campaign)
+   - Use SODA AI for automatic optimization
 
 ---
 
-## Referências
+## Suggested Next Steps
 
-- [Memory: Gattaran Context](../.claude/memory/gattaran-context.md)
-- [MCP Servers](../mcp-servers/README.md)
+1. **Access SkillsHub** with DiDi authentication to get complete documentation
+2. **Test each skill** in staging environment
+3. **Document real endpoints** used by each skill
+4. **Prioritize integrations** based on team needs
+
+---
+
+## References
+
+- [Memory: Gattaran Context](../../.claude/memory/projects/gattaran-automation.md)
+- [MCP Servers](../../mcp-servers/README.md)
 - [SkillsHub DiDi](https://skillshub.intra.xiaojukeji.com)

@@ -8,8 +8,8 @@
 
 | File | Description |
 |------|-------------|
-| [user-guide.md](./user-guide.md) | User guide, FAQ, and troubleshooting |
-| [v3.12-manual.md](./v3.12-manual.md) | Complete product manual V3.12 |
+| [data-e-user-guide.md](./data-e-user-guide.md) | User guide, FAQ, and troubleshooting |
+| [data-e-platform-manual.md](./data-e-platform-manual.md) | Complete platform product manual |
 
 ---
 
